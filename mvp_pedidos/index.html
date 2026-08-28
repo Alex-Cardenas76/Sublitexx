@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPES - Módulo de Pedidos</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-shirt"></i>
+                    <span>Sublitex</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
+                <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">CO</div>
+                    <div class="details">
+                        <span class="name">Coordinador Operativo</span>
+                        <span class="role">Vista Administrativa</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="breadcrumb">
+                    <a href="dashboard.html" style="text-decoration: none; color: inherit; font-weight: bold;"><i class="fa-solid fa-arrow-left" style="margin-right:0.5rem;"></i> Todos los Pedidos</a>
+                    <i class="fa-solid fa-chevron-right"></i>
+                    <span class="current">#SUB-00842</span>
+                </div>
+                <div class="actions">
+                    <span class="status-badge status-abierto">Registro Abierto</span>
+                    <button class="btn btn-outline"><i class="fa-solid fa-share-nodes"></i> Compartir Link a Jugadores</button>
+                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista</button>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                
+                <!-- Columna Izquierda: Configuración y Lista -->
+                <div class="main-column">
+                    <!-- Configuración General del Pedido -->
+                    <section class="card config-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-sliders"></i> Configuración General del Pedido</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <label>Cliente / Equipo</label>
+                                    <p>Promo 2002 - Colegio San José</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Tela Principal</label>
+                                    <p>Win Fresh</p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Diseño Aprobado</label>
+                                    <p><a href="#">Ver Modelo V3.pdf</a></p>
+                                </div>
+                                <div class="info-item">
+                                    <label>Composición por Defecto</label>
+                                    <div class="tags">
+                                        <span class="tag"><i class="fa-solid fa-check"></i> Camiseta</span>
+                                        <span class="tag"><i class="fa-solid fa-check"></i> Short</span>
+                                        <span class="tag"><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Medias</span>
+                                    </div>
+                                </div>
+                                <div class="info-item">
+                                    <label>Meta de Participantes</label>
+                                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                                        <input type="number" id="expectedPlayersInput" value="25" style="width:70px; padding:0.25rem; font-size:0.875rem;">
+                                        <button class="btn btn-sm btn-outline" id="btnSaveExpected">Fijar Meta</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Lista de Participantes -->
+                    <section class="card participants-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-users"></i> Lista de Participantes</h2>
+                            <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i class="fa-solid fa-plus"></i> Agregar Manualmente</button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="participants-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Jugador</th>
+                                            <th>Nombre en Camiseta</th>
+                                            <th>Número</th>
+                                            <th>Talla(s)</th>
+                                            <th>Corte / Rol</th>
+                                            <th>Producto</th>
+                                            <th>Pago</th>
+                                            <th>Excepciones</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="participantsList">
+                                        <!-- Las filas se renderizan dinámicamente con JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Columna Derecha: Resumen en Tiempo Real (Magia) -->
+                <div class="side-column">
+                    <section class="card magic-summary-card">
+                        <div class="card-header glass-header">
+                            <h2><i class="fa-solid fa-bolt"></i> Resumen en Tiempo Real</h2>
+                            <span class="subtitle">Calculado automáticamente</span>
+                        </div>
+                        <div class="card-body">
+                            
+                            <!-- Alertas de Inconsistencias -->
+                            <div id="alertsContainer" class="alerts-container">
+                                <!-- JS llenará esto si hay errores -->
+                            </div>
+
+                            <!-- Totales Generales -->
+                            <div class="summary-section">
+                                <h3>Total de Prendas a Producir</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-box">
+                                        <span class="stat-label">Conjuntos Completos</span>
+                                        <span class="stat-value" id="totalConjuntos">0</span>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-label">Solo Camisetas</span>
+                                        <span class="stat-value" id="totalCamisetas">0</span>
+                                    </div>
+                                </div>
+                                <div class="total-badge">Total Producción: <span id="totalPrendas">0</span> unidades</div>
+                            </div>
+
+                            <!-- Curva de Tallas -->
+                            <div class="summary-section">
+                                <h3>Curva de Tallas (Consolidado)</h3>
+                                <div class="sizes-grid" id="sizesGrid">
+                                    <!-- JS llenará esto -->
+                                </div>
+                            </div>
+                            
+                            <!-- Resumen Financiero -->
+                            <div class="summary-section">
+                                <h3>Estado de Cobranza</h3>
+                                <div class="stats-grid">
+                                    <div class="stat-box" style="border-color: #10B981;">
+                                        <span class="stat-label">Pagados / Abonados</span>
+                                        <span class="stat-value" id="totalPaid" style="color:#065F46">0</span>
+                                    </div>
+                                    <div class="stat-box" style="border-color: #EF4444;">
+                                        <span class="stat-label">Pendientes</span>
+                                        <span class="stat-value" id="totalPending" style="color:#991B1B">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-full btn-success" id="btnExport"><i class="fa-solid fa-file-export"></i> Exportar para Diseño (CSV)</button>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: Agregar/Editar Participante -->
+    <div id="participantModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Agregar Participante</h3>
+                <button class="close-modal" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="participantForm">
+                    <input type="hidden" id="participantId">
+                    <div class="form-group">
+                        <label for="playerName">Nombre Real (Opcional)</label>
+                        <input type="text" id="playerName" placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shirtName">Nombre en Camiseta <span class="required">*</span></label>
+                            <input type="text" id="shirtName" required placeholder="Ej. JUAN P.">
+                        </div>
+                        <div class="form-group">
+                            <label for="shirtNumber">Número <span class="required">*</span></label>
+                            <input type="number" id="shirtNumber" required min="0" max="99" placeholder="10">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="size">Talla <span class="required">*</span></label>
+                            <select id="size" required>
+                                <option value="">Seleccione...</option>
+                                <option value="10">10 (Niño)</option>
+                                <option value="14">14 (Niño)</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="genderCut">Corte <span class="required">*</span></label>
+                            <select id="genderCut" required>
+                                <option value="Hombre">Hombre</option>
+                                <option value="Mujer">Mujer</option>
+                                <option value="Niño">Niño</option>
+                            </select>
+                        </div>
+                        <div class="form-group checkbox-group" style="margin-top: 1.5rem;">
+                            <input type="checkbox" id="isGoalkeeper">
+                            <label for="isGoalkeeper" style="font-weight: 600; color: #991B1B;">🧤 Arquero</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="productType">Producto <span class="required">*</span></label>
+                            <select id="productType" required onchange="document.getElementById('shortSizeGroup').style.display = this.value === 'conjunto' ? 'block' : 'none'">
+                                <option value="conjunto">Conjunto Completo</option>
+                                <option value="camiseta">Solo Camiseta</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="shortSizeGroup">
+                            <label for="shortSize">Talla Short (Si difiere)</label>
+                            <select id="shortSize">
+                                <option value="">Igual a camiseta</option>
+                                <option value="10">10 (Niño)</option>
+                                <option value="14">14 (Niño)</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="form-group admin-only">
+                            <label for="paymentStatus">Estado de Pago (Solo Coord.)</label>
+                            <select id="paymentStatus">
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="Abonado">Abonado (50%)</option>
+                                <option value="Pagado">Pagado Total</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exceptions">Excepciones (Separadas por coma)</label>
+                        <input type="text" id="exceptions" placeholder="Ej. Corte mujer, Nombre en manga">
+                    </div>
+                    <div class="form-group checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                        <input type="checkbox" id="allowDuplicateNum">
+                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción Admin)</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelBtn">Cancelar</button>
+                <button class="btn btn-primary" id="saveParticipantBtn">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

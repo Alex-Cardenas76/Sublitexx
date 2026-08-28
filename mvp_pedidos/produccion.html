@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPES - Módulo de Producción y Costos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .summary-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 0.5rem; }
+        .finance-row { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px dashed #e2e8f0; }
+        .finance-total { font-size: 1.25rem; font-weight: 700; color: #065f46; padding-top: 1rem; border-bottom: none; }
+        .input-group { display: flex; align-items: center; gap: 0.5rem; }
+        .input-group input { width: 100px; }
+        .btn-nav { margin-right: 1rem; }
+        @media (max-width: 768px) {
+            .prod-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Menú Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-shirt"></i> SIPES
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="produccion.html" class="nav-item active"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
+                <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <span class="user-name">Administrador</span>
+                        <span class="user-role">Sublitex</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="dashboard.html" style="color: #64748b; font-size: 1.2rem;" title="Volver al Panel Global"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1><i class="fa-solid fa-industry"></i> Panel de Producción y Costos</h1>
+                        <p class="text-muted">Pedido SUB-00842 - Vista exclusiva de Administración</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                <div class="prod-grid">
+                    
+                    <!-- Lado Izquierdo: Operativa -->
+                    <div class="col">
+                        <section class="card mb-4">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-box"></i> Órdenes a Fabricar (Automático)</h2>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted" style="font-size:0.875rem; margin-bottom: 1rem;">
+                                    Estos datos se derivan directamente de la lista validada del Coordinador.
+                                </p>
+                                <div class="stats-grid mb-4">
+                                    <div class="stat-box">
+                                        <span class="stat-label">Total Camisetas</span>
+                                        <span class="stat-value" id="totCamisetas">0</span>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-label">Total Shorts</span>
+                                        <span class="stat-value" id="totShorts">0</span>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-label">Arqueros</span>
+                                        <span class="stat-value" id="totArqueros" style="color:#991B1B">0</span>
+                                    </div>
+                                </div>
+                                <div class="summary-section">
+                                    <h3>Curva de Tallas General</h3>
+                                    <div class="sizes-grid" id="prodSizesGrid">
+                                        <!-- JS -->
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-ruler-combined"></i> Metraje y Materiales</h2>
+                            </div>
+                            <div class="card-body form-row">
+                                <div class="form-group">
+                                    <label>Tela Principal (Win Fresh)</label>
+                                    <div class="input-group">
+                                        <input type="number" id="metrosTela" placeholder="Ej. 45" value="45"> <span class="text-muted">metros</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Costo por Metro (S/)</label>
+                                    <div class="input-group">
+                                        <span class="text-muted">S/</span> <input type="number" id="costoMetro" value="12.50" step="0.10">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Lado Derecho: Finanzas -->
+                    <div class="col">
+                        <section class="card mb-4">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-scissors"></i> Asignación de Talleres</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Taller de Confección</label>
+                                    <select id="tallerSelect">
+                                        <option value="A">Taller "Don Pepe" (Camiseta S/ 4.00, Short S/ 3.00)</option>
+                                        <option value="B">Taller "Premium" (Camiseta S/ 5.50, Short S/ 4.00)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Costo Fijo Adicional (Bordados, Insumos varios) S/</label>
+                                    <input type="number" id="costoFijo" value="50">
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <div class="card-header" style="background: #1e293b; color: white;">
+                                <h2 style="color:white;"><i class="fa-solid fa-chart-line"></i> Rentabilidad Estimada</h2>
+                            </div>
+                            <div class="card-body" style="background: #f8fafc;">
+                                <div class="form-group mb-4">
+                                    <label><strong>Ingreso Total Acordado (Venta al cliente) S/</strong></label>
+                                    <input type="number" id="precioVenta" value="1250.00" style="font-size: 1.25rem; font-weight: bold; color: #1e40af;">
+                                </div>
+
+                                <h3 style="margin-top: 1rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem;">Estructura de Costos</h3>
+                                <div class="finance-row">
+                                    <span>Costo de Tela (<span id="lblMetros">0</span>m)</span>
+                                    <span style="color: #ef4444;">- S/ <span id="outCostoTela">0.00</span></span>
+                                </div>
+                                <div class="finance-row">
+                                    <span>Costo de Confección (<span id="lblPrendas">0</span> prendas)</span>
+                                    <span style="color: #ef4444;">- S/ <span id="outCostoConfeccion">0.00</span></span>
+                                </div>
+                                <div class="finance-row">
+                                    <span>Costos Adicionales (Bordado, etc)</span>
+                                    <span style="color: #ef4444;">- S/ <span id="outCostoFijo">0.00</span></span>
+                                </div>
+                                <div class="finance-row finance-total">
+                                    <span>UTILIDAD NETA (Ganancia)</span>
+                                    <span>S/ <span id="outUtilidad">0.00</span></span>
+                                </div>
+                                
+                                <div class="progress-bar" style="margin-top: 1rem; height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden;">
+                                    <div id="margenBar" style="height: 100%; background: #10b981; width: 0%;"></div>
+                                </div>
+                                <div class="text-right mt-1">
+                                    <small class="text-muted">Margen: <span id="outMargenPct">0</span>%</small>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="produccion.js"></script>
+</body>
+</html>

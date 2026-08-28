@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPES - Diseño Gráfico y Configuración</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        .design-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .image-preview-container {
+            width: 100%;
+            min-height: 300px;
+            background-color: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+            color: #64748b;
+        }
+        .image-preview-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .upload-btn-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .status-banner {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        @media (max-width: 768px) {
+            .design-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-shirt"></i> SIPES
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
+                <a href="diseno.html" class="nav-item active"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <a href="dashboard.html" style="color: #64748b; font-size: 1.2rem;" title="Volver al Panel Global"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1><i class="fa-solid fa-palette"></i> Configuración de Diseño</h1>
+                        <p class="text-muted">Pedido SUB-00842 - Definición visual para los jugadores</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-wrapper">
+                
+                <div class="status-banner" id="statusBanner" style="background: #FEF3C7; color: #92400E; border: 1px solid #F59E0B;">
+                    <i class="fa-solid fa-clock" style="font-size: 1.5rem;"></i>
+                    <div>
+                        <span style="display:block; font-size: 0.875rem; text-transform: uppercase;">Estado del Diseño</span>
+                        <span style="font-size: 1.125rem;" id="estadoTexto">En Revisión (Pendiente de Aprobación)</span>
+                    </div>
+                    <button class="btn btn-primary" id="btnAprobar" style="margin-left: auto;">Aprobar Diseño</button>
+                </div>
+
+                <div class="design-grid">
+                    
+                    <!-- Lado Izquierdo: Visual -->
+                    <div class="col">
+                        <section class="card mb-4">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-image"></i> Mockup Principal (Aprobado por el cliente)</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="image-preview-container" id="previewContainer">
+                                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                    <p>Ningún diseño subido todavía.</p>
+                                    <div class="upload-btn-wrapper">
+                                      <button class="btn btn-outline">Subir Mockup (JPG/PNG)</button>
+                                      <input type="file" id="fileUpload" accept="image/*" />
+                                    </div>
+                                    <img id="imagePreview" src="" alt="Vista previa del diseño">
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <section class="card">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-palette"></i> Colores y Especificaciones</h2>
+                            </div>
+                            <div class="card-body form-row">
+                                <div class="form-group">
+                                    <label>Color Dominante</label>
+                                    <input type="color" id="colorPrincipal" value="#1E3A8A" style="width: 100%; height: 40px; cursor: pointer; border:none; padding:0;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Color Secundario</label>
+                                    <input type="color" id="colorSecundario" value="#FBBF24" style="width: 100%; height: 40px; cursor: pointer; border:none; padding:0;">
+                                </div>
+                                <div class="form-group" style="width:100%;">
+                                    <label>Logos y Auspiciadores</label>
+                                    <textarea id="auspiciadores" rows="2" placeholder="Ej. Escudo del equipo en el pecho izquierdo, Logo Pilsen en la espalda...">Escudo del equipo en el pecho izquierdo. Logo 'Bembos' en la espalda (grande).</textarea>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Lado Derecho: Configuración de Prendas -->
+                    <div class="col">
+                        <section class="card mb-4">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-shirt"></i> Características de Fabricación</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Tipo de Tela (Principal)</label>
+                                    <select id="tipoTela">
+                                        <option value="winfresh">Win Fresh (Deportiva)</option>
+                                        <option value="microfibra">Microfibra</option>
+                                        <option value="algodon">Algodón Pima</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Estilo de Cuello</label>
+                                    <select id="tipoCuello">
+                                        <option value="v">Cuello en V</option>
+                                        <option value="redondo">Cuello Redondo</option>
+                                        <option value="camisero">Cuello Camisero (Polo)</option>
+                                        <option value="neru">Cuello Neru</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Configuración de Arquero</label>
+                                    <input type="text" id="confArquero" value="Diseño verde fluorescente, manga larga." placeholder="Ej. Diferente color, manga larga...">
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-file-lines"></i> Notas Técnicas para Producción</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <textarea id="notasDiseno" rows="5" placeholder="Observaciones técnicas para el taller de costura e impresión..."></textarea>
+                                </div>
+                                <button class="btn btn-primary btn-full" id="btnGuardarDiseno" onclick="alert('Configuración guardada. Esta información acompañará al pedido a producción.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Lógica súper rápida para el mockup de diseño
+        const fileUpload = document.getElementById('fileUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+        const btnAprobar = document.getElementById('btnAprobar');
+        const statusBanner = document.getElementById('statusBanner');
+        const estadoTexto = document.getElementById('estadoTexto');
+
+        fileUpload.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        btnAprobar.addEventListener('click', () => {
+            statusBanner.style.background = '#D1FAE5';
+            statusBanner.style.color = '#065F46';
+            statusBanner.style.borderColor = '#10B981';
+            estadoTexto.textContent = 'Aprobado y Bloqueado';
+            btnAprobar.style.display = 'none';
+            alert("Diseño aprobado. Ahora los jugadores pueden ver la imagen en su formulario de registro.");
+        });
+    </script>
+</body>
+</html>
