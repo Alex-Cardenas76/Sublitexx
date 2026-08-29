@@ -78,24 +78,24 @@ function renderTable() {
             tallasText = `👕${p.size} <br> 👖${p.shortSize}`;
         }
 
-        let rolText = p.genderCut || 'Hombre';
-        if(p.isGoalkeeper) rolText += '<br><span style="color:#991B1B; font-weight:600; font-size:0.7rem;">🧤 ARQUERO</span>';
+        let jugadorText = p.playerName || '-';
+        if(p.isGoalkeeper) {
+            jugadorText += '<br><span style="color:#991B1B; font-weight:600; font-size:0.7rem;">🧤 ARQUERO</span>';
+        }
 
         return `
         <tr>
-            <td>${p.playerName || '-'}</td>
+            <td>${jugadorText}</td>
             <td><strong>${p.shirtName}</strong></td>
             <td>${p.shirtNumber}</td>
             <td>${tallasText}</td>
-            <td>${rolText}</td>
             <td>
                 <span class="pill ${p.productType === 'conjunto' ? 'pill-conjunto' : 'pill-camiseta'}">
                     ${p.productType === 'conjunto' ? 'Conjunto Completo' : 'Solo Camiseta'}
                 </span>
             </td>
             <td>${paymentBadge}</td>
-            <td><small class="text-muted">${p.exceptions || '-'}</small></td>
-            <td>
+            <td class="action-cell">
                 <button class="btn btn-edit-ghost" onclick="editParticipant(${p.id})"><i class="fa-solid fa-pen"></i></button>
                 <button class="btn btn-danger-ghost" onclick="deleteParticipant(${p.id})"><i class="fa-solid fa-trash"></i></button>
             </td>
@@ -124,11 +124,10 @@ function updateSummary() {
         if (p.paymentStatus === 'Pagado' || p.paymentStatus === 'Abonado') totalPaid++;
         else totalPending++;
 
-        // Conteo de tallas por corte (Camiseta)
-        let cut = p.genderCut || 'Hombre';
-        if (p.isGoalkeeper) cut = 'ARQUERO';
+        // Conteo de tallas (Camiseta)
+        let sizeKey = p.size;
+        if (p.isGoalkeeper) sizeKey += ' (Arquero)';
         
-        const sizeKey = `${p.size} (${cut.charAt(0)})`;
         sizeCounts[sizeKey] = (sizeCounts[sizeKey] || 0) + 1;
 
         // Conteo de tallas de Short
@@ -235,13 +234,13 @@ function exportCSV() {
         alert("No hay datos para exportar.");
         return;
     }
-    const headers = ["ID", "Jugador", "Nombre Camiseta", "Numero", "Talla Arriba", "Talla Abajo", "Corte", "Arquero", "Producto", "Excepciones", "Pago"];
+    const headers = ["ID", "Jugador", "Nombre Camiseta", "Numero", "Talla Arriba", "Talla Abajo", "Arquero", "Producto", "Pago"];
     const rows = participants.map(p => {
         const tallaArriba = p.size;
         const tallaAbajo = (p.productType === 'conjunto' && p.shortSize) ? p.shortSize : p.size;
         const isArquero = p.isGoalkeeper ? 'SI' : 'NO';
         
-        return [p.id, p.playerName, p.shirtName, p.shirtNumber, tallaArriba, tallaAbajo, (p.genderCut||'Hombre'), isArquero, p.productType, p.exceptions, p.paymentStatus].map(col => {
+        return [p.id, p.playerName, p.shirtName, p.shirtNumber, tallaArriba, tallaAbajo, isArquero, p.productType, p.paymentStatus].map(col => {
             const val = col === null || col === undefined ? "" : String(col);
             return `"${val.replace(/"/g, '""')}"`;
         }).join(",");

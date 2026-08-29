@@ -73,21 +73,20 @@
                                     <p>Promo 2002 - Colegio San José</p>
                                 </div>
                                 <div class="info-item">
-                                    <label>Tela Principal</label>
-                                    <p>Win Fresh</p>
+                                    <label>Responsable / Coordinador</label>
+                                    <p style="font-weight: 600; color: #1e293b;">Juan Pérez</p>
                                 </div>
-                                <div class="info-item">
+                                <div class="info-item" style="grid-column: 1 / -1;">
                                     <label>Diseño Aprobado</label>
-                                    <p><a href="#">Ver Modelo V3.pdf</a></p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Composición por Defecto</label>
-                                    <div class="tags">
-                                        <span class="tag"><i class="fa-solid fa-check"></i> Camiseta</span>
-                                        <span class="tag"><i class="fa-solid fa-check"></i> Short</span>
-                                        <span class="tag"><i class="fa-solid fa-xmark" style="color: #ef4444;"></i> Medias</span>
+                                    <div style="margin-top: 0.5rem; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem;">
+                                        <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado" style="max-width: 100%; height: auto; max-height: 200px; object-fit: contain;">
                                     </div>
                                 </div>
+                                <div class="info-item" style="grid-column: 1 / -1;">
+                                    <label>Detalles Técnicos (Acordados por WhatsApp)</label>
+                                    <p class="text-muted" style="font-size: 0.875rem;">Tela Win Fresh. Corte Estándar (Hombre/Mujer/Niño coordinado para todos). Sin excepciones individuales en el registro.</p>
+                                </div>
+
                                 <div class="info-item">
                                     <label>Meta de Participantes</label>
                                     <div style="display:flex; gap:0.5rem; align-items:center;">
@@ -114,10 +113,8 @@
                                             <th>Nombre en Camiseta</th>
                                             <th>Número</th>
                                             <th>Talla(s)</th>
-                                            <th>Corte / Rol</th>
                                             <th>Producto</th>
                                             <th>Pago</th>
-                                            <th>Excepciones</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -230,13 +227,9 @@
                                 <option value="XL">XL</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="genderCut">Corte <span class="required">*</span></label>
-                            <select id="genderCut" required>
-                                <option value="Hombre">Hombre</option>
-                                <option value="Mujer">Mujer</option>
-                                <option value="Niño">Niño</option>
-                            </select>
+                        <div class="form-group" style="display: none;">
+                            <!-- Mantenemos el input oculto por si el JS lo necesita para no romperse -->
+                            <input type="hidden" id="genderCut" value="Hombre">
                         </div>
                         <div class="form-group checkbox-group" style="margin-top: 1.5rem;">
                             <input type="checkbox" id="isGoalkeeper">
@@ -272,9 +265,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exceptions">Excepciones (Separadas por coma)</label>
-                        <input type="text" id="exceptions" placeholder="Ej. Corte mujer, Nombre en manga">
+                    <div class="form-group" style="display: none;">
+                        <input type="hidden" id="exceptions" value="">
                     </div>
                     <div class="form-group checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
                         <input type="checkbox" id="allowDuplicateNum">
