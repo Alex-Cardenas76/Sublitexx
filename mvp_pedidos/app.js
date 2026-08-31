@@ -345,11 +345,8 @@ function setupEventListeners() {
     if (btnCopyCoordLink) {
         btnCopyCoordLink.addEventListener('click', () => {
             const coordUrl = new URL('vista_coordinador.html?pedido=SUB-00842', window.location.href).href;
-            navigator.clipboard.writeText(coordUrl).then(() => {
-                alert(`¡Enlace del Portal del Coordinador copiado!\n\n${coordUrl}\n\nEnvíaselo a Juan Pérez (Coordinador) por WhatsApp.`);
-            }).catch(() => {
-                prompt("Copia este enlace para el Coordinador:", coordUrl);
-            });
+            navigator.clipboard.writeText(coordUrl).catch(() => {});
+            window.open(coordUrl, '_blank');
         });
     }
 

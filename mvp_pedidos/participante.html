@@ -534,16 +534,20 @@ html,body{
 
     <!-- Tipo de cuello -->
     <div class="field-lbl" style="margin-bottom:8px">Tipo de cuello</div>
-    <div class="collar-row">
-      <div class="collar-chip sel" id="col-redondo" onclick="selCollar('redondo')">Cuello Redondo</div>
-      <div class="collar-chip" id="col-v" onclick="selCollar('v')">Cuello en V</div>
+    <div class="collar-row" style="flex-wrap:wrap">
+      <div class="collar-chip sel" id="col-redondo"   onclick="selCollar('redondo')">Cuello Redondo</div>
+      <div class="collar-chip" id="col-v"             onclick="selCollar('v')">Cuello en V</div>
+      <div class="collar-chip" id="col-camisero"     onclick="selCollar('camisero')">Camisero (Polo)</div>
+      <div class="collar-chip" id="col-neru"         onclick="selCollar('neru')">Cuello Neru</div>
     </div>
 
     <!-- Tipo de corte -->
     <div class="field-lbl" style="margin-bottom:8px">Tipo de corte</div>
-    <div class="collar-row">
-      <div class="cut-chip collar-chip sel" id="cut-var" onclick="selCorte('var')">Corte Varón</div>
-      <div class="cut-chip collar-chip" id="cut-muj" onclick="selCorte('muj')">Corte Dama</div>
+    <div class="collar-row" style="flex-wrap:wrap">
+      <div class="cut-chip collar-chip sel" id="cut-var"   onclick="selCorte('var')">Estándar Varón</div>
+      <div class="cut-chip collar-chip"     id="cut-muj"   onclick="selCorte('muj')">Estándar Mujer</div>
+      <div class="cut-chip collar-chip"     id="cut-inf"   onclick="selCorte('inf')">Infantil</div>
+      <div class="cut-chip collar-chip"     id="cut-uni"   onclick="selCorte('uni')">Unisex</div>
     </div>
 
     <!-- Talla short (solo si conjunto) -->
@@ -760,14 +764,9 @@ html,body{
       <div class="confirm-row"><span class="confirm-key">Corte</span><span class="confirm-val" id="conf-corte">—</span></div>
     </div>
 
-    <div style="width:100%;display:flex;flex-direction:column;gap:10px">
-      <button class="btn-cta active" onclick="goTo(3)" style="position:relative;transform:none">
-        Volver al inicio
-      </button>
-      <a href="index.html" style="display:block;text-align:center;font-size:.8rem;color:var(--mu2);text-decoration:underline;margin-top:4px">
-        Ver panel del coordinador
-      </a>
-    </div>
+    <p style="font-size:.85rem;color:var(--mu);margin-top:8px;font-weight:600;text-align:center">
+      ✓ Registro completado. Ya puedes cerrar esta ventana.
+    </p>
   </div>
 </div>
 
@@ -980,9 +979,10 @@ function updateCta3() {
 
 
 /* ─── SCREEN 5 — TICKET ─── */
-const CUT_LABEL = { var: 'Corte Varón', muj: 'Corte Dama' };
-const PROD_LABEL = { conj: 'Conjunto Completo', cam: 'Solo Camiseta' };
-const ROL_LABEL  = { jug: 'Jugador', arq: 'Arquero / Portero' };
+const COLLAR_LABEL = { redondo: 'Cuello Redondo', v: 'Cuello en V', camisero: 'Camisero (Polo)', neru: 'Cuello Neru' };
+const CUT_LABEL    = { var: 'Estándar Varón', muj: 'Estándar Mujer', inf: 'Infantil', uni: 'Unisex' };
+const PROD_LABEL   = { conj: 'Conjunto Completo', cam: 'Solo Camiseta' };
+const ROL_LABEL    = { jug: 'Jugador', arq: 'Arquero / Portero' };
 
 function buildTicket() {
   S.nomReal = document.getElementById('inputNomReal').value.trim();
@@ -991,7 +991,7 @@ function buildTicket() {
   document.getElementById('tk-nomreal').textContent = S.nomReal  || '—';
   document.getElementById('tk-numero').textContent  = S.numero  ? '#' + S.numero : '—';
   document.getElementById('tk-talla').textContent   = S.talla   || '—';
-  document.getElementById('tk-cuello').textContent  = (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo';
+  document.getElementById('tk-cuello').textContent  = COLLAR_LABEL[S.cuello] || 'Cuello Redondo';
   document.getElementById('tk-corte').textContent   = CUT_LABEL[S.cut] || 'Corte Varón';
   document.getElementById('tk-prod').textContent    = PROD_LABEL[S.prod] || '—';
   document.getElementById('tk-corte').textContent   = CUT_LABEL[S.cut]   || '—';
