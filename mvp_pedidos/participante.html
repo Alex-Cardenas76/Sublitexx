@@ -532,29 +532,11 @@ html,body{
     </div>
     <div class="field-hint" style="margin-bottom:14px"><span></span></div>
 
-    <!-- Tipo de cuello -->
-    <div class="field-lbl" style="margin-bottom:8px">Tipo de cuello</div>
-    <div class="collar-row" style="flex-wrap:wrap">
-      <div class="collar-chip sel" id="col-redondo"   onclick="selCollar('redondo')">Cuello Redondo</div>
-      <div class="collar-chip" id="col-v"             onclick="selCollar('v')">Cuello en V</div>
-      <div class="collar-chip" id="col-camisero"     onclick="selCollar('camisero')">Camisero (Polo)</div>
-      <div class="collar-chip" id="col-neru"         onclick="selCollar('neru')">Cuello Neru</div>
-    </div>
-
-    <!-- Tipo de corte -->
-    <div class="field-lbl" style="margin-bottom:8px">Tipo de corte</div>
-    <div class="collar-row" style="flex-wrap:wrap">
-      <div class="cut-chip collar-chip sel" id="cut-var"   onclick="selCorte('var')">Estándar Varón</div>
-      <div class="cut-chip collar-chip"     id="cut-muj"   onclick="selCorte('muj')">Estándar Mujer</div>
-      <div class="cut-chip collar-chip"     id="cut-inf"   onclick="selCorte('inf')">Infantil</div>
-      <div class="cut-chip collar-chip"     id="cut-uni"   onclick="selCorte('uni')">Unisex</div>
-    </div>
-
     <!-- Talla short (solo si conjunto) -->
     <div class="short-section" id="shortSection">
       <div class="field-lbl" style="margin-bottom:10px">Talla de short</div>
       <div class="size-row">
-        <div class="sz-chip sel" id="szs-S"    onclick="selTallaShort('S')">S</div>
+        <div class="sz-chip" id="szs-S"    onclick="selTallaShort('S')">S</div>
         <div class="sz-chip" id="szs-M"    onclick="selTallaShort('M')">M</div>
         <div class="sz-chip" id="szs-L"    onclick="selTallaShort('L')">L</div>
         <div class="sz-chip" id="szs-XL"   onclick="selTallaShort('XL')">XL</div>
@@ -784,7 +766,7 @@ html,body{
 const S = {
   participantId: null,
   prod: null, rol: null, cut: 'var',
-  nomReal: '', nombre: '', numero: null, talla: null, tallaShort: 'same',
+  nomReal: '', nombre: '', numero: null, talla: null, tallaShort: null,
   cuello: 'redondo',
   mangaLarga: false, escudo: false, excepcion: false,
   excepcionTxt: ''
@@ -846,6 +828,13 @@ function initFromUrl() {
     }
   } else {
     S.prod = S.prod || 'conj';
+  }
+
+  // Parámetro de cuello por URL (?cuello=redondo / v / camisero / neru)
+  const cuelloParam = params.get('cuello');
+  if (cuelloParam) {
+    const cuelloMap = { redondo: 'redondo', v: 'v', camisero: 'camisero', neru: 'neru' };
+    S.cuello = cuelloMap[cuelloParam.toLowerCase()] || 'redondo';
   }
 
   S.rol  = S.rol  || 'jug';
@@ -973,7 +962,8 @@ function selCorte(c) {
   S.cut = c;
 }
 function updateCta3() {
-  const ok = S.nombre && S.numero && S.talla;
+  const shortOk = (S.prod !== 'conj') || S.tallaShort;
+  const ok = S.nombre && S.numero && S.talla && shortOk;
   document.getElementById('cta3').className = 'btn-cta ' + (ok ? 'active' : 'inactive');
 }
 
