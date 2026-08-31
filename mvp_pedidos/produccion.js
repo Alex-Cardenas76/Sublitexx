@@ -17,16 +17,16 @@ function initProduccion() {
     if (data) {
         participants = JSON.parse(data);
     }
-    
+
     // 2. Procesar datos para Producción
     procesarDatos();
-    
+
     // 3. Renderizar vista de operarios
     renderizarOperativa();
-    
+
     // 4. Configurar listeners de finanzas
     setupFinanceListeners();
-    
+
     // 5. Calcular finanzas por primera vez
     calcularRentabilidad();
 }
@@ -35,19 +35,19 @@ function procesarDatos() {
     participants.forEach(p => {
         // Camisetas
         totalCamisetas++;
-        
+
         // Arqueros
         if (p.isGoalkeeper) totalArqueros++;
-        
+
         // Shorts
         if (p.productType === 'conjunto') totalShorts++;
-        
+
         // Curva de tallas Camiseta
         let cut = p.genderCut || 'Hombre';
         if (p.isGoalkeeper) cut = 'ARQUERO';
         const sizeKey = `Camiseta ${p.size} (${cut.charAt(0)})`;
         sizeCounts[sizeKey] = (sizeCounts[sizeKey] || 0) + 1;
-        
+
         // Curva de tallas Short
         if (p.productType === 'conjunto') {
             const sSize = p.shortSize || p.size;
@@ -61,7 +61,7 @@ function renderizarOperativa() {
     document.getElementById('totCamisetas').textContent = totalCamisetas;
     document.getElementById('totShorts').textContent = totalShorts;
     document.getElementById('totArqueros').textContent = totalArqueros;
-    
+
     const sizesGridEl = document.getElementById('prodSizesGrid');
     sizesGridEl.innerHTML = Object.keys(sizeCounts).sort().map(sizeKey => {
         const count = sizeCounts[sizeKey];
@@ -89,26 +89,26 @@ function calcularRentabilidad() {
     const tallerKey = document.getElementById('tallerSelect').value;
     const costoFijo = parseFloat(document.getElementById('costoFijo').value) || 0;
     const precioVenta = parseFloat(document.getElementById('precioVenta').value) || 0;
-    
+
     const taller = proveedores[tallerKey];
-    
+
     // Cálculos
     const costoTela = metros * costoMetro;
     const costoConfeccion = (totalCamisetas * taller.costoCamiseta) + (totalShorts * taller.costoShort);
     const costoTotal = costoTela + costoConfeccion + costoFijo;
     const utilidad = precioVenta - costoTotal;
     const margenPct = precioVenta > 0 ? (utilidad / precioVenta) * 100 : 0;
-    
+
     // Actualizar UI - Labels
     document.getElementById('lblMetros').textContent = metros;
     document.getElementById('lblPrendas').textContent = totalCamisetas + totalShorts;
-    
+
     // Actualizar UI - Dinero
     document.getElementById('outCostoTela').textContent = costoTela.toFixed(2);
     document.getElementById('outCostoConfeccion').textContent = costoConfeccion.toFixed(2);
     document.getElementById('outCostoFijo').textContent = costoFijo.toFixed(2);
     document.getElementById('outUtilidad').textContent = utilidad.toFixed(2);
-    
+
     // Margen
     document.getElementById('outMargenPct').textContent = margenPct.toFixed(1);
     const bar = document.getElementById('margenBar');

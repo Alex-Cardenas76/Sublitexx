@@ -15,47 +15,23 @@
 </head>
 <body>
     <div class="app-container">
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <i class="fa-solid fa-shirt"></i>
-                    <span>Sublitex</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
-                <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
-                <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
-            </nav>
-            <div class="sidebar-footer">
-                <div class="user-info">
-                    <div class="avatar">CO</div>
-                    <div class="details">
-                        <span class="name">Coordinador Operativo</span>
-                        <span class="role">Vista Administrativa</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
         <!-- Main Content -->
-        <main class="main-content">
+        <main class="main-content" style="width: 100%;">
             <!-- Topbar -->
             <header class="topbar">
-                <div class="breadcrumb">
-                    <a href="dashboard.html" style="text-decoration: none; color: inherit; font-weight: bold;"><i class="fa-solid fa-arrow-left" style="margin-right:0.5rem;"></i> Todos los Pedidos</a>
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <span class="current">#SUB-00842</span>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="logo" style="font-size: 1.5rem; font-weight: bold; color: #1e3a8a; margin-right: 1rem;">
+                        <i class="fa-solid fa-shirt"></i> Sublitex
+                    </div>
+                    <div>
+                        <h1 style="font-size: 1.25rem;"><i class="fa-solid fa-clipboard-list"></i> Mi Pedido de Equipo</h1>
+                        <p class="text-muted">Pedido SUB-00842 - Acceso para el Coordinador</p>
+                    </div>
                 </div>
                 <div class="actions">
                     <span class="status-badge status-abierto">Registro Abierto</span>
-                    <a class="btn btn-outline" href="participante.html?pedido=SUB-00842" target="_blank" rel="noopener">
-                        <i class="fa-solid fa-share-nodes"></i> Compartir Link a Jugadores
-                    </a>
-                    <a href="vista_coordinador.html" target="_blank" class="btn btn-outline" style="text-decoration: none;"><i class="fa-solid fa-link"></i> Vista Coordinador</a>
-                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista</button>
+                    <button class="btn btn-outline" onclick="alert('Enlace copiado: https://sublitex.com/p/SUB-00842 \n¡Envíalo a tus jugadores por WhatsApp!')"><i class="fa-solid fa-share-nodes"></i> Copiar Enlace para Jugadores</button>
+                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista de mi equipo</button>
                 </div>
             </header>
 
@@ -104,8 +80,11 @@
                     <!-- Lista de Participantes -->
                     <section class="card participants-card">
                         <div class="card-header">
-                            <h2><i class="fa-solid fa-users"></i> Lista de Participantes</h2>
-                            <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i class="fa-solid fa-plus"></i> Agregar Manualmente</button>
+                            <h2><i class="fa-solid fa-list-ol"></i> Lista de Jugadores Registrados</h2>
+                            <div class="actions" style="display:flex; gap:0.5rem;">
+                                <a href="participante.html" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-solid fa-mobile-screen"></i> Ver Formulario de Jugador</a>
+                                <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i class="fa-solid fa-plus"></i> Agregar Manualmente</button>
+                            </div>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
