@@ -45,13 +45,13 @@ function procesarDatos() {
         // Curva de tallas Camiseta
         let cut = p.genderCut || 'Hombre';
         if (p.isGoalkeeper) cut = 'ARQUERO';
-        const sizeKey = `👕 ${p.size} (${cut.charAt(0)})`;
+        const sizeKey = `Camiseta ${p.size} (${cut.charAt(0)})`;
         sizeCounts[sizeKey] = (sizeCounts[sizeKey] || 0) + 1;
         
         // Curva de tallas Short
         if (p.productType === 'conjunto') {
             const sSize = p.shortSize || p.size;
-            const shortKey = `👖 Short ${sSize}`;
+            const shortKey = `Short ${sSize}`;
             sizeCounts[shortKey] = (sizeCounts[shortKey] || 0) + 1;
         }
     });

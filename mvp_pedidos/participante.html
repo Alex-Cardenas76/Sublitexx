@@ -1,132 +1,1112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Pedido - SIPES</title>
-    <!-- Modern Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Estilos específicos para la vista móvil del jugador */
-        body { background-color: #F3F4F6; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 1rem; }
-        .mobile-container { width: 100%; max-width: 450px; margin-top: 1rem; }
-        .mobile-header { text-align: center; margin-bottom: 1.5rem; }
-        .mobile-header .logo i { font-size: 2rem; color: var(--primary); margin-bottom: 0.5rem; }
-        .mobile-header h1 { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
-        .mobile-header p { font-size: 0.875rem; color: var(--text-muted); }
-        
-        .card { border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .card-header { background: linear-gradient(135deg, #4F46E5, #3B82F6); color: white; text-align: center; border-radius: 1rem 1rem 0 0; padding: 1.5rem; }
-        .card-header h2 { color: white; justify-content: center; font-size: 1.25rem; }
-        .card-header p { font-size: 0.875rem; opacity: 0.9; margin-top: 0.25rem; }
-        
-        .form-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--border-color); }
-        .form-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
+<title>SIPES — Registra tu Pedido</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F1F5F9;
+  --s1:#FFFFFF;
+  --s2:#F8FAFC;
+  --s3:#E2E8F0;
+  --bd:#E2E8F0;
+  --bd2:#CBD5E1;
+  --g:#2563EB;      /* Azul Real moderno */
+  --gd:#1D4ED8;     /* Azul oscuro */
+  --gl:#3B82F6;     /* Azul brillante */
+  --gbg:#EFF6FF;    /* Fondo azul suave */
+  --tx:#0F172A;
+  --mu:#64748B;
+  --mu2:#475569;
+  --r:14px;
+  --rs:10px;
+}
+
+html,body{
+  min-height:100%;
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--tx);
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ── CONTENEDOR PRINCIPAL ── */
+.app{
+  width:100%;
+  max-width:480px;
+  min-height:100dvh;
+  background:var(--s1);
+  display:flex;
+  flex-direction:column;
+  position:relative;
+}
+
+/* ── PANTALLAS ── */
+.scr{display:none;width:100%;flex:1;flex-direction:column;min-width:0}
+.scr.active{display:flex}
+.scr-body{padding:16px 18px 100px;flex:1;min-width:0;overflow-x:hidden}
+
+/* ── IMAGEN PRODUCTO (Mobile por defecto) ── */
+.product-img-wrap{
+  padding:12px 16px;
+  background:linear-gradient(180deg,#F8FAFC 0%,#EEF2FF 100%);
+  border-bottom:1px solid var(--bd);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.product-img-wrap img{
+  display:none;
+  max-height:180px;
+  width:auto;
+  max-width:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.06));
+}
+
+/* ── FORMULARIO CAMPOS ── */
+.field-lbl{
+  font-size:.74rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  color:var(--mu2);
+  margin-bottom:6px;
+  display:flex;
+  justify-content:space-between;
+}
+.field-lbl span{font-weight:500;color:var(--mu)}
+
+.input-name{
+  width:100%;
+  background:#F8FAFC;
+  border:1.5px solid var(--bd);
+  border-radius:10px;
+  padding:12px 14px;
+  font-size:1rem;
+  font-weight:700;
+  font-family:'Inter',sans-serif;
+  color:#0F172A;
+  outline:none;
+  transition:all .18s ease;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+.input-name::placeholder{color:#94A3B8;font-weight:400;text-transform:none;letter-spacing:0}
+.input-name:focus{border-color:var(--gl);background:#fff;box-shadow:0 0 0 3.5px rgba(37,99,235,0.12)}
+.field-hint{font-size:.68rem;color:var(--mu);margin-top:4px;margin-bottom:16px}
+
+/* Número dorsal */
+.num-input-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  background:#F8FAFC;
+  border:1.5px solid var(--bd);
+  border-radius:12px;
+  padding:4px 14px;
+  transition:all .18s ease;
+  margin-bottom:6px;
+}
+.num-input-wrap:focus-within{
+  background:#fff;
+  border-color:var(--gl);
+  box-shadow:0 0 0 3.5px rgba(37,99,235,0.12);
+}
+.num-input-wrap.valid{
+  border-color:var(--g);
+  background:#fff;
+}
+.num-input-wrap.taken{
+  border-color:#EF4444;
+  background:#FEF2F2;
+}
+.num-prefix{
+  font-size:1.3rem;
+  font-weight:900;
+  color:var(--g);
+  margin-right:8px;
+  user-select:none;
+}
+.num-input-field{
+  width:100%;
+  border:none;
+  background:transparent;
+  font-size:1.25rem;
+  font-weight:800;
+  font-family:'Inter',sans-serif;
+  color:#1E3A8A;
+  outline:none;
+  padding:8px 0;
+}
+.num-input-field::placeholder{
+  font-size:.9rem;
+  font-weight:500;
+  color:#94A3B8;
+}
+.num-status-badge{
+  font-size:.75rem;
+  font-weight:700;
+  display:none;
+  align-items:center;
+  gap:4px;
+  padding:4px 9px;
+  border-radius:6px;
+  white-space:nowrap;
+}
+.num-status-badge.show{display:flex}
+.num-status-badge.available{background:#DCFCE7;color:#15803D}
+.num-status-badge.occupied{background:#FEE2E2;color:#B91C1C}
+
+.occ-card{
+  background:#F8FAFC;
+  border:1px solid var(--bd);
+  border-radius:10px;
+  padding:8px 12px;
+  margin-bottom:16px;
+}
+.occ-header{
+  font-size:.68rem;
+  font-weight:700;
+  color:var(--mu);
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:6px;
+}
+.occ-pills-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.occ-pill{
+  background:#fff;
+  border:1px solid #CBD5E1;
+  border-radius:6px;
+  padding:2px 7px;
+  font-size:.72rem;
+  font-weight:800;
+  color:#475569;
+}
+
+/* Size chips */
+.size-row{display:flex;gap:5px;margin-bottom:12px;width:100%}
+.sz-chip{
+  flex:1;
+  min-width:0;
+  padding:10px 2px;
+  border-radius:10px;
+  background:#F8FAFC;
+  border:1.5px solid var(--bd);
+  font-size:.8rem;
+  font-weight:800;
+  font-family:'Inter',sans-serif;
+  color:var(--tx);
+  cursor:pointer;
+  text-align:center;
+  transition:all .18s ease;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.sz-chip:active{transform:scale(.95)}
+.sz-chip.sel{background:var(--g);border-color:var(--g);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,0.25)}
+
+/* Collar selector */
+.collar-row{display:flex;gap:8px;margin-bottom:14px;width:100%}
+.collar-chip{
+  flex:1;
+  min-width:0;
+  padding:10px 6px;
+  border-radius:10px;
+  background:#F8FAFC;
+  border:1.5px solid var(--bd);
+  font-size:.8rem;
+  font-weight:700;
+  font-family:'Inter',sans-serif;
+  color:var(--tx);
+  cursor:pointer;
+  text-align:center;
+  line-height:1.25;
+  transition:all .18s ease;
+  user-select:none;
+}
+.collar-chip:active{transform:scale(.97)}
+.collar-chip.sel{background:#EEF2FF;border-color:var(--g);color:#1E40AF;box-shadow:0 2px 8px rgba(37,99,235,0.12)}
+
+/* Talla Short */
+.short-section{overflow:hidden;max-height:0;transition:max-height .25s ease}
+.short-section.visible{max-height:160px}
+
+/* ── BOTÓN CTA STICKY (Mobile friendly) ── */
+.cta-wrap{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  padding:12px 18px 22px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-top:1px solid rgba(226,232,240,0.8);
+  z-index:90;
+  width:100%;
+  max-width:480px;
+  margin:0 auto;
+}
+.btn-cta{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  font-size:.95rem;
+  font-weight:700;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  transition:all .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-cta.active{
+  background:linear-gradient(135deg,#2563EB 0%,#1D4ED8 100%);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(37,99,235,0.3);
+}
+.btn-cta.inactive{background:#E2E8F0;color:#94A3B8;cursor:default;box-shadow:none}
+.btn-cta:active.active{transform:scale(.98);box-shadow:0 2px 6px rgba(37,99,235,0.2)}
+
+/* ── SCREEN 2: TICKET ── */
+.s5-h1{font-size:1.4rem;font-weight:900;letter-spacing:-.03em;margin-bottom:4px;color:#0F172A}
+.s5-sub{font-size:.82rem;color:var(--mu);line-height:1.5;margin-bottom:14px}
+.ticket{background:#F8FAFC;border-radius:14px;overflow:hidden;border:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,0.03)}
+.ticket-top{padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#fff;border-bottom:1px solid var(--bd)}
+.tk-label{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--g);margin-bottom:2px}
+.tk-title{font-size:.95rem;font-weight:800;color:var(--tx)}
+.tk-id{background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:4px 9px;font-size:.68rem;font-weight:800;color:#3730A3}
+.tk-dashed{border-top:1.5px dashed var(--bd2);margin:0}
+.tk-body{padding:6px 16px 0}
+.tk-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--s3)}
+.tk-row:last-child{border-bottom:none}
+.tk-key{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu)}
+.tk-val{font-size:.84rem;font-weight:800;color:var(--tx);text-align:right}
+.tk-val.dash{color:var(--mu);font-weight:500}
+.tk-footer{padding:12px 16px;text-align:center;background:#fff;border-top:1px solid var(--bd)}
+.tk-footer-txt{font-size:.7rem;color:var(--mu);line-height:1.4}
+.s5-note{font-size:.68rem;color:var(--mu);margin-top:10px;line-height:1.4}
+
+/* ── SCREEN 3: PAGO LOCAL ── */
+.tabs{display:flex;background:#F1F5F9;border-radius:12px;padding:4px;margin-bottom:14px;border:1px solid var(--bd)}
+.tab{
+  flex:1;
+  padding:9px 0;
+  text-align:center;
+  border:none;
+  background:transparent;
+  font-size:12px;
+  font-weight:700;
+  color:var(--mu);
+  cursor:pointer;
+  border-radius:8px;
+  transition:all .2s ease;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  font-family:'Inter',sans-serif;
+}
+.tab svg{width:16px;height:16px;stroke:currentColor;opacity:.7}
+.tab.active{
+  background:#FFFFFF;
+  color:var(--g);
+  box-shadow:0 2px 6px rgba(37,99,235,0.1);
+  border:1px solid rgba(37,99,235,0.15);
+}
+.tab.active svg{opacity:1;stroke:var(--g)}
+
+.tab-pane{display:none;animation:fadeIn .25s ease}
+.tab-pane.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+
+.wallet-layout{display:flex;gap:14px;background:#F8FAFC;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:14px}
+.qr-section{flex:0 0 100px;background:#fff;border:1px solid #C7D2FE;border-radius:10px;padding:6px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.03)}
+.qr-section img{width:100%;max-width:88px;display:block !important;border-radius:6px}
+.details-section{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.total-label{font-size:9px;font-weight:800;color:var(--g);letter-spacing:.08em;margin-bottom:2px;text-transform:uppercase}
+.price{font-size:1.6rem;font-weight:900;color:#1E3A8A;letter-spacing:-.03em;margin-bottom:6px}
+.info-box{border-top:1px solid var(--bd);padding-top:6px}
+.info-label{font-size:9px;font-weight:700;color:var(--mu);letter-spacing:.06em;margin-bottom:2px;display:block;text-transform:uppercase}
+.company-name{font-size:12px;font-weight:800;color:var(--tx);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.phone-container{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.phone-number{font-size:14px;font-weight:800;color:var(--tx)}
+.copy-btn{
+  background:#EEF2FF;
+  border:1px solid #C7D2FE;
+  padding:4px 9px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+  color:#3730A3;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  transition:all .15s ease;
+}
+.copy-btn:hover{background:#E0E7FF}
+.copy-btn:active{transform:scale(.95)}
+
+.transfer-layout{background:#F8FAFC;border:1px solid var(--bd);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.transfer-list{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.transfer-row{display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.transfer-row .label{color:var(--mu);font-size:11px;font-weight:600}
+.transfer-row .value{font-weight:800;color:var(--tx);text-align:right}
+.text-accent{color:var(--g) !important;font-weight:800}
+
+.voucher-section{margin-bottom:12px}
+.voucher-label{font-size:10px;font-weight:700;color:var(--mu2);letter-spacing:.08em;margin-bottom:6px;display:block}
+.upload-area{border:1.5px dashed #CBD5E1;border-radius:12px;padding:14px;text-align:center;background:#F8FAFC;cursor:pointer;transition:all .2s ease;display:block}
+.upload-area:hover,.upload-area.has-file{border-color:var(--g);background:#EEF2FF}
+.upload-icon{margin-bottom:4px;color:var(--g)}
+.upload-title{font-size:13px;font-weight:700;color:var(--tx);margin-bottom:2px}
+.upload-desc{font-size:11px;color:var(--mu)}
+
+/* ── SCREEN 4: CONFIRMACIÓN ── */
+.confirm-wrap{padding:28px 20px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.confirm-icon{width:64px;height:64px;border-radius:50%;background:#EEF2FF;border:2px solid #C7D2FE;display:flex;align-items:center;justify-content:center;color:var(--g);margin-bottom:18px;box-shadow:0 4px 14px rgba(37,99,235,0.15)}
+.confirm-h1{font-size:1.6rem;font-weight:900;letter-spacing:-.03em;color:var(--tx);margin-bottom:6px}
+.confirm-h1 span{color:var(--g)}
+.confirm-sub{font-size:.85rem;color:var(--mu);line-height:1.5;margin-bottom:20px;max-width:300px}
+.confirm-ticket{width:100%;background:#F8FAFC;border-radius:12px;border:1px solid var(--bd);padding:14px;text-align:left;margin-bottom:18px}
+.confirm-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--s3)}
+.confirm-row:last-child{border-bottom:none}
+.confirm-key{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mu)}
+.confirm-val{font-size:.82rem;font-weight:800;color:var(--tx)}
+
+
+/* ════════════════════════════════════════════════════════
+   💻 ADAPTACIÓN RESPONSIVE PARA PC / LAPTOPS / TABLETS
+   ════════════════════════════════════════════════════════ */
+@media(min-width:768px){
+  body{
+    padding:24px;
+    height:100vh;
+    overflow:hidden;
+  }
+
+  /* Tarjeta central elegante con elevación */
+  .app{
+    width:100%;
+    max-width:920px;
+    height:min(90vh, 720px);
+    min-height:auto;
+    border-radius:20px;
+    box-shadow:0 20px 45px -12px rgba(15,23,42,.15);
+    border:1px solid var(--bd);
+    overflow:hidden;
+  }
+
+  /* Vista de 2 columnas estructurada con Grid */
+  .scr.active{
+    display:grid;
+    grid-template-columns:46% 54%;
+    grid-template-rows:1fr auto;
+    height:100%;
+    overflow:hidden;
+    min-width:0;
+  }
+
+  /* Columna Izquierda: Imagen del producto centrada */
+  .product-img-wrap{
+    grid-column:1;
+    grid-row:1 / 3;
+    background:linear-gradient(180deg,#F8FAFC 0%,#EEF2FF 100%);
+    border-right:1px solid var(--bd);
+    border-bottom:none;
+    padding:28px;
+    height:100%;
+    overflow:hidden;
+  }
+  .product-img-wrap img{
+    max-height:86%;
+    max-width:100%;
+    object-fit:contain;
+  }
+
+  /* Columna Derecha: Formulario scrolleable suave */
+  .scr.active > .scr-body{
+    grid-column:2;
+    grid-row:1;
+    overflow-y:auto;
+    padding:26px 36px 12px;
+  }
+
+  /* Columna Derecha: Botón CTA anclado */
+  .cta-wrap{
+    position:static;
+    grid-column:2;
+    grid-row:2;
+    padding:12px 36px 20px;
+    background:#fff;
+    border-top:1px solid #F1F5F9;
+    max-width:100%;
+    box-shadow:none;
+    backdrop-filter:none;
+  }
+
+  /* Pantalla de confirmación centrada en desktop */
+  #s6{
+    display:none;
+    height:100%;
+    align-items:center;
+    justify-content:center;
+  }
+  #s6.active{
+    display:flex;
+  }
+  #s6 .confirm-wrap{
+    max-width:440px;
+    width:100%;
+  }
+}
+</style>
 </head>
 <body>
-    <div class="mobile-container">
-        <div class="mobile-header">
-            <div class="logo"><i class="fa-solid fa-shirt"></i></div>
-            <h1>Sublitex</h1>
-            <p>Registro de Jugadores</p>
-        </div>
-        
-        <div class="card">
-            <div class="card-header">
-                <h2><i class="fa-solid fa-user-pen"></i> Mis Datos</h2>
-                <p>Pedido: Promo 2002 - Colegio San José</p>
-            </div>
-            <div class="card-body">
-                <div id="alertsContainer" class="alerts-container"></div>
-                
-                <form id="playerForm">
-                    <input type="hidden" id="participantId">
-                    
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="playerName">Tu Nombre Real (Opcional)</label>
-                            <input type="text" id="playerName" placeholder="Ej. Juan Pérez">
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--text-main);"><i class="fa-solid fa-shirt" style="color: var(--primary)"></i> Detalles de tu Camiseta</h3>
-                        <div class="form-group">
-                            <label for="shirtName">Nombre Estampado (Espalda) <span class="required">*</span></label>
-                            <input type="text" id="shirtName" required placeholder="Ej. JUAN P." maxlength="15">
-                            <small style="color: var(--text-muted); font-size: 0.75rem;">Cómo quieres que se lea en tu camiseta (Max 15 carácteres).</small>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="shirtNumber">Número <span class="required">*</span></label>
-                                <input type="number" id="shirtNumber" required min="0" max="99" placeholder="10">
-                            </div>
-                            <div class="form-group">
-                                <label for="size">Talla <span class="required">*</span> <a href="#" onclick="alert('Guía: S(48x68cm), M(52x70cm), L(56x72cm), XL(60x74cm)')" style="font-size: 0.75rem; color: var(--primary); font-weight: normal; margin-left: 5px;"><i class="fa-solid fa-ruler"></i> Ver Guía</a></label>
-                                <select id="size" required>
-                                    <option value="">Seleccione...</option>
-                                    <option value="10">10 (Niño)</option>
-                                    <option value="14">14 (Niño)</option>
-                                    <option value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                    <option value="XL">XL</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+<div class="app" id="app">
 
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="productType">¿Qué pedirás? <span class="required">*</span></label>
-                            <select id="productType" required>
-                                <option value="conjunto">Conjunto Completo (Camiseta + Short)</option>
-                                <option value="camiseta">Solo Camiseta</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="shortSizeGroup">
-                            <label for="shortSize">Talla de Short</label>
-                            <select id="shortSize">
-                                <option value="">Igual que la camiseta</option>
-                                <option value="10">10 (Niño)</option>
-                                <option value="14">14 (Niño)</option>
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="XL">XL</option>
-                            </select>
-                            <small style="color: var(--text-muted); font-size: 0.75rem;">Déjalo en blanco si usas la misma talla arriba y abajo.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="genderCut">Corte / Género <span class="required">*</span></label>
-                            <select id="genderCut" required>
-                                <option value="">Seleccione...</option>
-                                <option value="Hombre">Corte Hombre (Estándar)</option>
-                                <option value="Mujer">Corte Mujer (Apretado)</option>
-                                <option value="Niño">Corte Niño</option>
-                            </select>
-                        </div>
-                        <div class="form-group checkbox-group" style="margin-top: 1rem; display: flex; align-items: center; gap: 8px; background: #FEE2E2; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #F87171;">
-                            <input type="checkbox" id="isGoalkeeper">
-                            <label for="isGoalkeeper" style="margin-bottom: 0; font-weight: 600; color: #991B1B; cursor: pointer;">🧤 Soy el Arquero (Portero)</label>
-                        </div>
-                    </div>
 
-                    <button type="submit" class="btn btn-primary btn-full" style="font-size: 1rem; padding: 1rem;"><i class="fa-solid fa-check"></i> Guardar Mis Datos</button>
-                </form>
-                <div style="margin-top: 1rem; text-align: center;">
-                    <a href="index.html" style="font-size: 0.875rem; color: var(--text-muted); text-decoration: underline;">Volver a vista del Coordinador (Testing)</a>
-                </div>
-            </div>
-        </div>
+
+<!-- ══════════════════════════════════
+     SCREEN 1 — IDENTIDAD
+══════════════════════════════════ -->
+<div class="scr active" id="s3">
+
+  <!-- Imagen del producto (sidebar en desktop, inline en mobile) -->
+  <div class="product-img-wrap">
+    <img class="imgPolo"     src="assets/pedido-polo.png"     alt="Camiseta" style="display:none">
+    <img class="imgConjunto" src="assets/pedido-conjunto.png" alt="Conjunto" style="display:block">
+  </div>
+
+  <div class="scr-body">
+
+
+    <!-- Nombre real (opcional) -->
+    <div class="field-lbl">Tu nombre real <span>Opcional</span></div>
+    <input class="input-name" id="inputNomReal" type="text" placeholder="Ej: Juan Pérez" style="text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:500;margin-bottom:4px" autocomplete="off"/>
+    <div class="field-hint"><span>Para que el coordinador te identifique</span></div>
+
+    <!-- Nombre en la camiseta -->
+    <div class="field-lbl">Nombre en la espalda <span id="charCount">0/14</span></div>
+    <input class="input-name" id="inputNom" type="text" placeholder="Ej: RODRIGUEZ" maxlength="14" oninput="onNombreInput(this)" autocomplete="off" spellcheck="false"/>
+    <div class="field-hint">
+      <span>Solo mayúsculas · máx 14 caracteres</span>
+    </div>
+    <div style="margin-bottom:22px"></div>
+
+    <!-- Número -->
+    <div class="field-lbl">Número de dorsal <span>1 al 99</span></div>
+    <div class="num-input-wrap" id="numInputWrap" onclick="document.getElementById('numInput').focus()">
+      <span class="num-prefix">#</span>
+      <input class="num-input-field" type="number" id="numInput" min="1" max="99" placeholder="Ingresa tu número" oninput="onNumInput(this)" autocomplete="off"/>
+      <div class="num-status-badge" id="numStatusBadge"></div>
+    </div>
+    
+    <div class="occ-card" id="occCard">
+      <div class="occ-header">Dorsales ocupados por compañeros:</div>
+      <div class="occ-pills-wrap" id="occPills">—</div>
     </div>
 
-    <script src="participante.js"></script>
+    <!-- Talla camiseta -->
+    <div class="field-lbl" style="margin-bottom:10px">Talla de camiseta</div>
+    <div class="size-row">
+      <div class="sz-chip" id="sz-XS"  onclick="selTalla('XS')">XS</div>
+      <div class="sz-chip" id="sz-S"   onclick="selTalla('S')">S</div>
+      <div class="sz-chip" id="sz-M"   onclick="selTalla('M')">M</div>
+      <div class="sz-chip" id="sz-L"   onclick="selTalla('L')">L</div>
+      <div class="sz-chip" id="sz-XL"  onclick="selTalla('XL')">XL</div>
+      <div class="sz-chip" id="sz-XXL" onclick="selTalla('XXL')">XXL</div>
+    </div>
+    <div class="field-hint" style="margin-bottom:14px"><span></span></div>
+
+    <!-- Tipo de cuello -->
+    <div class="field-lbl" style="margin-bottom:8px">Tipo de cuello</div>
+    <div class="collar-row">
+      <div class="collar-chip sel" id="col-redondo" onclick="selCollar('redondo')">Cuello Redondo (Normal)</div>
+      <div class="collar-chip" id="col-v" onclick="selCollar('v')">Cuello en V</div>
+    </div>
+
+    <!-- Talla short (solo si conjunto) -->
+    <div class="short-section" id="shortSection">
+      <div class="field-lbl" style="margin-bottom:10px">Talla de short <span>Opcional — si difiere de la camiseta</span></div>
+      <div class="size-row">
+        <div class="sz-chip" id="szs-same" onclick="selTallaShort('same')" style="min-width:64px;font-size:.72rem">= Camis.</div>
+        <div class="sz-chip sel" id="szs-S"    onclick="selTallaShort('S')">S</div>
+        <div class="sz-chip" id="szs-M"    onclick="selTallaShort('M')">M</div>
+        <div class="sz-chip" id="szs-L"    onclick="selTallaShort('L')">L</div>
+        <div class="sz-chip" id="szs-XL"   onclick="selTallaShort('XL')">XL</div>
+        <div class="sz-chip" id="szs-XXL"  onclick="selTallaShort('XXL')">XXL</div>
+      </div>
+      <div style="margin-bottom:14px"></div>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <button class="btn-cta inactive" id="cta3" onclick="checkAndGo(5)">Ver resumen</button>
+  </div>
+</div>
+
+
+
+<!-- ══════════════════════════════════
+     SCREEN 5 — RESUMEN / TICKET
+══════════════════════════════════ -->
+<div class="scr" id="s5">
+
+  <!-- Imagen del producto en resumen -->
+  <div class="product-img-wrap">
+    <img class="imgPolo"     src="assets/pedido-polo.png"     alt="Camiseta" style="display:none">
+    <img class="imgConjunto" src="assets/pedido-conjunto.png" alt="Conjunto" style="display:block">
+  </div>
+
+
+  <div class="scr-body">
+    <h1 class="s5-h1">Revisa tu pedido</h1>
+    <p class="s5-sub">Verifica que todo esté correcto. Al confirmar, tus datos pasan al coordinador.</p>
+
+    <div class="ticket">
+      <div class="ticket-top">
+        <div>
+          <div class="tk-label">Ticket SIPES</div>
+          <div class="tk-title" id="tk-title">Resumen del jugador</div>
+        </div>
+        <div class="tk-id" id="tk-order-id">SUB-00000</div>
+      </div>
+      <div class="tk-dashed"></div>
+      <div class="tk-body">
+        <div class="tk-row"><span class="tk-key">Nombre en camiseta</span><span class="tk-val" id="tk-nombre">—</span></div>
+        <div class="tk-row"><span class="tk-key">Nombre real</span><span class="tk-val dash" id="tk-nomreal">—</span></div>
+        <div class="tk-row"><span class="tk-key">Número</span><span class="tk-val" id="tk-numero">—</span></div>
+        <div class="tk-row"><span class="tk-key">Talla camiseta</span><span class="tk-val" id="tk-talla">—</span></div>
+        <div class="tk-row"><span class="tk-key">Tipo de cuello</span><span class="tk-val" id="tk-cuello">Cuello Redondo</span></div>
+        <div class="tk-row" id="tk-row-short" style="display:none"><span class="tk-key">Talla short</span><span class="tk-val" id="tk-talla-short">—</span></div>
+        <div class="tk-row"><span class="tk-key">Producto</span><span class="tk-val" id="tk-prod">—</span></div>
+        <div class="tk-row"><span class="tk-key">Corte</span><span class="tk-val" id="tk-corte">—</span></div>
+        <div class="tk-row"><span class="tk-key">Rol</span><span class="tk-val" id="tk-rol">—</span></div>
+      </div>
+      <div class="tk-footer">
+        <div class="tk-footer-txt">Al confirmar, el coordinador verá tus datos en tiempo real. Comunícale cualquier cambio directamente.</div>
+      </div>
+    </div>
+    <p class="s5-note">* El número no puede modificarse después. Revísalo bien.</p>
+  </div>
+
+  <div class="cta-wrap">
+    <button class="btn-cta active" id="cta5" onclick="goTo('pago')">
+      <span id="cta5txt">Continuar al Pago</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <button class="btn-cta" onclick="goTo(3)" style="background:transparent;border:1.5px solid var(--bd);color:var(--tx);margin-top:8px">
+      ← Modificar datos
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 3 — PAGO LOCAL
+══════════════════════════════════ -->
+<div class="scr" id="spago">
+
+  <!-- Imagen del producto en pago -->
+  <div class="product-img-wrap">
+    <img class="imgPolo"     src="assets/pedido-polo.png"     alt="Camiseta" style="display:none">
+    <img class="imgConjunto" src="assets/pedido-conjunto.png" alt="Conjunto" style="display:block">
+  </div>
+
+  <div class="scr-body">
+    <h1 class="s5-h1">Pago local</h1>
+    <p class="s5-sub">Escanea, transfiere y sube tu voucher para confirmar.</p>
+
+    <!-- Tabs con SVGs profesionales -->
+    <div class="tabs">
+      <button type="button" class="tab active" data-target="tab-yape">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+        Yape
+      </button>
+      <button type="button" class="tab" data-target="tab-plin">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        Plin
+      </button>
+      <button type="button" class="tab" data-target="tab-transferencia">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11m16-11v11M8 14v3m4-3v3m4-3v3"></path></svg>
+        Transferencia
+      </button>
+    </div>
+
+    <!-- VISTA: YAPE -->
+    <div id="tab-yape" class="tab-pane active">
+      <div class="wallet-layout">
+        <div class="qr-section">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=YAPE-999888777&color=4F46E5" alt="QR Yape">
+        </div>
+        <div class="details-section">
+          <span class="total-label">TOTAL A PAGAR</span>
+          <h2 class="price" id="pay-price-yape">S/ 120.00</h2>
+          <div class="info-box">
+            <span class="info-label">YAPE · A NOMBRE DE</span>
+            <div class="company-name">SIPES DEPORTES S.A.C.</div>
+            <div class="phone-container">
+              <span class="phone-number" id="yape-number">999-888-777</span>
+              <button type="button" class="copy-btn" onclick="copyToClipboard('yape-number')">
+                Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA: PLIN -->
+    <div id="tab-plin" class="tab-pane">
+      <div class="wallet-layout">
+        <div class="qr-section">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PLIN-999888777&color=4F46E5" alt="QR Plin">
+        </div>
+        <div class="details-section">
+          <span class="total-label">TOTAL A PAGAR</span>
+          <h2 class="price" id="pay-price-plin">S/ 120.00</h2>
+          <div class="info-box">
+            <span class="info-label">PLIN · A NOMBRE DE</span>
+            <div class="company-name">SIPES DEPORTES S.A.C.</div>
+            <div class="phone-container">
+              <span class="phone-number" id="plin-number">999-888-777</span>
+              <button type="button" class="copy-btn" onclick="copyToClipboard('plin-number')">
+                Copiar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VISTA: TRANSFERENCIA -->
+    <div id="tab-transferencia" class="tab-pane">
+      <div class="transfer-layout">
+        <span class="total-label">TRANSFERENCIA BANCARIA</span>
+        <h2 class="price" id="pay-price-trans">S/ 120.00</h2>
+        <div class="transfer-list">
+          <div class="transfer-row"><span class="label">Banco</span><span class="value">Interbank</span></div>
+          <div class="transfer-row"><span class="label">Tipo</span><span class="value">Cta. Corriente Soles</span></div>
+          <div class="transfer-row"><span class="label">N° Cuenta</span><span class="value" id="cuenta-number">200-3001472849</span></div>
+          <div class="transfer-row"><span class="label">CCI</span><span class="value text-accent" id="cci-number">003-200-003001472849-30</span></div>
+          <div class="transfer-row"><span class="label">Titular</span><span class="value">SIPES DEPORTES S.A.C.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subir Comprobante -->
+    <div class="voucher-section">
+      <span class="voucher-label">COMPROBANTE DE PAGO</span>
+      <label class="upload-area" id="uploadArea" for="voucherInput">
+        <input type="file" id="voucherInput" accept="image/*,.pdf" style="display:none" onchange="onVoucherSelected(this)">
+        <div class="upload-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"></path></svg>
+        </div>
+        <div class="upload-title" id="voucherTitle">Subir captura del voucher</div>
+        <div class="upload-desc" id="voucherDesc">Arrastra aquí o toca para elegir · JPG / PNG</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="cta-wrap">
+    <button class="btn-cta active" id="btnPagar" onclick="guardarYConfirmar()">
+      <span>Pagar y Confirmar</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    </button>
+    <button class="btn-cta" onclick="goTo(5)" style="background:transparent;border:1.5px solid var(--bd);color:var(--tx);margin-top:8px">
+      ← Volver al resumen
+    </button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     SCREEN 6 — CONFIRMACIÓN
+══════════════════════════════════ -->
+<div class="scr" id="s6">
+  <div class="confirm-wrap">
+    <div class="confirm-icon">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h1 class="confirm-h1">¡Listo, <span id="conf-nombre">jugador</span>!</h1>
+    <p class="confirm-sub">Tu pedido fue registrado correctamente. El coordinador del equipo ya puede verlo en el panel.</p>
+
+    <div class="confirm-ticket">
+      <div class="confirm-row"><span class="confirm-key">Nombre en camiseta</span><span class="confirm-val" id="conf-shirt">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Número</span><span class="confirm-val" id="conf-num">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Talla</span><span class="confirm-val" id="conf-talla">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Cuello</span><span class="confirm-val" id="conf-cuello">Cuello Redondo</span></div>
+      <div class="confirm-row"><span class="confirm-key">Producto</span><span class="confirm-val" id="conf-prod">—</span></div>
+      <div class="confirm-row"><span class="confirm-key">Corte</span><span class="confirm-val" id="conf-corte">—</span></div>
+    </div>
+
+    <div style="width:100%;display:flex;flex-direction:column;gap:10px">
+      <button class="btn-cta active" onclick="goTo(3)" style="position:relative;transform:none">
+        Volver al inicio
+      </button>
+      <a href="index.html" style="display:block;text-align:center;font-size:.8rem;color:var(--mu2);text-decoration:underline;margin-top:4px">
+        Ver panel del coordinador
+      </a>
+    </div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);opacity:0;pointer-events:none;background:#1a1a1a;border:1px solid #333;color:#fff;padding:11px 18px;border-radius:10px;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:8px;white-space:nowrap;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:opacity .25s ease,transform .25s ease;font-family:'Inter',sans-serif">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="toastMsg">Guardado</span>
+</div>
+
+
+<script>
+/* ─── ESTADO GLOBAL ─── */
+const S = {
+  participantId: null,
+  prod: null, rol: null, cut: null,
+  nomReal: '', nombre: '', numero: null, talla: null, tallaShort: 'same',
+  cuello: 'redondo',
+  mangaLarga: false, escudo: false, excepcion: false,
+  excepcionTxt: ''
+};
+
+/* ─── localStorage helpers ─── */
+function getParticipants() {
+  const data = localStorage.getItem('sipes_participants');
+  if (data) return JSON.parse(data);
+  return [
+    { id: 1, playerName: 'Juan Pérez',    shirtName: 'JUAN P.', shirtNumber: 10, size: 'M', productType: 'conjunto', genderCut: 'Hombre', exceptions: '' },
+    { id: 2, playerName: 'Carlos López',  shirtName: 'CARLOS',  shirtNumber: 7,  size: 'L', productType: 'conjunto', genderCut: 'Hombre', exceptions: 'Corte mujer' },
+    { id: 3, playerName: 'Andrés Silva',  shirtName: 'A. SILVA',shirtNumber: 9,  size: 'M', productType: 'camiseta', genderCut: 'Hombre', exceptions: '' }
+  ];
+}
+function saveParticipants(list) {
+  localStorage.setItem('sipes_participants', JSON.stringify(list));
+}
+
+/* ─── Números ya ocupados (excluyendo al propio participante si edita) ─── */
+function getOccupied() {
+  const ps = getParticipants();
+  return ps
+    .filter(p => p.id != S.participantId)
+    .map(p => p.shirtNumber)
+    .filter(n => n != null);
+}
+
+/* ─── Render pills de ocupados ─── */
+function renderOccPills() {
+  const occ = getOccupied().sort((a,b) => a - b);
+  const el = document.getElementById('occPills');
+  if (!occ.length) { el.textContent = 'Ninguno aún — todos los dorsales disponibles'; return; }
+  el.innerHTML = occ.map(n => `<span class="occ-pill">#${n}</span>`).join('');
+}
+
+/* ─── Imagen del producto ─── */
+function updateProductImage() {
+  document.querySelectorAll('.imgPolo').forEach(el => el.style.display = S.prod === 'cam' ? 'block' : 'none');
+  document.querySelectorAll('.imgConjunto').forEach(el => el.style.display = S.prod === 'conj' ? 'block' : 'none');
+}
+
+/* ─── Inicializar desde URL ?id=X ─── */
+function initFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const orderName = params.get('pedido') || 'SUB-00000';
+
+  // Mostrar ID del pedido en el ticket
+  document.getElementById('tk-order-id').textContent = orderName;
+
+  // Defaults o parámetro de URL (?tipo=polo / ?tipo=conjunto)
+  const tipoParam = params.get('tipo') || params.get('producto');
+  if (tipoParam) {
+    if (tipoParam.toLowerCase().includes('polo') || tipoParam.toLowerCase().includes('cam')) {
+      S.prod = 'cam';
+    } else if (tipoParam.toLowerCase().includes('conj')) {
+      S.prod = 'conj';
+    }
+  } else {
+    S.prod = S.prod || 'conj';
+  }
+
+  S.rol  = S.rol  || 'jug';
+  S.cut  = S.cut  || 'var';
+  
+  if (S.prod === 'conj') {
+    document.getElementById('shortSection')?.classList.add('visible');
+  } else {
+    document.getElementById('shortSection')?.classList.remove('visible');
+  }
+  updateProductImage();
+
+  if (id) {
+    const ps = getParticipants();
+    const p = ps.find(x => x.id == id);
+    if (p) {
+      S.participantId = p.id;
+      S.nomReal  = p.playerName || '';
+      S.nombre   = p.shirtName  || '';
+      S.numero   = p.shirtNumber || null;
+      S.talla    = p.size        || null;
+      S.tallaShort = p.shortSize || 'same';
+
+      S.prod = (p.productType === 'conjunto') ? 'conj' : 'cam';
+      const cutMap = { 'Hombre': 'var', 'Mujer': 'muj', 'Niño': 'nin' };
+      S.cut = cutMap[p.genderCut] || 'var';
+      S.rol = p.isGoalkeeper ? 'arq' : 'jug';
+      updateProductImage();
+
+      if (S.nombre){ document.getElementById('inputNom').value = S.nombre; document.getElementById('charCount').textContent = S.nombre.length + '/14'; }
+      if (S.nomReal){ document.getElementById('inputNomReal').value = S.nomReal; }
+      if (S.numero){ 
+        const inp = document.getElementById('numInput');
+        inp.value = S.numero; 
+        onNumInput(inp);
+      }
+      if (S.talla) { document.getElementById('sz-'+S.talla)?.classList.add('sel'); }
+      if (S.tallaShort && S.tallaShort !== 'same') { document.getElementById('szs-'+S.tallaShort)?.classList.add('sel'); document.getElementById('szs-same')?.classList.remove('sel'); }
+      if (p.collarType) {
+        const col = (p.collarType === 'Cuello en V') ? 'v' : 'redondo';
+        selCollar(col);
+      }
+      if (S.prod === 'conj') document.getElementById('shortSection').classList.add('visible');
+      updateCta3();
+    }
+  }
+  renderOccPills();
+}
+
+/* ─── NAVEGACIÓN ─── */
+function goTo(n) {
+  document.querySelectorAll('.scr').forEach(s => s.classList.remove('active'));
+  const targetId = (typeof n === 'string' && !n.startsWith('s')) ? 's' + n : (typeof n === 'number' ? 's' + n : n);
+  const target = document.getElementById(targetId);
+  if (target) {
+    target.classList.add('active');
+    target.scrollTop = 0;
+  }
+  if (n === 3) renderOccPills();
+  if (n === 'pago' || n === 'spago') updatePrices();
+}
+
+function checkAndGo(n) {
+  if (n === 5 && (!S.nombre || !S.numero || !S.talla)) return;
+  buildTicket();
+  goTo(n);
+}
+
+
+/* ─── SCREEN 3 ─── */
+function onNombreInput(el) {
+  el.value = el.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ\s]/gi, '');
+  S.nombre = el.value.trim();
+  document.getElementById('charCount').textContent = el.value.length + '/14';
+  updateCta3();
+}
+function onNumInput(el) {
+  const v = parseInt(el.value);
+  const wrap = document.getElementById('numInputWrap');
+  const badge = document.getElementById('numStatusBadge');
+  const occ = getOccupied();
+
+  if (!v || v < 1 || v > 99) {
+    wrap.classList.remove('valid','taken');
+    badge.className = 'num-status-badge';
+    badge.textContent = '';
+    S.numero = null;
+    updateCta3(); return;
+  }
+
+  if (occ.includes(v)) {
+    wrap.classList.remove('valid'); 
+    wrap.classList.add('taken');
+    badge.className = 'num-status-badge show occupied';
+    badge.textContent = '✕ Ocupado';
+    S.numero = null;
+  } else {
+    wrap.classList.remove('taken');
+    wrap.classList.add('valid');
+    badge.className = 'num-status-badge show available';
+    badge.textContent = '✓ Disponible';
+    S.numero = v;
+  }
+  updateCta3();
+}
+function selTalla(t) {
+  document.querySelectorAll('.sz-chip[id^="sz-"]').forEach(c => c.classList.remove('sel'));
+  document.getElementById('sz-'+t)?.classList.add('sel');
+  S.talla = t;
+  updateCta3();
+}
+function selTallaShort(t) {
+  document.querySelectorAll('.sz-chip[id^="szs-"]').forEach(c => c.classList.remove('sel'));
+  document.getElementById('szs-'+t)?.classList.add('sel');
+  S.tallaShort = t;
+}
+function selCollar(c) {
+  document.querySelectorAll('.collar-chip').forEach(el => el.classList.remove('sel'));
+  document.getElementById('col-' + c)?.classList.add('sel');
+  S.cuello = c;
+}
+function updateCta3() {
+  const ok = S.nombre && S.numero && S.talla;
+  document.getElementById('cta3').className = 'btn-cta ' + (ok ? 'active' : 'inactive');
+}
+
+
+/* ─── SCREEN 5 — TICKET ─── */
+const CUT_LABEL = { var: 'Corte Varón', muj: 'Corte Mujer', nin: 'Corte Niño' };
+const PROD_LABEL = { conj: 'Conjunto Completo', cam: 'Solo Camiseta' };
+const ROL_LABEL  = { jug: 'Jugador', arq: 'Arquero / Portero' };
+
+function buildTicket() {
+  S.nomReal = document.getElementById('inputNomReal').value.trim();
+
+  document.getElementById('tk-nombre').textContent  = S.nombre  || '—';
+  document.getElementById('tk-nomreal').textContent = S.nomReal  || '—';
+  document.getElementById('tk-numero').textContent  = S.numero  ? '#' + S.numero : '—';
+  document.getElementById('tk-talla').textContent   = S.talla   || '—';
+  document.getElementById('tk-cuello').textContent  = (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo (Normal)';
+  document.getElementById('tk-prod').textContent    = PROD_LABEL[S.prod] || '—';
+  document.getElementById('tk-corte').textContent   = CUT_LABEL[S.cut]   || '—';
+  document.getElementById('tk-rol').textContent     = ROL_LABEL[S.rol]   || '—';
+
+  // Short
+  if (S.prod === 'conj') {
+    document.getElementById('tk-row-short').style.display = 'flex';
+    document.getElementById('tk-talla-short').textContent = (S.tallaShort === 'same') ? 'Igual que camiseta' : S.tallaShort;
+  } else {
+    document.getElementById('tk-row-short').style.display = 'none';
+  }
+
+  // Ticket title con nombre
+  document.getElementById('tk-title').textContent = S.nombre ? S.nombre : 'Resumen del jugador';
+}
+
+/* ─── PAGO Y VOUCHER ─── */
+function updatePrices() {
+  const price = (S.prod === 'cam') ? 'S/ 80.00' : 'S/ 120.00';
+  document.getElementById('pay-price-yape').textContent = price;
+  document.getElementById('pay-price-plin').textContent = price;
+  document.getElementById('pay-price-trans').textContent = price;
+}
+
+// Pestañas de pago
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const targetId = tab.getAttribute('data-target');
+    const pane = document.getElementById(targetId);
+    if (pane) pane.classList.add('active');
+  });
+});
+
+// Copiar al portapapeles
+function copyToClipboard(elementId) {
+  const text = document.getElementById(elementId).innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Copiado: ' + text);
+  }).catch(() => {
+    showToast('Copiado al portapapeles');
+  });
+}
+
+// Selección de voucher
+let voucherFileName = '';
+function onVoucherSelected(input) {
+  if (input.files && input.files[0]) {
+    voucherFileName = input.files[0].name;
+    document.getElementById('voucherTitle').textContent = '✓ ' + voucherFileName;
+    document.getElementById('voucherDesc').textContent = 'Comprobante listo para enviar';
+    document.getElementById('uploadArea').classList.add('has-file');
+    showToast('Voucher cargado');
+  }
+}
+
+/* ─── GUARDAR en localStorage ─── */
+function guardarYConfirmar() {
+  const cutMap = { var: 'Hombre', muj: 'Mujer', nin: 'Niño' };
+  const participants = getParticipants();
+
+  const record = {
+    id:           S.participantId || Date.now(),
+    playerName:   S.nomReal,
+    shirtName:    S.nombre,
+    shirtNumber:  S.numero,
+    size:         S.talla,
+    shortSize:    S.tallaShort !== 'same' ? S.tallaShort : '',
+    collarType:   (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo',
+    productType:  S.prod === 'conj' ? 'conjunto' : 'camiseta',
+    genderCut:    cutMap[S.cut] || 'Hombre',
+    isGoalkeeper: S.rol === 'arq',
+    mangaLarga:   S.mangaLarga,
+    escudo:       S.escudo,
+    exceptions:   S.excepcion ? S.excepcionTxt : '',
+    paymentStatus: voucherFileName ? 'Pagado' : 'Pendiente',
+    voucherName:  voucherFileName || ''
+  };
+
+  if (S.participantId) {
+    const idx = participants.findIndex(p => p.id == S.participantId);
+    if (idx > -1) participants[idx] = { ...participants[idx], ...record };
+    else participants.push(record);
+  } else {
+    participants.push(record);
+  }
+
+  saveParticipants(participants);
+
+  // Mostrar confirmación
+  document.getElementById('conf-nombre').textContent = S.nombre || 'jugador';
+  document.getElementById('conf-shirt').textContent  = S.nombre;
+  document.getElementById('conf-num').textContent    = '#' + S.numero;
+  document.getElementById('conf-talla').textContent  = S.talla;
+  document.getElementById('conf-cuello').textContent = (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo';
+  document.getElementById('conf-prod').textContent   = PROD_LABEL[S.prod];
+  document.getElementById('conf-corte').textContent  = CUT_LABEL[S.cut];
+
+  goTo(6);
+  showToast('¡Registro y pago confirmados!');
+}
+
+/* ─── UTILS ─── */
+let _tt;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  t.style.pointerEvents = 'auto';
+  clearTimeout(_tt);
+  _tt = setTimeout(() => {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(20px)';
+    t.style.pointerEvents = 'none';
+  }, 3000);
+}
+
+// Init
+window.addEventListener('DOMContentLoaded', () => {
+  initFromUrl();
+});
+initFromUrl();
+</script>
 </body>
 </html>

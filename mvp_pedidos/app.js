@@ -73,13 +73,16 @@ function renderTable() {
         else if(p.paymentStatus === 'Abonado') paymentBadge = '<span class="status-badge" style="background:#DBEAFE; color:#1E40AF;">Abonado</span>';
         else paymentBadge = '<span class="status-badge" style="background:#FEE2E2; color:#991B1B;">Pendiente</span>';
         
-        let tallasText = p.size;
-        if(p.productType === 'conjunto' && p.shortSize) {
-            tallasText = `👕${p.size} <br> 👖${p.shortSize}`;
+        let tallasText = `<span style="font-weight:700">${p.size || '-'}</span>`;
+        if(p.productType === 'conjunto' && p.shortSize && p.shortSize !== 'same' && p.shortSize !== p.size) {
+            tallasText = `<div><span style="font-weight:700">${p.size}</span><span style="font-size:0.75rem; color:#6B7280; display:block;">Short: ${p.shortSize}</span></div>`;
         }
 
-        let rolText = p.genderCut || 'Hombre';
-        if(p.isGoalkeeper) rolText += '<br><span style="color:#991B1B; font-weight:600; font-size:0.7rem;">🧤 ARQUERO</span>';
+        let rolText = `<span>${p.genderCut || 'Hombre'}</span>`;
+        if(p.collarType) rolText += `<br><span style="font-size:0.75rem; color:#475569; font-weight:600;">${p.collarType}</span>`;
+        if(p.isGoalkeeper) rolText += '<br><span style="color:#DC2626; font-weight:700; font-size:0.68rem; letter-spacing:0.04em;">ARQUERO</span>';
+
+
 
         return `
         <tr>
