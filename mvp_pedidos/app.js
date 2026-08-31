@@ -339,6 +339,29 @@ function setupEventListeners() {
             }
         });
     }
+
+    // Copiar Link del Coordinador (Para el Admin)
+    const btnCopyCoordLink = document.getElementById('btnCopyCoordLink');
+    if (btnCopyCoordLink) {
+        btnCopyCoordLink.addEventListener('click', () => {
+            const coordUrl = new URL('vista_coordinador.html?pedido=SUB-00842', window.location.href).href;
+            navigator.clipboard.writeText(coordUrl).then(() => {
+                alert(`¡Enlace del Portal del Coordinador copiado!\n\n${coordUrl}\n\nEnvíaselo a Juan Pérez (Coordinador) por WhatsApp.`);
+            }).catch(() => {
+                prompt("Copia este enlace para el Coordinador:", coordUrl);
+            });
+        });
+    }
+
+    // Copiar Link para Jugadores (Para el Coordinador)
+    const btnShareJugadores = document.getElementById('btnShareJugadores');
+    if (btnShareJugadores) {
+        btnShareJugadores.addEventListener('click', () => {
+            const playerUrl = new URL('participante.html?pedido=SUB-00842&tipo=conjunto', window.location.href).href;
+            navigator.clipboard.writeText(playerUrl).catch(() => {});
+            window.open(playerUrl, '_blank');
+        });
+    }
 }
 
 function exportCSV() {

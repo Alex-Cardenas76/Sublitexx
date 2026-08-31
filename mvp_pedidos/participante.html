@@ -499,14 +499,12 @@ html,body{
     <!-- Nombre real (opcional) -->
     <div class="field-lbl">Tu nombre real <span>Opcional</span></div>
     <input class="input-name" id="inputNomReal" type="text" placeholder="Ej: Juan Pérez" style="text-transform:none;letter-spacing:0;font-size:.95rem;font-weight:500;margin-bottom:4px" autocomplete="off"/>
-    <div class="field-hint"><span>Para que el coordinador te identifique</span></div>
+
 
     <!-- Nombre en la camiseta -->
     <div class="field-lbl">Nombre en la espalda <span id="charCount">0/14</span></div>
     <input class="input-name" id="inputNom" type="text" placeholder="Ej: RODRIGUEZ" maxlength="14" oninput="onNombreInput(this)" autocomplete="off" spellcheck="false"/>
-    <div class="field-hint">
-      <span>Solo mayúsculas · máx 14 caracteres</span>
-    </div>
+
     <div style="margin-bottom:22px"></div>
 
     <!-- Número -->
@@ -537,15 +535,21 @@ html,body{
     <!-- Tipo de cuello -->
     <div class="field-lbl" style="margin-bottom:8px">Tipo de cuello</div>
     <div class="collar-row">
-      <div class="collar-chip sel" id="col-redondo" onclick="selCollar('redondo')">Cuello Redondo (Normal)</div>
+      <div class="collar-chip sel" id="col-redondo" onclick="selCollar('redondo')">Cuello Redondo</div>
       <div class="collar-chip" id="col-v" onclick="selCollar('v')">Cuello en V</div>
+    </div>
+
+    <!-- Tipo de corte -->
+    <div class="field-lbl" style="margin-bottom:8px">Tipo de corte</div>
+    <div class="collar-row">
+      <div class="cut-chip collar-chip sel" id="cut-var" onclick="selCorte('var')">Corte Varón</div>
+      <div class="cut-chip collar-chip" id="cut-muj" onclick="selCorte('muj')">Corte Dama</div>
     </div>
 
     <!-- Talla short (solo si conjunto) -->
     <div class="short-section" id="shortSection">
-      <div class="field-lbl" style="margin-bottom:10px">Talla de short <span>Opcional — si difiere de la camiseta</span></div>
+      <div class="field-lbl" style="margin-bottom:10px">Talla de short</div>
       <div class="size-row">
-        <div class="sz-chip" id="szs-same" onclick="selTallaShort('same')" style="min-width:64px;font-size:.72rem">= Camis.</div>
         <div class="sz-chip sel" id="szs-S"    onclick="selTallaShort('S')">S</div>
         <div class="sz-chip" id="szs-M"    onclick="selTallaShort('M')">M</div>
         <div class="sz-chip" id="szs-L"    onclick="selTallaShort('L')">L</div>
@@ -780,7 +784,7 @@ html,body{
 /* ─── ESTADO GLOBAL ─── */
 const S = {
   participantId: null,
-  prod: null, rol: null, cut: null,
+  prod: null, rol: null, cut: 'var',
   nomReal: '', nombre: '', numero: null, talla: null, tallaShort: 'same',
   cuello: 'redondo',
   mangaLarga: false, escudo: false, excepcion: false,
@@ -960,9 +964,14 @@ function selTallaShort(t) {
   S.tallaShort = t;
 }
 function selCollar(c) {
-  document.querySelectorAll('.collar-chip').forEach(el => el.classList.remove('sel'));
+  document.querySelectorAll('#col-redondo, #col-v').forEach(el => el.classList.remove('sel'));
   document.getElementById('col-' + c)?.classList.add('sel');
   S.cuello = c;
+}
+function selCorte(c) {
+  document.querySelectorAll('.cut-chip').forEach(el => el.classList.remove('sel'));
+  document.getElementById('cut-' + c)?.classList.add('sel');
+  S.cut = c;
 }
 function updateCta3() {
   const ok = S.nombre && S.numero && S.talla;
@@ -971,7 +980,7 @@ function updateCta3() {
 
 
 /* ─── SCREEN 5 — TICKET ─── */
-const CUT_LABEL = { var: 'Corte Varón', muj: 'Corte Mujer', nin: 'Corte Niño' };
+const CUT_LABEL = { var: 'Corte Varón', muj: 'Corte Dama' };
 const PROD_LABEL = { conj: 'Conjunto Completo', cam: 'Solo Camiseta' };
 const ROL_LABEL  = { jug: 'Jugador', arq: 'Arquero / Portero' };
 
@@ -982,7 +991,8 @@ function buildTicket() {
   document.getElementById('tk-nomreal').textContent = S.nomReal  || '—';
   document.getElementById('tk-numero').textContent  = S.numero  ? '#' + S.numero : '—';
   document.getElementById('tk-talla').textContent   = S.talla   || '—';
-  document.getElementById('tk-cuello').textContent  = (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo (Normal)';
+  document.getElementById('tk-cuello').textContent  = (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo';
+  document.getElementById('tk-corte').textContent   = CUT_LABEL[S.cut] || 'Corte Varón';
   document.getElementById('tk-prod').textContent    = PROD_LABEL[S.prod] || '—';
   document.getElementById('tk-corte').textContent   = CUT_LABEL[S.cut]   || '—';
   document.getElementById('tk-rol').textContent     = ROL_LABEL[S.rol]   || '—';
