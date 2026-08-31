@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Icon } from "@/components/icons";
 import { useSession } from "@/lib/session";
+import { useTheme, THEMES } from "@/lib/theme";
 import { navFor, canManageOrders } from "@/lib/permissions";
 import { useStoreVersion, getOrders, resetStore } from "@/lib/store";
 import { buildAttentionList } from "@/lib/summary";
@@ -227,6 +228,27 @@ function NotificationsBell() {
   );
 }
 
+function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+  return (
+    <label className="flex items-center gap-1.5 rounded-xl border border-border bg-surface px-2 py-1.5">
+      <span className="sr-only">Cambiar tema</span>
+      <select
+        value={theme}
+        onChange={(e) => setTheme(e.target.value as (typeof THEMES)[number]["id"])}
+        className="cursor-pointer bg-transparent text-sm font-semibold text-ink outline-none"
+        title="Tema de color"
+      >
+        {THEMES.map((t) => (
+          <option key={t.id} value={t.id}>
+            {t.icon} {t.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function Topbar() {
   const { role } = useSession();
   return (
@@ -241,6 +263,7 @@ function Topbar() {
         {role.label}
       </div>
       <div className="ml-auto flex items-center gap-2">
+        <ThemeSwitcher />
         <RoleSwitcher />
         <NotificationsBell />
       </div>

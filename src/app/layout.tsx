@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/lib/session";
+import { ThemeProvider } from "@/lib/theme";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -14,9 +15,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} h-full`}>
+    <html lang="es" data-theme="bn-claro" className={`${inter.variable} h-full`}>
       <body className="min-h-full">
-        <SessionProvider>{children}</SessionProvider>
+        <ThemeProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -181,7 +181,7 @@ export default function CoordinatorView({ orderId }: { orderId: string }) {
         </p>
         <button
           onClick={copyLink}
-          className="mt-2 w-full rounded-2xl bg-ink py-3 text-sm font-bold text-white"
+          className="mt-2 w-full rounded-2xl bg-primary py-3 text-sm font-bold text-white"
         >
           {copied ? "✓ Copiado" : "Copiar enlace de invitación"}
         </button>
@@ -382,7 +382,7 @@ function Stat({
   tone?: string;
 }) {
   const tones: Record<string, string> = {
-    dark: "bg-ink text-white",
+    dark: "bg-primary text-white",
     amber: "bg-warn text-white",
     green: "bg-ok text-white",
   };
@@ -400,7 +400,7 @@ function Stat({
 function CoordinatorShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh bg-canvas">
-      <header className="flex items-center justify-between border-b border-border bg-ink px-5 py-3.5">
+      <header className="flex items-center justify-between border-b border-border bg-primary px-5 py-3.5">
         <p className="text-sm font-extrabold text-white">
           SIPES <span className="font-medium text-white/70">· coordinador</span>
         </p>

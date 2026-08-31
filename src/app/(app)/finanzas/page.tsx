@@ -94,9 +94,9 @@ function costSum(c: CommercialInfo): number {
 
 function Stat({ label, value, tone = "dark" }: { label: string; value: string; tone?: string }) {
   const tones: Record<string, string> = {
-    dark: "bg-ink text-white",
-    green: "bg-ink text-white",
-    amber: "bg-ink-soft text-white",
+    dark: "bg-primary text-white",
+    green: "bg-primary text-white",
+    amber: "bg-primary-600 text-white",
   };
   return (
     <div className={`rounded-2xl px-4 py-4 ${tones[tone]}`}>

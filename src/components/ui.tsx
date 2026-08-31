@@ -35,7 +35,7 @@ export function Badge({ children, tone = "gray" }: { children: ReactNode; tone?:
     amber: "bg-warn-bg text-warn",
     red: "bg-error-bg text-error",
     blue: "bg-info-bg text-info",
-    dark: "bg-ink text-white",
+    dark: "bg-primary text-white",
   };  return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${tones[tone] ?? tones.gray}`}
@@ -75,7 +75,7 @@ export function Btn({
   const variants: Record<string, string> = {
     primary:
       "bg-primary text-white hover:bg-primary-600 shadow-sm disabled:opacity-50",
-    dark: "bg-ink text-white hover:bg-black disabled:opacity-50",
+    dark: "bg-primary text-white hover:bg-primary-600 disabled:opacity-50",
     ghost:
       "bg-surface border border-border text-ink hover:bg-canvas disabled:opacity-50",
     danger: "bg-white border border-error text-error hover:bg-error-bg disabled:opacity-50",

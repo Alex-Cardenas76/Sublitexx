@@ -45,7 +45,7 @@ export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-6xl">
       {/* Hero */}
-      <div className="relative mb-8 overflow-hidden rounded-3xl bg-ink px-6 py-8 text-white sm:px-8">
+      <div className="relative mb-8 overflow-hidden rounded-3xl bg-primary px-6 py-8 text-white sm:px-8">
         <div className="pointer-events-none absolute -right-10 -top-16 h-64 w-64 rounded-full bg-white/[0.06] blur-2xl" />
         <div className="pointer-events-none absolute -left-8 bottom-0 h-40 w-40 rounded-full bg-white/[0.05] blur-2xl" />
         <div className="relative flex flex-wrap items-end justify-between gap-4">
@@ -113,7 +113,7 @@ export default function DashboardPage() {
                     >
                       <span
                         className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[11px] font-bold text-white ${
-                          n.level === "error" ? "bg-ink" : "bg-ink-soft"
+                          n.level === "error" ? "bg-primary" : "bg-primary-600"
                         }`}
                       >
                         !

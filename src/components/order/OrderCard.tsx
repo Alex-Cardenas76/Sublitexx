@@ -21,11 +21,11 @@ export default function OrderCard({ order }: { order: Order }) {
       className="group relative block overflow-hidden rounded-2xl border border-border bg-surface p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/20 hover:shadow-[0_12px_32px_-16px_rgba(0,0,0,0.25)]"
     >
       {/* top accent line on hover */}
-      <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-ink transition-transform duration-300 group-hover:scale-x-100" />
+      <span className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100" />
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-ink text-white">
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-white">
             <Icon.package className="h-5 w-5" />
           </span>
           <div>
@@ -46,7 +46,7 @@ export default function OrderCard({ order }: { order: Order }) {
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-gray-100">
           <div
-            className="h-full rounded-full bg-ink transition-all duration-500"
+            className="h-full rounded-full bg-primary transition-all duration-500"
             style={{ width: `${pct}%` }}
           />
         </div>
