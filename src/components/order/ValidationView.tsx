@@ -75,7 +75,6 @@ export default function ValidationView({
               <Btn
                 key={t.to}
                 onClick={() => advance(t.to)}
-                disabled={critical && role !== "administrador" && ["lista_validacion", "diseno_tecnico", "listo_produccion"].includes(order.status)}
                 className="w-full"
               >
                 {t.label} <Icon.chevronRight className="h-4 w-4" />

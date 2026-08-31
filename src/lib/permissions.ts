@@ -44,7 +44,7 @@ export function navFor(role: RoleId): NavItem[] {
     case "administrador":
     default:
       return [
-        ...pick("inicio", "pedidos", "participantes", "diseno", "produccion", "finanzas", "proveedores", "reportes"),
+        ...pick("inicio", "pedidos", "diseno", "produccion", "finanzas", "proveedores", "reportes"),
         { ...ITEMS.configuracion, section: "secondary" },
         { ...ITEMS.perfil, section: "secondary" },
       ];
@@ -60,11 +60,7 @@ export function canSeeCostBreakdown(role: RoleId): boolean {
 }
 
 export function canSeeCommercial(role: RoleId): boolean {
-  return (
-    role === "administrador" ||
-    role === "vendedora" ||
-    role === "coordinador_operativo"
-  );
+  return role === "administrador" || role === "vendedora";
 }
 
 export function canManageOrders(role: RoleId): boolean {
@@ -92,6 +88,14 @@ export function canManageParticipants(role: RoleId): boolean {
 }
 
 export function canSeeFinanceModule(role: RoleId): boolean {
+  return role === "administrador" || role === "vendedora";
+}
+
+export function canSeeSipesInternal(role: RoleId): boolean {
+  return role !== "coordinador_cliente";
+}
+
+export function canSeeParticipantPayment(role: RoleId): boolean {
   return role === "administrador" || role === "vendedora";
 }
 

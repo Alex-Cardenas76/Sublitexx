@@ -13,11 +13,13 @@ export default function ParticipantsView({
   status,
   canEdit,
   fullName,
+  showPayment = true,
 }: {
   order: Order;
   status: OrderStatus;
   canEdit: boolean;
   fullName: string;
+  showPayment?: boolean;
 }) {
   const participants = getParticipants(order.id);
   const editable = canEdit && canEditParticipants(status);
@@ -100,14 +102,14 @@ export default function ParticipantsView({
               <th className="px-4 py-3 font-semibold">Talla</th>
               <th className="px-4 py-3 font-semibold">Producto</th>
               <th className="px-4 py-3 font-semibold">Estado</th>
-              <th className="px-4 py-3 font-semibold">Pago</th>
+              {showPayment && <th className="px-4 py-3 font-semibold">Pago</th>}
               {editable && <th className="px-4 py-3 font-semibold" />}
             </tr>
           </thead>
           <tbody>
             {participants.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-4 py-8 text-center text-sm text-ink-mute">
+                <td colSpan={showPayment ? 8 : 7} className="px-4 py-8 text-center text-sm text-ink-mute">
                   Aún no hay participantes invitados.
                 </td>
               </tr>
@@ -124,6 +126,7 @@ export default function ParticipantsView({
                 onCancel={() => setEditing(null)}
                 onSave={() => save(p)}
                 desktop
+                showPayment={showPayment}
               />
             ))}
           </tbody>
@@ -142,6 +145,7 @@ export default function ParticipantsView({
             onEdit={() => startEdit(p)}
             onCancel={() => setEditing(null)}
             onSave={() => save(p)}
+            showPayment={showPayment}
           />
         ))}
       </div>
@@ -159,6 +163,7 @@ function ParticipantRows({
   onCancel,
   onSave,
   desktop = false,
+  showPayment = true,
 }: {
   p: Participant;
   editable: boolean;
@@ -169,6 +174,7 @@ function ParticipantRows({
   onCancel: () => void;
   onSave: () => void;
   desktop?: boolean;
+  showPayment?: boolean;
 }) {
   const complete = p.registrationStatus === "completo";
   const paid = p.payment?.estado === "pagado";
@@ -191,9 +197,11 @@ function ParticipantRows({
         <td className="px-4 py-3">
           <Badge tone={complete ? "green" : "amber"}>{complete ? "Completo" : "Pendiente"}</Badge>
         </td>
-        <td className="px-4 py-3">
-          <Badge tone={paid ? "green" : "gray"}>{paid ? "Pagado" : "Pendiente"}</Badge>
-        </td>
+        {showPayment && (
+          <td className="px-4 py-3">
+            <Badge tone={paid ? "green" : "gray"}>{paid ? "Pagado" : "Pendiente"}</Badge>
+          </td>
+        )}
         {editable && (
           <td className="px-4 py-3 text-right">
             <button onClick={onEdit} className="cursor-pointer text-xs font-semibold text-primary hover:text-primary-600">
@@ -219,7 +227,7 @@ function ParticipantRows({
       <div className="mt-2.5 flex flex-wrap items-center gap-2 text-xs">
         <Segment label="N°" value={p.number === null ? "—" : String(p.number)} />
         <Segment label="Talla" value={p.size ?? "—"} />
-        <Segment label="Pago" value={paid ? "Pagado" : "Pendiente"} />
+        {showPayment && <Segment label="Pago" value={paid ? "Pagado" : "Pendiente"} />}
       </div>
       {editable && (
         <button onClick={onEdit} className="mt-3 cursor-pointer text-xs font-semibold text-primary hover:text-primary-600">

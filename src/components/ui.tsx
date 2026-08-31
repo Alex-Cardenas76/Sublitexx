@@ -16,11 +16,11 @@ export function Card({
   subtitle?: string;
 }) {
   return (
-    <section className={`rounded-2xl border border-border bg-surface ${className}`}>
+    <section className={`rounded-2xl border border-border bg-surface shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.12)] ${className}`}>
       {title && (
-        <header className="px-5 pt-4 pb-2">
-          <h3 className="text-sm font-semibold text-ink">{title}</h3>
-          {subtitle && <p className="text-xs text-ink-mute">{subtitle}</p>}
+        <header className="border-b border-border/70 px-5 pt-4 pb-3">
+          <h3 className="text-sm font-semibold tracking-tight text-ink">{title}</h3>
+          {subtitle && <p className="mt-0.5 text-xs text-ink-mute">{subtitle}</p>}
         </header>
       )}
       {children}
@@ -36,8 +36,7 @@ export function Badge({ children, tone = "gray" }: { children: ReactNode; tone?:
     red: "bg-error-bg text-error",
     blue: "bg-info-bg text-info",
     dark: "bg-ink text-white",
-  };
-  return (
+  };  return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${tones[tone] ?? tones.gray}`}
     >
@@ -105,13 +104,15 @@ export function PageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+    <div className="mb-7 flex flex-wrap items-end justify-between gap-3">
       <div>
         {eyebrow && (
-          <p className="text-xs font-bold uppercase tracking-widest text-ink-mute">{eyebrow}</p>
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.2em] text-ink-mute">
+            {eyebrow}
+          </p>
         )}
-        <h1 className="text-2xl font-bold text-ink">{title}</h1>
-        {description && <p className="mt-0.5 text-sm text-ink-soft">{description}</p>}
+        <h1 className="text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
+        {description && <p className="mt-1 text-sm text-ink-soft">{description}</p>}
       </div>
       {actions && <div className="flex items-center gap-2">{actions}</div>}
     </div>

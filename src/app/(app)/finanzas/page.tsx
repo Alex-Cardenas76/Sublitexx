@@ -95,13 +95,13 @@ function costSum(c: CommercialInfo): number {
 function Stat({ label, value, tone = "dark" }: { label: string; value: string; tone?: string }) {
   const tones: Record<string, string> = {
     dark: "bg-ink text-white",
-    green: "bg-ok text-white",
-    amber: "bg-warn text-white",
+    green: "bg-ink text-white",
+    amber: "bg-ink-soft text-white",
   };
   return (
-    <div className={`rounded-2xl px-4 py-3 ${tones[tone]}`}>
-      <p className="text-lg font-extrabold sm:text-xl">{value}</p>
-      <p className="text-[10px] font-semibold opacity-80">{label}</p>
+    <div className={`rounded-2xl px-4 py-4 ${tones[tone]}`}>
+      <p className="text-xl font-extrabold tabular-nums sm:text-2xl">{value}</p>
+      <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] opacity-70">{label}</p>
     </div>
   );
 }

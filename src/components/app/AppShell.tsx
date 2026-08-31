@@ -8,7 +8,7 @@ import { useSession } from "@/lib/session";
 import { navFor, canManageOrders } from "@/lib/permissions";
 import { useStoreVersion, getOrders, resetStore } from "@/lib/store";
 import { buildAttentionList } from "@/lib/summary";
-import { canSeeOrder } from "@/lib/permissions";
+import { canSeeOrder, canSeeSipesInternal } from "@/lib/permissions";
 import { ROLES } from "@/lib/session";
 
 const SIDEBAR_ICONS: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -27,20 +27,20 @@ const SIDEBAR_ICONS: Record<string, React.ComponentType<React.SVGProps<SVGSVGEle
 
 export function Brand({ light = false }: { light?: boolean }) {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-center gap-3">
       <span
-        className={`flex h-9 w-9 items-center justify-center rounded-xl font-extrabold ${
-          light ? "bg-white/15 text-white" : "bg-primary text-white"
+        className={`flex h-10 w-10 items-center justify-center rounded-xl font-extrabold tracking-tight ${
+          light ? "bg-white text-black" : "bg-primary text-white"
         }`}
       >
         S
       </span>
       <div className="leading-tight">
-        <p className={`text-sm font-extrabold tracking-wide ${light ? "text-white" : "text-ink"}`}>
+        <p className={`text-sm font-extrabold tracking-[0.18em] ${light ? "text-white" : "text-ink"}`}>
           SIPES
         </p>
-        <p className={`text-[10px] ${light ? "text-white/60" : "text-ink-mute"}`}>
-          Pedidos de ropa deportiva
+        <p className={`text-[10px] tracking-wide ${light ? "text-white/50" : "text-ink-mute"}`}>
+          Pedidos deportivos b/n
         </p>
       </div>
     </div>
@@ -68,11 +68,13 @@ function NavLink({
     <Link
       href={href}
       onClick={onNavigate}
-      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-        active ? "bg-white/10 text-white" : "text-white/80 hover:bg-white/10 hover:text-white"
+      className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+        active
+          ? "bg-white/10 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+          : "text-white/70 hover:bg-white/[0.06] hover:text-white"
       }`}
     >
-      <IconC className="h-[18px] w-[18px]" />
+      <IconC className={`h-[18px] w-[18px] ${active ? "" : "text-white/50 group-hover:text-white/80"}`} />
       {label}
     </Link>
   );
@@ -85,36 +87,37 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const canReset = canManageOrders(role.id);
 
   return (
-    <div className="flex h-full flex-col bg-primary">
-      <div className="px-5 pt-5 pb-4">
+    <div className="relative flex h-full flex-col bg-primary">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white/[0.07] to-transparent" />
+      <div className="relative px-5 pt-6 pb-4">
         <Brand light />
       </div>
-      <nav className="flex-1 overflow-y-auto px-3 py-2">
-        <div className="mb-2 px-3 pt-2 text-[10px] font-bold uppercase tracking-widest text-white/40">
+      <nav className="relative flex-1 overflow-y-auto px-3 py-2">
+        <div className="mb-2 px-3 pt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/35">
           Menú
         </div>
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {main.map((i) => (
-            <NavLink key={i.href} href={i.href} label={i.label} onNavigate={onNavigate} />
+            <NavLink key={`${i.href}-${i.label}`} href={i.href} label={i.label} onNavigate={onNavigate} />
           ))}
         </div>
-        <div className="mb-2 mt-5 px-3 pt-2 text-[10px] font-bold uppercase tracking-widest text-white/40">
+        <div className="mb-2 mt-6 px-3 pt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/35">
           Cuenta
         </div>
-        <div className="space-y-0.5">
+        <div className="space-y-1">
           {secondary.map((i) => (
-            <NavLink key={i.href} href={i.href} label={i.label} onNavigate={onNavigate} />
+            <NavLink key={`${i.href}-${i.label}`} href={i.href} label={i.label} onNavigate={onNavigate} />
           ))}
         </div>
       </nav>
-      <div className="border-t border-white/10 px-4 py-4">
+      <div className="relative border-t border-white/10 bg-black/40 px-4 py-4">
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xs font-bold text-black ring-1 ring-white/30">
             {role.short}
           </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-white">{role.user}</p>
-            <p className="text-xs text-white/60">{role.label}</p>
+            <p className="text-xs text-white/50">{role.label}</p>
           </div>
         </div>
         {canReset && (
@@ -282,25 +285,41 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
         <div className="px-4 pt-4 sm:px-6 lg:px-8 lg:pt-6">
           {role.id === "coordinador_operativo" || role.id === "administrador" ? (
-            <div className="mb-5 flex flex-wrap items-center gap-2">
+            <div className="mb-5 inline-flex flex-wrap items-center gap-px overflow-hidden rounded-xl border border-border bg-surface">
               <Link
                 href={`/pedido/842/jugador/demo-token`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-ink-soft transition-colors hover:border-primary hover:text-primary"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-ink-soft transition-colors hover:bg-canvas hover:text-ink"
               >
                 <Icon.shirt className="h-3.5 w-3.5" />
-                Probar formulario del participante
+                Formulario del participante
               </Link>
+              <span className="h-4 w-px bg-border" />
               <Link
                 href={`/coordinador/842`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface px-3 py-1.5 text-xs font-semibold text-ink-soft transition-colors hover:border-primary hover:text-primary"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-ink-soft transition-colors hover:bg-canvas hover:text-ink"
               >
                 <Icon.users className="h-3.5 w-3.5" />
-                Vista del coordinador del cliente
+                Coordinador del cliente
               </Link>
-              <span className="text-xs text-ink-mute">· Data de prueba (demo)</span>
+              <span className="hidden items-center gap-1.5 px-3.5 text-[11px] text-ink-mute sm:inline-flex">
+                · Data de prueba
+              </span>
             </div>
           ) : null}
-          <main className="px-0 pb-16">{children}</main>
+
+          {!canSeeSipesInternal(role.id) ? (
+            <main className="px-0 pb-16">
+              <div className="mx-auto max-w-md rounded-3xl border border-border bg-surface p-8 text-center">
+                <h1 className="text-lg font-extrabold text-ink">Acceso restringido</h1>
+                <p className="mt-2 text-sm text-ink-soft">
+                  El Coordinador del Cliente solo accede a su enlace de coordinación y no a la
+                  información interna de SIPES. Usa el enlace de coordinación correspondiente.
+                </p>
+              </div>
+            </main>
+          ) : (
+            <main className="px-0 pb-16">{children}</main>
+          )}
           <footer className="pb-8 text-center text-xs text-ink-mute">
             SIPES · Sistema de Gestión Operativa de Pedidos Sublitex · MVP frontend con datos de
             demostración

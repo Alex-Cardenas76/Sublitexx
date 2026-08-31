@@ -41,8 +41,7 @@ export default function CoordinatorView({ orderId }: { orderId: string }) {
 
   const doneList = participants.filter((p) => p.registrationStatus === "completo");
   const pendingList = participants.filter((p) => p.registrationStatus !== "completo");
-  const issues = validateOrder(order, participants).filter((i) => i.level !== "info");
-  const link = "/pedido/" + order.id + "/jugador/demo-token";
+  const issues = validateOrder(order, participants).filter((i) => i.level !== "info");  const link = "/pedido/" + order.id + "/jugador/demo-token";
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
 
   function copyLink() {

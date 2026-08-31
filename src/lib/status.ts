@@ -31,12 +31,12 @@ export function statusTone(s: OrderStatus): {
 } {
   const i = statusIndex(s);
   if (i < 2) return { dot: "bg-ink-mute", badge: "text-ink-soft bg-gray-100", chip: "border-gray-200" };
-  if (i < 5) return { dot: "bg-info", badge: "text-info bg-info-bg", chip: "border-blue-100" };
-  if (i < 7) return { dot: "bg-ok", badge: "text-ok bg-ok-bg", chip: "border-emerald-100" };
-  if (i < 9) return { dot: "bg-warn", badge: "text-warn bg-warn-bg", chip: "border-amber-100" };
-  if (i < 12) return { dot: "bg-primary-500", badge: "text-primary-600 bg-primary-100", chip: "border-emerald-100" };
-  if (i < 14) return { dot: "bg-ink", badge: "text-ink bg-gray-100", chip: "border-gray-300" };
-  return { dot: "bg-ink", badge: "text-ink bg-gray-100", chip: "border-gray-300" };
+  if (i < 5) return { dot: "bg-ink", badge: "text-ink bg-canvas", chip: "border-gray-300" };
+  if (i < 7) return { dot: "bg-ink", badge: "text-ink bg-canvas", chip: "border-gray-300" };
+  if (i < 9) return { dot: "bg-ink-soft", badge: "text-ink-soft bg-canvas", chip: "border-gray-300" };
+  if (i < 12) return { dot: "bg-ink", badge: "text-ink bg-white border border-gray-300", chip: "border-gray-300" };
+  if (i < 14) return { dot: "bg-ink", badge: "text-ink bg-gray-200", chip: "border-gray-300" };
+  return { dot: "bg-ink", badge: "text-ink bg-gray-200", chip: "border-gray-300" };
 }
 
 interface Transition {
@@ -74,13 +74,7 @@ export function allowedTransitions(
     role === "administrador" || role === "coordinador_operativo";
   if (!editable) return [];
 
-  if (
-    hasCritical &&
-    (status === "lista_validacion" ||
-      status === "diseno_tecnico" ||
-      status === "listo_produccion") &&
-    role !== "administrador"
-  ) {
+  if (hasCritical && role !== "administrador") {
     return [];
   }
 

@@ -25,6 +25,7 @@ import {
   canSeeCommercial,
   canSeeMargin,
   canSeeCostBreakdown,
+  canSeeParticipantPayment,
   canManageOrders,
   canManageParticipants,
   canApproveDesign,
@@ -223,6 +224,7 @@ export default function OrderSection({
                 status={status}
                 canEdit={canManageParticipants(role.id)}
                 fullName={role.user}
+                showPayment={canSeeParticipantPayment(role.id)}
               />
             </div>
           )}
