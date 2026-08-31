@@ -7,7 +7,52 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
     <style>
-        .design-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .design-grid {
+            display: flex;
+            flex-direction: row-reverse; /* formulario (fabricación+notas) a la izquierda, mockups a la derecha */
+            gap: 1.5rem;
+            align-items: start;
+        }
+        .design-grid .col {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+        /* ===== Sticky layout: sidebar + topbar fijos, solo scrollea el contenido ===== */
+        .app-container {
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .main-content {
+            height: 100vh;
+            overflow-y: auto;
+        }
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .topbar h1 {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        .topbar .text-muted {
+            font-size: 0.7rem;
+            margin: 0;
+        }
+        .content-wrapper {
+            padding: 1rem 1.5rem 2rem;
+        }
+        .status-banner {
+            margin-top: 0.25rem;
+        }
         .image-preview-container {
             width: 100%;
             min-height: 300px;
@@ -54,8 +99,74 @@
             align-items: center;
             gap: 1rem;
         }
+        .mockup-slot {
+            border: 2px dashed #CBD5E1;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #F8FAFC;
+            position: relative;
+        }
+        .mockup-slot:hover {
+            border-color: #4F46E5;
+            background: #EEF2FF;
+        }
+        .mockup-slot.has-image {
+            padding: 0;
+            border-style: solid;
+            border-color: #10B981;
+        }
+        .mockup-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+        .mockup-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            min-height: 140px;
+        }
+        .mockup-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 0.375rem;
+        }
+        .mockup-remove {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #EF4444;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
         @media (max-width: 768px) {
-            .design-grid { grid-template-columns: 1fr; }
+            .design-grid { flex-direction: column; }
+            .design-grid .col { flex: 1 1 auto; }
         }
     </style>
 </head>
@@ -89,32 +200,77 @@
 
             <div class="content-wrapper">
                 
-                <div class="status-banner" id="statusBanner" style="background: #FEF3C7; color: #92400E; border: 1px solid #F59E0B;">
-                    <i class="fa-solid fa-clock" style="font-size: 1.5rem;"></i>
+                <div class="status-banner" id="statusBanner" style="background: #FEF3C7; color: #92400E; border: 1px solid #F59E0B; padding: 0.5rem 0.75rem; gap: 0.75rem; margin-bottom: 1rem;">
+                    <i class="fa-solid fa-clock" style="font-size: 1rem;"></i>
                     <div>
-                        <span style="display:block; font-size: 0.875rem; text-transform: uppercase;">Estado del Diseño</span>
-                        <span style="font-size: 1.125rem;" id="estadoTexto">En Revisión (Pendiente de Aprobación)</span>
+                        <span style="display:block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em;">Estado del Diseño</span>
+                        <span style="font-size: 0.875rem; font-weight: 600;" id="estadoTexto">En Revisión (Pendiente de Aprobación)</span>
                     </div>
-                    <button class="btn btn-primary" id="btnAprobar" style="margin-left: auto;">Aprobar Diseño</button>
+                    <button class="btn btn-sm btn-primary" id="btnAprobar" style="margin-left: auto;">Aprobar Diseño</button>
                 </div>
 
                 <div class="design-grid">
                     
-                    <!-- Lado Izquierdo: Visual -->
+                    <!-- Columna Visual (se muestra a la derecha por row-reverse): Mockups, Colores, Opcionales -->
                     <div class="col">
+                        <!-- Mockups del Diseño Principal (jugadores) -->
                         <section class="card mb-4">
                             <div class="card-header">
-                                <h2><i class="fa-solid fa-image"></i> Mockup Principal (Aprobado por el cliente)</h2>
+                                <h2><i class="fa-solid fa-images"></i> Mockups - Diseño Principal</h2>
+                                <span class="subtitle" style="margin-left:auto; font-size:0.75rem;">Para jugadores</span>
                             </div>
                             <div class="card-body">
-                                <div class="image-preview-container" id="previewContainer">
-                                    <i class="fa-solid fa-cloud-arrow-up" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                                    <p>Ningún diseño subido todavía.</p>
-                                    <div class="upload-btn-wrapper">
-                                      <button class="btn btn-outline">Subir Mockup (JPG/PNG)</button>
-                                      <input type="file" id="fileUpload" accept="image/*" />
+                                <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1rem;">
+                                    Diseño que ven los jugadores (no arqueros). Mínimo: Delantera y Espalda.
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="mockup-slot" id="mockupSlotPrinDelantera">
+                                        <div class="mockup-label">Delantera <span style="color:#EF4444;">*</span></div>
+                                        <div class="mockup-preview" id="mockupPreviewPrinDelantera">
+                                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 0.5rem; color: #94A3B8;"></i>
+                                            <span style="font-size: 0.75rem; color: #94A3B8;">Subir imagen</span>
+                                        </div>
+                                        <input type="file" class="mockup-input" id="mockupInputPrinDelantera" accept="image/*" style="display:none;">
                                     </div>
-                                    <img id="imagePreview" src="" alt="Vista previa del diseño">
+                                    <div class="mockup-slot" id="mockupSlotPrinEspalda">
+                                        <div class="mockup-label">Espalda <span style="color:#EF4444;">*</span></div>
+                                        <div class="mockup-preview" id="mockupPreviewPrinEspalda">
+                                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 0.5rem; color: #94A3B8;"></i>
+                                            <span style="font-size: 0.75rem; color: #94A3B8;">Subir imagen</span>
+                                        </div>
+                                        <input type="file" class="mockup-input" id="mockupInputPrinEspalda" accept="image/*" style="display:none;">
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Mockups del Diseño de Arquero -->
+                        <section class="card mb-4">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-images"></i> Mockups - Diseño de Arquero</h2>
+                                <span class="subtitle" style="margin-left:auto; font-size:0.75rem;">Para el arquero</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1rem;">
+                                    Diseño distinto para el arquero (ej: color diferente, manga larga).
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                    <div class="mockup-slot" id="mockupSlotArqDelantera">
+                                        <div class="mockup-label">Delantera</div>
+                                        <div class="mockup-preview" id="mockupPreviewArqDelantera">
+                                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 0.5rem; color: #94A3B8;"></i>
+                                            <span style="font-size: 0.75rem; color: #94A3B8;">Subir imagen</span>
+                                        </div>
+                                        <input type="file" class="mockup-input" id="mockupInputArqDelantera" accept="image/*" style="display:none;">
+                                    </div>
+                                    <div class="mockup-slot" id="mockupSlotArqEspalda">
+                                        <div class="mockup-label">Espalda</div>
+                                        <div class="mockup-preview" id="mockupPreviewArqEspalda">
+                                            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 0.5rem; color: #94A3B8;"></i>
+                                            <span style="font-size: 0.75rem; color: #94A3B8;">Subir imagen</span>
+                                        </div>
+                                        <input type="file" class="mockup-input" id="mockupInputArqEspalda" accept="image/*" style="display:none;">
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -132,15 +288,41 @@
                                     <label>Color Secundario</label>
                                     <input type="color" id="colorSecundario" value="#FBBF24" style="width: 100%; height: 40px; cursor: pointer; border:none; padding:0;">
                                 </div>
-                                <div class="form-group" style="width:100%;">
-                                    <label>Logos y Auspiciadores</label>
-                                    <textarea id="auspiciadores" rows="2" placeholder="Ej. Escudo del equipo en el pecho izquierdo, Logo Pilsen en la espalda...">Escudo del equipo en el pecho izquierdo. Logo 'Bembos' en la espalda (grande).</textarea>
+                            </div>
+                        </section>
+
+                        <!-- Productos Opcionales -->
+                        <section class="card">
+                            <div class="card-header">
+                                <h2><i class="fa-solid fa-list-check"></i> Productos Opcionales</h2>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted" style="font-size: 0.875rem; margin-bottom: 1rem;">
+                                    Marca los componentes adicionales que incluye este pedido.
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; cursor: pointer;">
+                                        <input type="checkbox" id="optBanderola" style="width: 18px; height: 18px;"> Banderola
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; cursor: pointer;">
+                                        <input type="checkbox" id="optBandaCapitan" style="width: 18px; height: 18px;"> Banda de Capitán
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; cursor: pointer;">
+                                        <input type="checkbox" id="optEscudo" style="width: 18px; height: 18px;"> Escudo / Insignia
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; cursor: pointer;">
+                                        <input type="checkbox" id="optMedias" style="width: 18px; height: 18px;"> Medias
+                                    </label>
+                                </div>
+                                <div class="form-group" style="margin-top: 1rem;">
+                                    <label>Personalización Especial</label>
+                                    <textarea id="optPersonalizacion" rows="2" placeholder="Ej: Nombres de hijos en las mangas, nombre de esposa en cuello..."></textarea>
                                 </div>
                             </div>
                         </section>
                     </div>
 
-                    <!-- Lado Derecho: Configuración de Prendas -->
+                    <!-- Columna de Formulario (se muestra a la izquierda por row-reverse): Fabricación, Notas -->
                     <div class="col">
                         <section class="card mb-4">
                             <div class="card-header">
@@ -153,6 +335,23 @@
                                         <option value="winfresh">Win Fresh (Deportiva)</option>
                                         <option value="microfibra">Microfibra</option>
                                         <option value="algodon">Algodón Pima</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo de Corte</label>
+                                    <select id="tipoCorte">
+                                        <option value="estandar_varon">Estándar Varón</option>
+                                        <option value="estandar_mujer">Estándar Mujer</option>
+                                        <option value="infantil">Infantil</option>
+                                        <option value="unisex">Unisex</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tipo de Manga</label>
+                                    <select id="tipoManga">
+                                        <option value="corta">Manga Corta</option>
+                                        <option value="larga">Manga Larga</option>
+                                        <option value="tres_cuartos">Manga 3/4</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -179,7 +378,10 @@
                                 <div class="form-group">
                                     <textarea id="notasDiseno" rows="5" placeholder="Observaciones técnicas para el taller de costura e impresión..."></textarea>
                                 </div>
-                                <button class="btn btn-primary btn-full" id="btnGuardarDiseno" onclick="alert('Configuración guardada. Esta información acompañará al pedido a producción.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                                <div style="display: flex; gap: 0.75rem;">
+                                    <button class="btn btn-primary btn-full" id="btnGuardarDiseno"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                                    <button class="btn btn-outline btn-full" id="btnGuardarVolver"><i class="fa-solid fa-arrow-left"></i> Guardar y Volver</button>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -190,33 +392,205 @@
     </div>
 
     <script>
-        // Lógica súper rápida para el mockup de diseño
-        const fileUpload = document.getElementById('fileUpload');
-        const imagePreview = document.getElementById('imagePreview');
-        const previewContainer = document.getElementById('previewContainer');
-        const btnAprobar = document.getElementById('btnAprobar');
-        const statusBanner = document.getElementById('statusBanner');
-        const estadoTexto = document.getElementById('estadoTexto');
-
-        fileUpload.addEventListener('change', function() {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- orderConfig structure ---
+            let orderConfig = {
+                tela: 'winfresh',
+                corte: 'estandar_varon',
+                cuello: 'redondo',
+                manga: 'corta',
+                colorPrincipal: '#1E3A8A',
+                colorSecundario: '#FBBF24',
+                confArquero: '',
+                notasTecnicas: '',
+                opciones: {
+                    banderola: false,
+                    bandaCapitan: false,
+                    escudo: false,
+                    medias: false,
+                    personalizacionEspecial: ''
+                },
+                mockups: {
+                    principal: {
+                        delantera: null,
+                        espalda: null
+                    },
+                    arquero: {
+                        delantera: null,
+                        espalda: null
+                    }
                 }
-                reader.readAsDataURL(file);
-            }
-        });
+            };
 
-        btnAprobar.addEventListener('click', () => {
-            statusBanner.style.background = '#D1FAE5';
-            statusBanner.style.color = '#065F46';
-            statusBanner.style.borderColor = '#10B981';
-            estadoTexto.textContent = 'Aprobado y Bloqueado';
-            btnAprobar.style.display = 'none';
-            alert("Diseño aprobado. Ahora los jugadores pueden ver la imagen en su formulario de registro.");
+            // --- DOM references ---
+            const STORAGE_KEY = 'sipes_order_config';
+            const tipoTela = document.getElementById('tipoTela');
+            const tipoCorte = document.getElementById('tipoCorte');
+            const tipoManga = document.getElementById('tipoManga');
+            const tipoCuello = document.getElementById('tipoCuello');
+            const confArquero = document.getElementById('confArquero');
+            const colorPrincipal = document.getElementById('colorPrincipal');
+            const colorSecundario = document.getElementById('colorSecundario');
+            const notasDiseno = document.getElementById('notasDiseno');
+            const optBanderola = document.getElementById('optBanderola');
+            const optBandaCapitan = document.getElementById('optBandaCapitan');
+            const optEscudo = document.getElementById('optEscudo');
+            const optMedias = document.getElementById('optMedias');
+            const optPersonalizacion = document.getElementById('optPersonalizacion');
+            const btnAprobar = document.getElementById('btnAprobar');
+            const btnGuardarDiseno = document.getElementById('btnGuardarDiseno');
+            const btnGuardarVolver = document.getElementById('btnGuardarVolver');
+            const statusBanner = document.getElementById('statusBanner');
+            const estadoTexto = document.getElementById('estadoTexto');
+
+            // --- Load from localStorage ---
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    orderConfig = Object.assign(orderConfig, parsed);
+                    if (parsed.opciones) orderConfig.opciones = Object.assign(orderConfig.opciones, parsed.opciones);
+                    if (parsed.mockups) orderConfig.mockups = Object.assign(orderConfig.mockups, parsed.mockups);
+                } catch(e) { /* ignore corrupted data */ }
+            }
+
+            // Populate form fields
+            tipoTela.value = orderConfig.tela;
+            tipoCorte.value = orderConfig.corte;
+            tipoManga.value = orderConfig.manga;
+            tipoCuello.value = orderConfig.cuello;
+            confArquero.value = orderConfig.confArquero;
+            colorPrincipal.value = orderConfig.colorPrincipal;
+            colorSecundario.value = orderConfig.colorSecundario;
+            notasDiseno.value = orderConfig.notasTecnicas;
+            optBanderola.checked = orderConfig.opciones.banderola;
+            optBandaCapitan.checked = orderConfig.opciones.bandaCapitan;
+            optEscudo.checked = orderConfig.opciones.escudo;
+            optMedias.checked = orderConfig.opciones.medias;
+            optPersonalizacion.value = orderConfig.opciones.personalizacionEspecial;
+
+            // Populate mockup previews
+            // Key = {group}_{view} -> orderConfig.mockups[group][view]
+            var mockupSlotMap = [
+                { group: 'principal', view: 'delantera' },
+                { group: 'principal', view: 'espalda' },
+                { group: 'arquero', view: 'delantera' },
+                { group: 'arquero', view: 'espalda' }
+            ];
+            mockupSlotMap.forEach(function(item) {
+                var groupData = orderConfig.mockups[item.group] || {};
+                if (groupData[item.view]) {
+                    showMockupPreview(item.group, item.view, groupData[item.view]);
+                }
+            });
+
+            // --- Save to localStorage ---
+            function saveConfig() {
+                orderConfig.tela = tipoTela.value;
+                orderConfig.corte = tipoCorte.value;
+                orderConfig.manga = tipoManga.value;
+                orderConfig.cuello = tipoCuello.value;
+                orderConfig.confArquero = confArquero.value;
+                orderConfig.colorPrincipal = colorPrincipal.value;
+                orderConfig.colorSecundario = colorSecundario.value;
+                orderConfig.notasTecnicas = notasDiseno.value;
+                orderConfig.opciones.banderola = optBanderola.checked;
+                orderConfig.opciones.bandaCapitan = optBandaCapitan.checked;
+                orderConfig.opciones.escudo = optEscudo.checked;
+                orderConfig.opciones.medias = optMedias.checked;
+                orderConfig.opciones.personalizacionEspecial = optPersonalizacion.value;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(orderConfig));
+            }
+
+            // --- Listen for changes on all form elements ---
+            const formElements = [tipoTela, tipoCorte, tipoManga, tipoCuello, confArquero, colorPrincipal, colorSecundario, notasDiseno, optBanderola, optBandaCapitan, optEscudo, optMedias, optPersonalizacion];
+            formElements.forEach(function(el) {
+                el.addEventListener('input', saveConfig);
+                el.addEventListener('change', saveConfig);
+            });
+
+            // --- Mockup upload logic ---
+            // IDs use pattern: mockupSlot{Group}{View}, mockupInput{Group}{View}, mockupPreview{Group}{View}
+            // Where Group: Prin | Arq, View: Delantera | Espalda
+            var mockupDefs = [
+                { group: 'Prin', groupKey: 'principal', label: 'PrinDelantera' },
+                { group: 'Prin', groupKey: 'principal', label: 'PrinEspalda' },
+                { group: 'Arq', groupKey: 'arquero', label: 'ArqDelantera' },
+                { group: 'Arq', groupKey: 'arquero', label: 'ArqEspalda' }
+            ];
+            // Need view key too (delantera/espalda)
+            mockupDefs[0].view = 'delantera';
+            mockupDefs[1].view = 'espalda';
+            mockupDefs[2].view = 'delantera';
+            mockupDefs[3].view = 'espalda';
+
+            mockupDefs.forEach(function(def) {
+                var slotEl = document.getElementById('mockupSlot' + def.label);
+                var inputEl = document.getElementById('mockupInput' + def.label);
+                var previewEl = document.getElementById('mockupPreview' + def.label);
+                var groupObj = orderConfig.mockups[def.groupKey];
+                if (!groupObj) {
+                    orderConfig.mockups[def.groupKey] = { delantera: null, espalda: null };
+                    groupObj = orderConfig.mockups[def.groupKey];
+                }
+
+                slotEl.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('mockup-remove')) return;
+                    inputEl.click();
+                });
+
+                inputEl.addEventListener('change', function() {
+                    var file = this.files[0];
+                    if (!file) return;
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        groupObj[def.view] = e.target.result;
+                        showMockupPreview(def.groupKey, def.view, e.target.result);
+                        saveConfig();
+                    };
+                    reader.readAsDataURL(file);
+                });
+            });
+
+            function showMockupPreview(groupKey, view, dataUrl) {
+                var prefix = (groupKey === 'principal') ? 'Prin' : 'Arq';
+                var viewCap = view.charAt(0).toUpperCase() + view.slice(1);
+                var slotEl = document.getElementById('mockupSlot' + prefix + viewCap);
+                var previewEl = document.getElementById('mockupPreview' + prefix + viewCap);
+
+                slotEl.classList.add('has-image');
+                previewEl.innerHTML = '<img src="' + dataUrl + '" alt="Mockup"><button class="mockup-remove" title="Eliminar imagen">&times;</button>';
+
+                previewEl.querySelector('.mockup-remove').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    orderConfig.mockups[groupKey][view] = null;
+                    saveConfig();
+                    slotEl.classList.remove('has-image');
+                    previewEl.innerHTML = '<i class="fa-solid fa-cloud-arrow-up" style="font-size: 2rem; margin-bottom: 0.5rem; color: #94A3B8;"></i><span style="font-size: 0.75rem; color: #94A3B8;">Subir imagen</span>';
+                });
+            }
+
+            // --- Approve button ---
+            btnAprobar.addEventListener('click', function() {
+                statusBanner.style.background = '#D1FAE5';
+                statusBanner.style.color = '#065F46';
+                statusBanner.style.borderColor = '#10B981';
+                estadoTexto.textContent = 'Aprobado y Bloqueado';
+                btnAprobar.style.display = 'none';
+                alert("Diseño aprobado. Ahora los jugadores pueden ver la imagen en su formulario de registro.");
+            });
+
+            // --- Guardar Cambios ---
+            btnGuardarDiseno.addEventListener('click', function() {
+                saveConfig();
+                alert('Configuración guardada. Esta información acompañará al pedido a producción.');
+            });
+
+            // --- Guardar y Volver ---
+            btnGuardarVolver.addEventListener('click', function() {
+                saveConfig();
+                window.location.href = 'index.html';
+            });
         });
     </script>
 </body>

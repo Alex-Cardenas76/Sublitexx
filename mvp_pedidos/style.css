@@ -674,3 +674,185 @@ input:focus, select:focus {
         position: static;
     }
 }
+
+/* ===== Order Configuration Summary ===== */
+.config-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.config-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.config-item-full {
+    grid-column: 1 / -1;
+}
+
+.config-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94A3B8;
+}
+
+.config-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1E293B;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+}
+
+.color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #E2E8F0;
+    display: inline-block;
+}
+
+.config-opciones {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #F1F5F9;
+}
+
+.option-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.option-chip {
+    display: inline-block;
+    padding: 0.25rem 0.625rem;
+    background: #EEF2FF;
+    color: #4F46E5;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+
+/* ===== Config Link Button ===== */
+.card-header .btn {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* ===== Mockup Grid (for diseno.html) ===== */
+.mockup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.mockup-slot {
+    border: 2px dashed #CBD5E1;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    position: relative;
+}
+
+.mockup-slot:hover {
+    border-color: #4F46E5;
+    background: #EEF2FF;
+}
+
+.mockup-slot.has-image {
+    padding: 0;
+    border-style: solid;
+    border-color: #10B981;
+}
+
+.mockup-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+.mockup-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+}
+
+.mockup-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 0.375rem;
+}
+
+.mockup-remove {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #EF4444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 5;
+}
+
+.mockup-remove:hover {
+    background: #DC2626;
+}
+
+/* ===== Exception Badge ===== */
+.exception-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-size: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FEF3C7;
+    color: #D97706;
+    font-size: 0.625rem;
+    margin-left: 0.25rem;
+    vertical-align: middle;
+}
+
+/* ===== Responsive for config summary ===== */
+@media (max-width: 768px) {
+    .config-summary-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .config-summary-grid {
+        grid-template-columns: 1fr;
+    }
+}

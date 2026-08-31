@@ -5,6 +5,35 @@ let participants = [];
 let editingId = null;
 let expectedPlayers = 25;
 
+// --- Order Configuration (from diseno.html) ---
+let orderConfig = {
+    tela: 'winfresh',
+    corte: 'estandar_varon',
+    cuello: 'redondo',
+    manga: 'corta',
+    colorPrincipal: '#1E3A8A',
+    colorSecundario: '#FBBF24',
+    confArquero: '',
+    notasTecnicas: '',
+    opciones: {
+        banderola: false,
+        bandaCapitan: false,
+        escudo: false,
+        medias: false,
+        personalizacionEspecial: ''
+    },
+    mockups: {
+        principal: {
+            delantera: null,
+            espalda: null
+        },
+        arquero: {
+            delantera: null,
+            espalda: null
+        }
+    }
+};
+
 // Sincronización con LocalStorage
 function loadParticipants() {
     const data = localStorage.getItem('sipes_participants');
@@ -31,6 +60,84 @@ function saveParticipantsToStore() {
     localStorage.setItem('sipes_expected', expectedPlayers.toString());
 }
 
+// --- Order Config Functions ---
+function loadOrderConfig() {
+    const saved = localStorage.getItem('sipes_order_config');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            orderConfig = Object.assign(orderConfig, parsed);
+            if (parsed.opciones) orderConfig.opciones = Object.assign(orderConfig.opciones, parsed.opciones);
+            if (parsed.mockups) {
+                const mockups = parsed.mockups;
+                if (mockups.principal) orderConfig.mockups.principal = Object.assign({ delantera: null, espalda: null }, mockups.principal);
+                if (mockups.arquero) orderConfig.mockups.arquero = Object.assign({ delantera: null, espalda: null }, mockups.arquero);
+            }
+        } catch(e) { /* ignore corrupted data */ }
+    }
+    renderOrderSummary();
+}
+
+function renderOrderSummary() {
+    const container = document.getElementById('configSummaryContainer');
+    if (!container) return;
+
+    const telaLabels = { winfresh: 'Win Fresh', microfibra: 'Microfibra', algodon: 'Algodón Pima' };
+    const corteLabels = { estandar_varon: 'Estándar Varón', estandar_mujer: 'Estándar Mujer', infantil: 'Infantil', unisex: 'Unisex' };
+    const mangaLabels = { corta: 'Manga Corta', larga: 'Manga Larga', tres_cuartos: 'Manga 3/4' };
+    const cuelloLabels = { v: 'Cuello en V', redondo: 'Cuello Redondo', camisero: 'Cuello Camisero', neru: 'Cuello Neru' };
+
+    const opciones = orderConfig.opciones;
+    const activeOpciones = [];
+    if (opciones.banderola) activeOpciones.push('Banderola');
+    if (opciones.bandaCapitan) activeOpciones.push('Banda de Capitán');
+    if (opciones.escudo) activeOpciones.push('Escudo');
+    if (opciones.medias) activeOpciones.push('Medias');
+    if (opciones.personalizacionEspecial) activeOpciones.push(opciones.personalizacionEspecial);
+
+    let html = '';
+    html += '<div class="config-summary-grid">';
+    html += '<div class="config-item"><span class="config-label">Tela</span><span class="config-value">' + (telaLabels[orderConfig.tela] || orderConfig.tela) + '</span></div>';
+    html += '<div class="config-item"><span class="config-label">Corte</span><span class="config-value">' + (corteLabels[orderConfig.corte] || orderConfig.corte) + '</span></div>';
+    html += '<div class="config-item"><span class="config-label">Manga</span><span class="config-value">' + (mangaLabels[orderConfig.manga] || orderConfig.manga) + '</span></div>';
+    html += '<div class="config-item"><span class="config-label">Cuello</span><span class="config-value">' + (cuelloLabels[orderConfig.cuello] || orderConfig.cuello) + '</span></div>';
+    html += '<div class="config-item"><span class="config-label">Color 1</span><span class="config-value"><span class="color-dot" style="background:' + orderConfig.colorPrincipal + ';"></span> ' + orderConfig.colorPrincipal + '</span></div>';
+    html += '<div class="config-item"><span class="config-label">Color 2</span><span class="config-value"><span class="color-dot" style="background:' + orderConfig.colorSecundario + ';"></span> ' + orderConfig.colorSecundario + '</span></div>';
+    if (orderConfig.confArquero) {
+        html += '<div class="config-item config-item-full"><span class="config-label">Arquero</span><span class="config-value">' + orderConfig.confArquero + '</span></div>';
+    }
+    html += '</div>';
+
+    if (activeOpciones.length > 0) {
+        html += '<div class="config-opciones">';
+        html += '<span class="config-label" style="margin-bottom:0.5rem;display:block;">Productos Opcionales</span>';
+        html += '<div class="option-chips">';
+        activeOpciones.forEach(function(opt) {
+            html += '<span class="option-chip">' + opt + '</span>';
+        });
+        html += '</div></div>';
+    }
+
+    // Show mockup count (principal + arquero)
+    var principalMockups = orderConfig.mockups.principal || { delantera: null, espalda: null };
+    var arqueroMockups = orderConfig.mockups.arquero || { delantera: null, espalda: null };
+    var prinCount = Object.keys(principalMockups).filter(function(k) { return principalMockups[k] !== null; }).length;
+    var arqCount = Object.keys(arqueroMockups).filter(function(k) { return arqueroMockups[k] !== null; }).length;
+    var mockupText = (prinCount + ' del diseño principal');
+    if (arqCount > 0) mockupText += ' · ' + arqCount + ' del arquero';
+    html += '<div class="config-item config-item-full" style="margin-top:0.75rem;"><span class="config-label">Mockups</span><span class="config-value">' + mockupText + '</span></div>';
+
+    container.innerHTML = html;
+}
+
+function removeMockup(group, slot) {
+    if (orderConfig.mockups && orderConfig.mockups[group]) {
+        orderConfig.mockups[group][slot] = null;
+        localStorage.setItem('sipes_order_config', JSON.stringify(orderConfig));
+        renderOrderSummary();
+    }
+}
+
 // Referencias DOM
 const tbody = document.getElementById('participantsList');
 const btnAdd = document.getElementById('btnAddParticipant');
@@ -54,6 +161,7 @@ const btnSaveExpected = document.getElementById('btnSaveExpected');
 // Inicialización
 function init() {
     loadParticipants();
+    loadOrderConfig();
     if(expectedPlayersInput) expectedPlayersInput.value = expectedPlayers;
     renderTable();
     updateSummary();
@@ -81,6 +189,9 @@ function renderTable() {
         let jugadorText = p.playerName || '-';
         if(p.isGoalkeeper) {
             jugadorText += '<br><span style="color:#DC2626; font-weight:700; font-size:0.68rem; letter-spacing:0.04em;">ARQUERO</span>';
+        }
+        if(p.exceptions && p.exceptions.trim() !== '') {
+            jugadorText += '<span class="exception-badge" title="' + p.exceptions.replace(/"/g, '&quot;') + '"><i class="fa-solid fa-sliders"></i></span>';
         }
 
 

@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
+    <style>
+        .exception-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FEF3C7;
+            color: #D97706;
+            font-size: 0.625rem;
+            margin-left: 0.25rem;
+        }
+    </style>
 </head>
 <body>
     <div class="app-container">
@@ -68,28 +82,17 @@
                     <section class="card config-card">
                         <div class="card-header">
                             <h2><i class="fa-solid fa-sliders"></i> Configuración General del Pedido</h2>
+                            <a href="diseno.html" class="btn btn-sm btn-outline" style="margin-left:auto;">
+                                <i class="fa-solid fa-pen"></i> Editar Configuración
+                            </a>
                         </div>
                         <div class="card-body">
-                            <div class="info-grid">
-                                <div class="info-item">
-                                    <label>Cliente / Equipo</label>
-                                    <p>Promo 2002 - Colegio San José</p>
-                                </div>
-                                <div class="info-item">
-                                    <label>Responsable / Coordinador</label>
-                                    <p style="font-weight: 600; color: #1e293b;">Juan Pérez</p>
-                                </div>
-                                <div class="info-item" style="grid-column: 1 / -1;">
-                                    <label>Diseño Aprobado</label>
-                                    <div style="margin-top: 0.5rem; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem;">
-                                        <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado" style="max-width: 100%; height: auto; max-height: 200px; object-fit: contain;">
-                                    </div>
-                                </div>
-                                <div class="info-item" style="grid-column: 1 / -1;">
-                                    <label>Detalles Técnicos (Acordados por WhatsApp)</label>
-                                    <p class="text-muted" style="font-size: 0.875rem;">Tela Win Fresh. Corte Estándar (Hombre/Mujer/Niño coordinado para todos). Sin excepciones individuales en el registro.</p>
-                                </div>
-
+                            <div id="configSummaryContainer">
+                                <p class="text-muted" style="font-size: 0.875rem;">
+                                    Sin configurar. <a href="diseno.html">Configurar ahora →</a>
+                                </p>
+                            </div>
+                            <div class="info-grid" style="margin-top: 1rem;">
                                 <div class="info-item">
                                     <label>Meta de Participantes</label>
                                     <div style="display:flex; gap:0.5rem; align-items:center;">
@@ -268,8 +271,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group" style="display: none;">
-                        <input type="hidden" id="exceptions" value="">
+                    <div class="form-group">
+                        <label for="exceptions">Excepciones (opcional)</label>
+                        <textarea id="exceptions" rows="2" placeholder="Ej: Camiseta manga larga, color diferente..."></textarea>
+                        <small class="text-muted">Configuración individual que difiere del pedido general.</small>
                     </div>
                     <div class="form-group checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
                         <input type="checkbox" id="allowDuplicateNum">
@@ -286,5 +291,13 @@
 
     <!-- Scripts -->
     <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load order config summary
+            if (typeof loadOrderConfig === 'function') {
+                loadOrderConfig();
+            }
+        });
+    </script>
 </body>
 </html>
