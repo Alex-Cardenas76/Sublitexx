@@ -6,7 +6,7 @@
     --danger: #EF4444; /* Red 500 */
     --warning: #F59E0B; /* Amber 500 */
     
-    --bg-main: #F3F4F6; /* Gray 100 */
+    --bg-main: #FAF5EA; /* Crema claro */
     --bg-card: #FFFFFF;
     
     --text-main: #111827;
@@ -50,11 +50,11 @@ a {
     min-height: 100vh;
 }
 
-/* Sidebar */
+/* Sidebar (tema verde sobre crema) */
 .sidebar {
     width: 260px;
-    background-color: #1F2937; /* Dark Gray */
-    color: white;
+    background-color: #E8F1EA; /* verde salvia claro */
+    color: #14532D;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -62,7 +62,7 @@ a {
 
 .sidebar-header {
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(20, 83, 45, 0.12);
 }
 
 .logo {
@@ -71,11 +71,11 @@ a {
     gap: 0.75rem;
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
+    color: #14532D;
 }
 
 .logo i {
-    color: var(--primary);
+    color: #16A34A;
     font-size: 1.5rem;
 }
 
@@ -89,7 +89,7 @@ a {
 
 .nav-item {
     padding: 0.75rem 1.5rem;
-    color: #D1D5DB;
+    color: #166534;
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -98,18 +98,18 @@ a {
 }
 
 .nav-item:hover, .nav-item.active {
-    background-color: rgba(255,255,255,0.05);
-    color: white;
+    background-color: #D7E8DC;
+    color: #14532D;
 }
 
 .nav-item.active {
-    border-left-color: var(--primary);
+    border-left-color: #16A34A;
     font-weight: 500;
 }
 
 .sidebar-footer {
     padding: 1rem 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(20, 83, 45, 0.12);
 }
 
 .user-info {
@@ -122,7 +122,19 @@ a {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: var(--primary);
+    background-color: #16A34A;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #16A34A;
     color: white;
     display: flex;
     align-items: center;
@@ -135,14 +147,15 @@ a {
     flex-direction: column;
 }
 
-.user-info .name {
+.user-info .name, .user-name {
     font-size: 0.875rem;
     font-weight: 600;
+    color: #14532D;
 }
 
-.user-info .role {
+.user-info .role, .user-role {
     font-size: 0.75rem;
-    color: #9CA3AF;
+    color: #3F6A5A;
 }
 
 /* Main Content */
@@ -867,3 +880,99 @@ input:focus, select:focus {
         grid-template-columns: 1fr;
     }
 }
+
+/* ===== Sidebar Derecho — Resumen en Vivo (nuevo diseño) ===== */
+.right-sidebar {
+    background: #fff;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.rs-block-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted, #64748b);
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+/* Alerta de Meta */
+.rs-alert {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.8rem;
+    color: #92400e;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.rs-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #fef3c7;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.rs-progress-bar .fill {
+    height: 100%;
+    background: #d97706;
+}
+
+/* Producción Total */
+.rs-prod-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.rs-prod-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+.rs-prod-box span { font-size: 0.7rem; color: var(--text-muted, #64748b); display: block; }
+.rs-prod-box h4 { font-size: 1.1rem; color: var(--text-main, #1e293b); margin-top: 2px; }
+
+/* Curva de Tallas */
+.rs-sizes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+.rs-size-chip {
+    background: #f8fafc;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 6px;
+    padding: 6px;
+    text-align: center;
+}
+.rs-size-chip .size-tag { font-weight: bold; font-size: 0.8rem; color: var(--primary, #4f46e5); }
+.rs-size-chip .size-qty { font-size: 0.7rem; color: var(--text-muted, #64748b); }
+
+/* Estado de Cobranza */
+.rs-cobro-row {
+    display: flex;
+    gap: 8px;
+}
+.rs-cobro-card {
+    flex: 1;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+.rs-cobro-card.pagado    { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+.rs-cobro-card.pendiente { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+.rs-cobro-card span { font-size: 0.7rem; font-weight: 500; display: block; }
+.rs-cobro-card h4 { font-size: 1rem; margin-top: 2px; }
+
+/* Reutiliza clases de chip/tag de tallas dentro del sidebar */
+.rs-size-chip { min-width: 0; }

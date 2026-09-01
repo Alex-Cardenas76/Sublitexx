@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPES - Configuración</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <style>
+        /* ====== Tema claro / oscuro - EXCLUSIVO de Configuración ====== */
+        .main-content.config-theme {
+            font-family: var(--font-sans);
+            transition: background 0.3s, color 0.3s;
+        }
+        /* Modo OSCURO (neón púrpura) - por defecto */
+        .main-content.config-theme.dark {
+            background: #0B0F19;
+            background-image: linear-gradient(to top right, rgba(168,85,247,0.12), transparent 40%, rgba(99,102,241,0.12));
+            color: #e2e8f0;
+        }
+        /* Modo CLARO */
+        .main-content.config-theme.light {
+            background: #F5F3FF;
+            background-image: linear-gradient(to top right, rgba(168,85,247,0.06), transparent 40%, rgba(99,102,241,0.06));
+            color: #1e293b;
+        }
+        .config-theme .content-wrapper { padding: 2rem; }
+        .config-theme .content-wrapper > div { max-width: 1000px; margin: 0 auto; }
+
+        /* Topbar */
+        .config-theme .config-topbar {
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border-bottom: 1px solid;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        .config-theme.dark .config-topbar { background: rgba(12,15,24,0.96); border-color: rgba(168,85,247,0.24); }
+        .config-theme.light .config-topbar { background: #ffffff; border-color: rgba(168,85,247,0.2); }
+        .config-theme .config-topbar .left { display: flex; align-items: center; gap: 1rem; }
+        .config-theme .config-topbar h1 {
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0;
+        }
+        .config-theme.dark .config-topbar h1 { color: #f8fafc; }
+        .config-theme.light .config-topbar h1 { color: #1e293b; }
+        .config-theme .config-topbar h1 i {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .config-theme .config-topbar p { font-size: 0.875rem; margin: 0; }
+        .config-theme.dark .config-topbar p { color: #cbd5e1; }
+        .config-theme.light .config-topbar p { color: #64748b; }
+        .config-theme .config-topbar .back-link { font-size: 1.2rem; text-decoration: none; }
+        .config-theme.dark .config-topbar .back-link { color: #dbeafe; }
+        .config-theme.light .config-topbar .back-link { color: #64748b; }
+        .config-theme .config-topbar .back-link:hover { color: #a855f7; }
+
+        /* Botón cambio de tema */
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 0.75rem;
+            border: 1px solid;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+        .config-theme.dark .theme-toggle { border-color: rgba(168,85,247,0.4); color: #e9d5ff; background: rgba(168,85,247,0.08); }
+        .config-theme.light .theme-toggle { border-color: rgba(168,85,247,0.4); color: #7c3aed; }
+        .theme-toggle:hover { background: rgba(168,85,247,0.12); }
+
+        /* Pestañas */
+        .config-theme .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid;
+            transition: all 0.3s;
+        }
+        .config-theme.dark .tabs { background: rgba(22,27,38,0.6); border-color: rgba(168,85,247,0.2); }
+        .config-theme.light .tabs { background: #ffffff; border-color: rgba(168,85,247,0.25); }
+        .config-theme .tab-btn {
+            padding: 0.6rem 1.1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border-radius: 0.75rem;
+        }
+        .config-theme.dark .tab-btn { color: #cbd5e1; }
+        .config-theme.light .tab-btn { color: #64748b; }
+        .config-theme.dark .tab-btn:hover { color: #fff; background: rgba(168,85,247,0.12); }
+        .config-theme.light .tab-btn:hover { color: #4c1d95; background: #f3e8ff; }
+        .config-theme .tab-btn.active {
+            color: #fff;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            box-shadow: 0 0 15px rgba(147,51,234,0.4);
+        }
+        .config-theme .tab-panel { display: none; }
+        .config-theme .tab-panel.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+        /* Tarjetas */
+        .config-theme .cfg-card {
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid;
+            transition: all 0.3s;
+        }
+        .config-theme.dark .cfg-card {
+            background: #161B26;
+            border-color: rgba(168,85,247,0.2);
+            box-shadow: 0 0 20px rgba(168,85,247,0.1);
+        }
+        .config-theme.light .cfg-card {
+            background: #ffffff;
+            border-color: rgba(168,85,247,0.25);
+            box-shadow: 0 4px 20px rgba(147,51,234,0.08);
+        }
+        .config-theme .cfg-card-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid;
+        }
+        .config-theme.dark .cfg-card-header { border-color: rgba(168,85,247,0.15); }
+        .config-theme.light .cfg-card-header { border-color: rgba(168,85,247,0.15); }
+        .config-theme .cfg-card-header h2 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+        .config-theme.dark .cfg-card-header h2 { color: #fff; }
+        .config-theme.light .cfg-card-header h2 { color: #1e293b; }
+        .config-theme .cfg-card-header h2 i { color: #a855f7; }
+        .config-theme .cfg-card-body { padding: 1.5rem; }
+
+        /* Textos */
+        .config-theme .title-white { font-weight: 700; }
+        .config-theme.dark .title-white { color: #fff; }
+        .config-theme.light .title-white { color: #1e293b; }
+        .config-theme .text-muted { }
+        .config-theme.dark .text-muted { color: #cbd5e1 !important; }
+        .config-theme.light .text-muted { color: #64748b !important; }
+
+        /* Cuadrículas */
+        .config-theme .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+        .config-theme .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+        /* Inputs */
+        .config-theme label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        .config-theme.dark label { color: #e2e8f0; }
+        .config-theme.light label { color: #334155; }
+        .config-theme input[type="text"],
+        .config-theme input[type="number"],
+        .config-theme input[type="email"],
+        .config-theme input[type="password"],
+        .config-theme select {
+            width: 100%;
+            padding: 0.625rem 0.75rem;
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 0.75rem;
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .config-theme.dark input[type="text"], .config-theme.dark input[type="number"],
+        .config-theme.dark input[type="email"], .config-theme.dark input[type="password"],
+        .config-theme.dark select { background: #0B0F19; color: #fff; }
+        .config-theme.light input[type="text"], .config-theme.light input[type="number"],
+        .config-theme.light input[type="email"], .config-theme.light input[type="password"],
+        .config-theme.light select { background: #f8fafc; color: #1e293b; }
+        .config-theme.dark input::placeholder { color: #94a3b8; }
+        .config-theme.light input::placeholder { color: #64748b; }
+        .config-theme input:focus, .config-theme select:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 0 1px #a855f7;
+        }
+
+        /* Botones */
+        .config-theme .btn-neon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            border: none;
+            border-radius: 0.75rem;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            box-shadow: 0 0 15px rgba(147,51,234,0.35);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .config-theme .btn-neon:hover { background: linear-gradient(135deg, #8b5cf6, #818cf8); }
+        .config-theme .btn-ghost-neon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 0.75rem;
+            background: transparent;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .config-theme.dark .btn-ghost-neon { color: #e2e8f0; }
+        .config-theme.light .btn-ghost-neon { color: #4c1d95; }
+        .config-theme.dark .btn-ghost-neon:hover { background: rgba(168,85,247,0.12); color: #fff; }
+        .config-theme.light .btn-ghost-neon:hover { background: #f3e8ff; }
+        .config-theme .form-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem; }
+
+        /* Avatar con aura */
+        .config-theme .profile-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 0 25px rgba(147,51,234,0.5);
+        }
+        .config-theme .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(168,85,247,0.15);
+            color: #a855f7;
+            border: 1px solid rgba(168,85,247,0.3);
+        }
+
+        /* Switch / Toggle */
+        .config-theme .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+        .config-theme .switch input { opacity: 0; width: 0; height: 0; }
+        .config-theme .switch .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #374151;
+            border-radius: 9999px;
+            transition: 0.3s;
+        }
+        .config-theme .switch .slider:before {
+            content: ""; position: absolute;
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .config-theme .switch input:checked + .slider {
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            box-shadow: 0 0 10px rgba(147,51,234,0.5);
+        }
+        .config-theme .switch input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Estado */
+        .config-theme .status-pill {
+            padding: 0.25rem 0.8rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .config-theme .status-pill.activa { background: rgba(16,185,129,0.15); color: #059669; border: 1px solid rgba(16,185,129,0.4); }
+        .dark .config-theme .status-pill.activa { background: rgba(16,185,129,0.15); color: #34d399; }
+        .config-theme .status-pill.inactiva { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.4); }
+
+        /* Cuentas */
+        .config-theme .account-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .config-theme .account-card {
+            border: 1px solid rgba(168,85,247,0.2);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        .dark .config-theme .account-card { background: #13131a; box-shadow: 0 0 20px rgba(168,85,247,0.08); }
+        .light .config-theme .account-card { background: #ffffff; box-shadow: 0 4px 20px rgba(147,51,234,0.08); }
+        .config-theme .account-card:hover { box-shadow: 0 0 25px rgba(168,85,247,0.2); border-color: rgba(168,85,247,0.4); }
+        .config-theme .account-icon {
+            width: 44px; height: 44px;
+            border-radius: 0.75rem;
+            background: rgba(168,85,247,0.15);
+            color: #a855f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        .config-theme .account-card strong { font-weight: 700; }
+        .dark .config-theme .account-card strong { color: #fff; }
+        .light .config-theme .account-card strong { color: #1e293b; }
+
+        /* Tabla */
+        .config-theme .table-responsive { overflow-x: auto; }
+        .config-theme table.participants-table th {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        .dark .config-theme table.participants-table th { background: rgba(168,85,247,0.1); color: #c084fc; }
+        .light .config-theme table.participants-table th { background: #f8fafc; color: #6d28d9; }
+        .config-theme table.participants-table th,
+        .config-theme table.participants-table td { border-bottom: 1px solid rgba(148,163,184,0.15); }
+        .dark .config-theme table.participants-table td { color: #e2e8f0; }
+        .light .config-theme table.participants-table td { color: #1e293b; }
+        .dark .config-theme table.participants-table tr:hover td { background: rgba(168,85,247,0.06); }
+        .light .config-theme table.participants-table tr:hover td { background: #faf5ff; }
+
+        /* Auditoría */
+        .config-theme .audit-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 1.25rem;
+            border-bottom: 1px solid rgba(148,163,184,0.12);
+            gap: 1rem;
+        }
+        .config-theme .audit-row:last-child { border-bottom: none; }
+        .config-theme .audit-icon { color: #a855f7; font-size: 1.1rem; width: 24px; text-align: center; }
+
+        /* Filas de configuración */
+        .config-theme .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(148,163,184,0.12);
+        }
+        .config-theme .setting-row:last-child { border-bottom: none; }
+        .config-theme .setting-row .s-title { font-weight: 600; font-size: 0.9375rem; }
+        .dark .config-theme .setting-row .s-title { color: #fff; }
+        .light .config-theme .setting-row .s-title { color: #1e293b; }
+        .config-theme .setting-row .s-desc { font-size: 0.8125rem; }
+        .dark .config-theme .setting-row .s-desc { color: #94a3b8; }
+        .light .config-theme .setting-row .s-desc { color: #64748b; }
+
+        .config-theme .profile-header { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        .config-theme h3.section-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            margin: 1.25rem 0 1rem;
+        }
+        .dark .config-theme h3.section-label { color: #94a3b8; }
+        .light .config-theme h3.section-label { color: #64748b; }
+
+        @media (max-width: 768px) {
+            .config-theme .form-grid, .config-theme .pricing-grid, .config-theme .account-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Menú Lateral (sin modificar) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-shirt"></i> Sublitex
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-item"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
+                <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
+                <a href="configuracion.html" class="nav-item active"><i class="fa-solid fa-cog"></i> Configuración</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">AD</div>
+                    <div class="details">
+                        <span class="name">Administrador</span>
+                        <span class="role">Sublitex</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content (Claro/Oscuro exclusivo) -->
+        <main class="main-content config-theme dark">
+            <header class="config-topbar">
+                <div class="left">
+                    <a href="dashboard.html" class="back-link" title="Volver al Panel Global"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div>
+                        <h1><i class="fa-solid fa-cog"></i> Configuración del Sistema</h1>
+                        <p>Perfil, parámetros del taller, usuarios, cobranza y seguridad</p>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" title="Cambiar tema"><i id="themeIcon" class="fa-solid fa-sun"></i></button>
+            </header>
+
+            <div class="content-wrapper">
+                <div>
+
+                    <!-- Pestañas (Mi Perfil por defecto) -->
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="perfil"><i class="fa-solid fa-user"></i> Mi Perfil</button>
+                        <button class="tab-btn" data-tab="taller"><i class="fa-solid fa-sliders"></i> Parámetros del Taller</button>
+                        <button class="tab-btn" data-tab="usuarios"><i class="fa-solid fa-users"></i> Usuarios y Roles</button>
+                        <button class="tab-btn" data-tab="cobranza"><i class="fa-solid fa-credit-card"></i> Cuentas de Cobranza</button>
+                        <button class="tab-btn" data-tab="notificaciones"><i class="fa-solid fa-bell"></i> Notificaciones y Preferencias</button>
+                        <button class="tab-btn" data-tab="seguridad"><i class="fa-solid fa-shield-halved"></i> Seguridad y Auditoría</button>
+                    </div>
+
+                    <!-- ===== PESTAÑA 1: MI PERFIL (activa por defecto) ===== -->
+                    <div class="tab-panel active" id="panel-perfil">
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-id-badge"></i> Mi Cuenta</h2>
+                                <span class="role-badge"><i class="fa-solid fa-crown"></i> Administrador General</span>
+                            </div>
+                            <div class="cfg-card-body">
+                                <div class="profile-header">
+                                    <div class="profile-avatar">VN</div>
+                                    <div>
+                                        <h2 class="title-white" style="font-size: 1.5rem; margin: 0;">Valeria Núñez</h2>
+                                        <p class="text-muted">valeria@sublitex.pe · Acceso total al sistema</p>
+                                        <span class="status-pill activa" style="margin-top: 0.25rem; display: inline-block;">● En línea</span>
+                                    </div>
+                                </div>
+
+                                <h3 class="section-label">Datos Personales</h3>
+                                <div class="form-grid">
+                                    <div>
+                                        <label>Nombre Completo</label>
+                                        <input type="text" value="Valeria Núñez">
+                                    </div>
+                                    <div>
+                                        <label>Correo Electrónico</label>
+                                        <input type="email" value="valeria@sublitex.pe">
+                                    </div>
+                                    <div>
+                                        <label>Teléfono</label>
+                                        <input type="text" value="+51 999 888 777">
+                                    </div>
+                                    <div>
+                                        <label>Cargo / Rol</label>
+                                        <input type="text" value="Administrador General" readonly>
+                                    </div>
+                                </div>
+
+                                <h3 class="section-label">Autenticación</h3>
+                                <div class="setting-row">
+                                    <div>
+                                        <div class="s-title"><i class="fa-solid fa-shield-halved" style="color:#a855f7; margin-right:0.5rem;"></i>Autenticación en Dos Pasos (2FA)</div>
+                                        <div class="s-desc">Exige un código de verificación adicional al iniciar sesión.</div>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" checked onclick="alert('2FA actualizado.')">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button class="btn-ghost-neon">Cancelar</button>
+                                    <button class="btn-neon" onclick="alert('Perfil actualizado correctamente.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑA 2: PARÁMETROS DEL TALLER ===== -->
+                    <div class="tab-panel" id="panel-taller">
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-tags"></i> Precios Base por Defecto</h2>
+                            </div>
+                            <div class="cfg-card-body">
+                                <div class="pricing-grid">
+                                    <div>
+                                        <label>Conjunto Completo <span class="text-muted">(S/)</span></label>
+                                        <input type="number" value="45" step="0.50">
+                                    </div>
+                                    <div>
+                                        <label>Camiseta Suelta <span class="text-muted">(S/)</span></label>
+                                        <input type="number" value="30" step="0.50">
+                                    </div>
+                                    <div>
+                                        <label>Adicionales <span class="text-muted">(S/)</span></label>
+                                        <input type="number" value="8" step="0.50">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-layer-group"></i> Telas Disponibles</h2>
+                            </div>
+                            <div class="cfg-card-body">
+                                <div class="pricing-grid">
+                                    <div>
+                                        <label>Tela Principal</label>
+                                        <select>
+                                            <option>Win Fresh (Deportiva)</option>
+                                            <option>Microfibra</option>
+                                            <option>Algodón Pima</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label>Costo Tela / Metro (S/)</label>
+                                        <input type="number" value="12.50" step="0.10">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-shop"></i> Datos del Taller</h2>
+                            </div>
+                            <div class="cfg-card-body">
+                                <div class="form-grid">
+                                    <div>
+                                        <label>Nombre Comercial del Taller</label>
+                                        <input type="text" value="Taller Sublitex">
+                                    </div>
+                                    <div>
+                                        <label>WhatsApp Oficial de Soporte</label>
+                                        <input type="text" value="+51 999 888 777">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-ghost-neon">Cancelar</button>
+                            <button class="btn-neon" onclick="alert('Parámetros del taller guardados.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑA 3: USUARIOS Y ROLES ===== -->
+                    <div class="tab-panel" id="panel-usuarios">
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-users"></i> Personal del Taller</h2>
+                                <button class="btn-neon" onclick="alert('Formulario para nuevo usuario en construcción.')"><i class="fa-solid fa-plus"></i> Agregar Usuario</button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="participants-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Rol</th>
+                                            <th>Alcance de Visibilidad</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Valeria Núñez</td>
+                                            <td>Administrador</td>
+                                            <td>Total (Comercial + Operativo)</td>
+                                            <td><span class="status-pill activa">Activo</span></td>
+                                            <td><button class="btn-neon" style="padding:0.3rem 0.7rem; font-size:0.75rem;"><i class="fa-solid fa-pen"></i> Editar</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>César Manrique</td>
+                                            <td>Coordinador Operativo</td>
+                                            <td>Operativo</td>
+                                            <td><span class="status-pill activa">Activo</span></td>
+                                            <td><button class="btn-neon" style="padding:0.3rem 0.7rem; font-size:0.75rem;"><i class="fa-solid fa-pen"></i> Editar</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Renzo Aguilar</td>
+                                            <td>Diseñador Gráfico</td>
+                                            <td>Diseño</td>
+                                            <td><span class="status-pill activa">Activo</span></td>
+                                            <td><button class="btn-neon" style="padding:0.3rem 0.7rem; font-size:0.75rem;"><i class="fa-solid fa-pen"></i> Editar</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>María Paredes</td>
+                                            <td>Vendedora</td>
+                                            <td>Comercial</td>
+                                            <td><span class="status-pill inactiva">Inactivo</span></td>
+                                            <td><button class="btn-neon" style="padding:0.3rem 0.7rem; font-size:0.75rem;"><i class="fa-solid fa-pen"></i> Editar</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑA 4: CUENTAS DE COBRANZA ===== -->
+                    <div class="tab-panel" id="panel-cobranza">
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+                            <button class="btn-neon" onclick="alert('Formulario para nueva cuenta en construcción.')"><i class="fa-solid fa-plus"></i> Nueva Cuenta</button>
+                        </div>
+                        <div class="account-grid">
+                            <div class="account-card">
+                                <div class="account-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong>Yape / Plin</strong>
+                                    <span class="status-pill activa">Activa</span>
+                                </div>
+                                <p class="text-muted" style="font-size:0.875rem;">Valeria Núñez</p>
+                                <p class="text-muted" style="font-family: monospace; font-size:0.875rem;">999 888 777</p>
+                                <button class="btn-ghost-neon" style="padding:0.4rem; font-size:0.8125rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                            </div>
+                            <div class="account-card">
+                                <div class="account-icon"><i class="fa-solid fa-building-columns"></i></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong>BCP</strong>
+                                    <span class="status-pill activa">Activa</span>
+                                </div>
+                                <p class="text-muted" style="font-size:0.875rem;">Valeria Núñez</p>
+                                <p class="text-muted" style="font-family: monospace; font-size:0.875rem;">200-1234567-0-01</p>
+                                <button class="btn-ghost-neon" style="padding:0.4rem; font-size:0.8125rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                            </div>
+                            <div class="account-card">
+                                <div class="account-icon"><i class="fa-solid fa-university"></i></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <strong>BBVA</strong>
+                                    <span class="status-pill inactiva">Inactiva</span>
+                                </div>
+                                <p class="text-muted" style="font-size:0.875rem;">Sublitex S.A.C.</p>
+                                <p class="text-muted" style="font-family: monospace; font-size:0.875rem;">0011-0234-56789012</p>
+                                <button class="btn-ghost-neon" style="padding:0.4rem; font-size:0.8125rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑA 5: NOTIFICACIONES Y PREFERENCIAS ===== -->
+                    <div class="tab-panel" id="panel-notificaciones">
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-bell"></i> Alertas Automáticas por WhatsApp</h2>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title">Aviso de pago con vouchers</div>
+                                    <div class="s-desc">Notificar automáticamente cuando un jugador sube su voucher de pago.</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title">Confirmación de pedido</div>
+                                    <div class="s-desc">Enviar confirmación al cliente cuando se cierre la lista.</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title">Recordatorio de pagos pendientes</div>
+                                    <div class="s-desc">Enviar recordatorio a participantes con saldo pendiente.</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-palette"></i> Preferencias Visuales</h2>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title">Tema neón púrpura en Configuración</div>
+                                    <div class="s-desc">Usar acentos púrpura en este módulo.</div>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn-neon" onclick="alert('Preferencias guardadas.')"><i class="fa-solid fa-save"></i> Guardar Preferencias</button>
+                        </div>
+                    </div>
+
+                    <!-- ===== PESTAÑA 6: SEGURIDAD Y AUDITORÍA ===== -->
+                    <div class="tab-panel" id="panel-seguridad">
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-clock-rotate-left"></i> Últimos Inicios de Sesión</h2>
+                            </div>
+                            <div class="audit-row">
+                                <div style="display:flex; align-items:center; gap:0.75rem;">
+                                    <span class="audit-icon"><i class="fa-solid fa-desktop"></i></span>
+                                    <div>
+                                        <div class="s-title">Chrome · Windows 11</div>
+                                        <div class="s-desc">190.45.12.78 · Lima, Perú</div>
+                                    </div>
+                                </div>
+                                <span class="text-muted" style="font-size:0.8125rem;">Hoy, 09:43</span>
+                            </div>
+                            <div class="audit-row">
+                                <div style="display:flex; align-items:center; gap:0.75rem;">
+                                    <span class="audit-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+                                    <div>
+                                        <div class="s-title">Chrome Móvil · Android</div>
+                                        <div class="s-desc">45.12.89.200 · Lima, Perú</div>
+                                    </div>
+                                </div>
+                                <span class="text-muted" style="font-size:0.8125rem;">Ayer, 18:02</span>
+                            </div>
+                            <div class="audit-row">
+                                <div style="display:flex; align-items:center; gap:0.75rem;">
+                                    <span class="audit-icon"><i class="fa-solid fa-desktop"></i></span>
+                                    <div>
+                                        <div class="s-title">Firefox · Windows 11</div>
+                                        <div class="s-desc">201.78.34.9 · Arequipa, Perú</div>
+                                    </div>
+                                </div>
+                                <span class="text-muted" style="font-size:0.8125rem;">12 jun, 15:20</span>
+                            </div>
+                        </div>
+
+                        <div class="cfg-card">
+                            <div class="cfg-card-header">
+                                <h2><i class="fa-solid fa-laptop"></i> Sesiones Activas</h2>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title"><i class="fa-solid fa-display" style="color:#a855f7; margin-right:0.5rem;"></i>Esta sesión (Chrome · Windows 11)</div>
+                                    <div class="s-desc">190.45.12.78</div>
+                                </div>
+                                <span class="status-pill activa">Activa</span>
+                            </div>
+                            <div class="setting-row">
+                                <div>
+                                    <div class="s-title"><i class="fa-solid fa-mobile-screen" style="color:#a855f7; margin-right:0.5rem;"></i>Dispositivo móvil</div>
+                                    <div class="s-desc">45.12.89.200</div>
+                                </div>
+                                <button class="btn-ghost-neon" style="padding:0.4rem 0.8rem; font-size:0.8125rem; color:#f87171;">Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Lógica de pestañas
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Lógica de cambio de tema (claro / oscuro) - solo esta vista
+        const mainContent = document.querySelector('.main-content.config-theme');
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        function applyTheme(theme) {
+            mainContent.classList.remove('dark', 'light');
+            mainContent.classList.add(theme);
+            themeIcon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            try { localStorage.setItem('sipes.config.theme', theme); } catch (e) {}
+        }
+
+        // Tema inicial (por defecto oscuro)
+        let savedTheme = 'dark';
+        try { savedTheme = localStorage.getItem('sipes.config.theme') || 'dark'; } catch (e) {}
+        applyTheme(savedTheme === 'light' ? 'light' : 'dark');
+
+        themeToggle.addEventListener('click', () => {
+            applyTheme(mainContent.classList.contains('dark') ? 'light' : 'dark');
+        });
+    </script>
+</body>
+</html>

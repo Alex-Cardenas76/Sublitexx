@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="app-container">
         <!-- Main Content -->
@@ -24,20 +26,23 @@
                         <i class="fa-solid fa-shirt"></i> Sublitex
                     </div>
                     <div>
-                        <h1 style="font-size: 1.25rem;"><i class="fa-solid fa-clipboard-list"></i> Mi Pedido de Equipo</h1>
+                        <h1 style="font-size: 1.25rem;"><i class="fa-solid fa-clipboard-list"></i> Mi Pedido de Equipo
+                        </h1>
                         <p class="text-muted">Pedido SUB-00842 - Acceso para el Coordinador</p>
                     </div>
                 </div>
                 <div class="actions">
                     <span class="status-badge status-abierto">Registro Abierto</span>
-                    <button class="btn btn-outline" id="btnShareJugadores"><i class="fa-solid fa-share-nodes"></i> Copiar Enlace para Jugadores</button>
-                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista de mi equipo</button>
+                    <button class="btn btn-outline" id="btnShareJugadores"><i class="fa-solid fa-share-nodes"></i>
+                        Copiar Enlace para Jugadores</button>
+                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista de
+                        mi equipo</button>
                 </div>
             </header>
 
             <!-- Dashboard Grid -->
             <div class="dashboard-grid">
-                
+
                 <!-- Columna Izquierda: Configuración y Lista -->
                 <div class="main-column">
                     <!-- Configuración General del Pedido -->
@@ -55,30 +60,40 @@
                                             Cargando configuración...
                                         </p>
                                     </div>
-                                    <div class="info-grid" style="margin-top: 1rem; margin-bottom: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem;">
+                                    <div class="info-grid"
+                                        style="margin-top: 1rem; margin-bottom: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.75rem;">
                                         <div class="info-item">
                                             <label style="color:#475569; font-weight:600;">Precio por Conjunto</label>
                                             <p style="margin:0; padding:0.25rem 0;">
-                                                <span id="coordUnitPriceText" style="font-weight:800; color:#1E293B; font-size:1.05rem;">S/ 50.00</span>
-                                                <span style="font-size:0.75rem; color:#64748B; font-weight:600;">/ por jugador</span>
+                                                <span id="coordUnitPriceText"
+                                                    style="font-weight:800; color:#1E293B; font-size:1.05rem;">S/
+                                                    50.00</span>
+                                                <span style="font-size:0.75rem; color:#64748B; font-weight:600;">/ por
+                                                    jugador</span>
                                             </p>
                                         </div>
                                         <div class="info-item">
                                             <label>Fecha de Entrega</label>
-                                            <p id="coordDeliveryDateText" style="font-weight:700; color:#1E293B; font-size:0.95rem; margin:0; padding:0.25rem 0;">15 Oct 2026</p>
+                                            <p id="coordDeliveryDateText"
+                                                style="font-weight:700; color:#1E293B; font-size:0.95rem; margin:0; padding:0.25rem 0;">
+                                                15 Oct 2026</p>
                                         </div>
                                         <div class="info-item">
                                             <label>Meta Participantes</label>
                                             <div style="display:flex; gap:0.5rem; align-items:center;">
-                                                <input type="number" id="expectedPlayersInput" value="25" style="width:60px; padding:0.25rem; font-size:0.875rem;">
-                                                <button class="btn btn-sm btn-outline" id="btnSaveExpected">Fijar</button>
+                                                <input type="number" id="expectedPlayersInput" value="25"
+                                                    style="width:60px; padding:0.25rem; font-size:0.875rem;">
+                                                <button class="btn btn-sm btn-outline"
+                                                    id="btnSaveExpected">Fijar</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Col derecha: imagen del diseño aprobado -->
-                                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:0.5rem; padding:0.75rem; display:flex; align-items:center; justify-content:center;">
-                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado" style="max-width:100%; height:auto; max-height:130px; object-fit:contain;">
+                                <div
+                                    style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:0.5rem; padding:0.75rem; display:flex; align-items:center; justify-content:center;">
+                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado"
+                                        style="max-width:100%; height:auto; max-height:130px; object-fit:contain;">
                                 </div>
                             </div>
                         </div>
@@ -89,8 +104,10 @@
                         <div class="card-header">
                             <h2><i class="fa-solid fa-list-ol"></i> Lista de Jugadores Registrados</h2>
                             <div class="actions" style="display:flex; gap:0.5rem;">
-                                <a href="participante.html" target="_blank" class="btn btn-secondary btn-sm"><i class="fa-solid fa-mobile-screen"></i> Ver Formulario de Jugador</a>
-                                <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i class="fa-solid fa-plus"></i> Agregar Manualmente</button>
+                                <a href="participante.html" target="_blank" class="btn btn-secondary btn-sm"><i
+                                        class="fa-solid fa-mobile-screen"></i> Ver Formulario de Jugador</a>
+                                <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i
+                                        class="fa-solid fa-plus"></i> Agregar Manualmente</button>
                             </div>
                         </div>
                         <div class="card-body p-0">
@@ -115,61 +132,52 @@
                     </section>
                 </div>
 
-                <!-- Columna Derecha: Resumen en Tiempo Real (Magia) -->
+                <!-- Columna Derecha: Resumen en Vivo -->
                 <div class="side-column">
-                    <section class="card magic-summary-card">
-                        <div class="card-header glass-header">
-                            <h2><i class="fa-solid fa-bolt"></i> Resumen en Tiempo Real</h2>
-                            <span class="subtitle">Calculado automáticamente</span>
+                    <aside class="right-sidebar">
+
+                        <!-- Alerta de Meta -->
+                        <div class="rs-alert">
+                            <span><i class="fa-solid fa-triangle-exclamation"></i> <span id="metaText">Faltan jugadores
+                                    para la meta.</span></span>
+                            <div class="rs-progress-bar">
+                                <div class="fill" id="metaProgress" style="width:0%;"></div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            
-                            <!-- Alertas de Inconsistencias -->
-                            <div id="alertsContainer" class="alerts-container">
-                                <!-- JS llenará esto si hay errores -->
-                            </div>
 
-                            <!-- Totales Generales -->
-                            <div class="summary-section">
-                                <h3>Total de Prendas a Producir</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box">
-                                        <span class="stat-label">Conjuntos Completos</span>
-                                        <span class="stat-value" id="totalConjuntos">0</span>
-                                    </div>
-                                    <div class="stat-box">
-                                        <span class="stat-label">Solo Camisetas</span>
-                                        <span class="stat-value" id="totalCamisetas">0</span>
-                                    </div>
-                                </div>
-                                <div class="total-badge">Total Producción: <span id="totalPrendas">0</span> unidades</div>
-                            </div>
-
-                            <!-- Curva de Tallas -->
-                            <div class="summary-section">
-                                <h3>Curva de Tallas (Consolidado)</h3>
-                                <div class="sizes-grid" id="sizesGrid">
-                                    <!-- JS llenará esto -->
+                        <!-- Producción Total -->
+                        <div>
+                            <div class="rs-block-title">Producción Total</div>
+                            <div class="rs-prod-grid" style="grid-template-columns: 1fr;">
+                                <div class="rs-prod-box">
+                                    <span>Completos</span>
+                                    <h4 id="totalConjuntos">0</h4>
                                 </div>
                             </div>
-                            
-                            <!-- Resumen Financiero -->
-                            <div class="summary-section">
-                                <h3>Estado de Cobranza</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box" style="border-color: #10B981;">
-                                        <span class="stat-label">Pagados / Abonados</span>
-                                        <span class="stat-value" id="totalPaid" style="color:#065F46">0</span>
-                                    </div>
-                                    <div class="stat-box" style="border-color: #EF4444;">
-                                        <span class="stat-label">Pendientes</span>
-                                        <span class="stat-value" id="totalPending" style="color:#991B1B">0</span>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
-                    </section>
+
+                        <!-- Curva de Tallas Minimalista -->
+                        <div>
+                            <div class="rs-block-title">Curva de Tallas</div>
+                            <div class="rs-sizes-grid" id="sizesGrid"></div>
+                        </div>
+
+                        <!-- Estado de Cobranza -->
+                        <div>
+                            <div class="rs-block-title">Cobranza</div>
+                            <div class="rs-cobro-row">
+                                <div class="rs-cobro-card pagado">
+                                    <span>Pagados / Abonados</span>
+                                    <h4 id="totalPaid">0</h4>
+                                </div>
+                                <div class="rs-cobro-card pendiente">
+                                    <span>Pendientes</span>
+                                    <h4 id="totalPending">0</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </aside>
                 </div>
             </div>
         </main>
@@ -222,6 +230,13 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="productType">Producto <span class="required">*</span></label>
+                            <select id="productType" required disabled
+                                style="background-color: #f1f5f9; cursor: not-allowed;">
+                                <option value="conjunto" selected>Conjunto Completo</option>
+                            </select>
+                        </div>
                         <div class="form-group" id="shortSizeGroup">
                             <label for="shortSize">Talla Short (Si difiere)</label>
                             <select id="shortSize">
@@ -246,9 +261,11 @@
                     <div class="form-group" style="display: none;">
                         <input type="hidden" id="exceptions" value="">
                     </div>
-                    <div class="form-group checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                    <div class="form-group checkbox-group"
+                        style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
                         <input type="checkbox" id="allowDuplicateNum">
-                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción Admin)</label>
+                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción
+                            Admin)</label>
                     </div>
                 </form>
             </div>
@@ -262,4 +279,5 @@
     <!-- Scripts -->
     <script src="app.js"></script>
 </body>
+
 </html>

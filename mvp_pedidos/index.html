@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,6 +28,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="app-container">
         <!-- Sidebar Navigation -->
@@ -38,10 +40,11 @@
                 </div>
             </div>
             <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido
+                    Actual</a>
                 <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
                 <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
+                <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
             </nav>
             <div class="sidebar-footer">
                 <div class="user-info">
@@ -59,22 +62,27 @@
             <!-- Topbar -->
             <header class="topbar">
                 <div class="breadcrumb">
-                    <a href="dashboard.html" style="text-decoration: none; color: inherit; font-weight: bold;"><i class="fa-solid fa-arrow-left" style="margin-right:0.5rem;"></i> Todos los Pedidos</a>
+                    <a href="dashboard.html" style="text-decoration: none; color: inherit; font-weight: bold;"><i
+                            class="fa-solid fa-arrow-left" style="margin-right:0.5rem;"></i> Todos los Pedidos</a>
                     <i class="fa-solid fa-chevron-right"></i>
                     <span class="current">#SUB-00842</span>
                 </div>
                 <div class="actions">
                     <span class="status-badge status-abierto">Registro Abierto</span>
+                    <a class="btn btn-outline btn-sm" href="precios.html" title="Ver subtotales por tipo de prenda">
+                        <i class="fa-solid fa-calculator"></i> Ver Precios
+                    </a>
                     <button class="btn btn-outline" id="btnCopyCoordLink">
                         <i class="fa-solid fa-share-nodes"></i> Compartir Link a Coordinador
                     </button>
-                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista</button>
+                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar
+                        Lista</button>
                 </div>
             </header>
 
             <!-- Dashboard Grid -->
             <div class="dashboard-grid">
-                
+
                 <!-- Columna Izquierda: Configuración y Lista -->
                 <div class="main-column">
                     <!-- Configuración General del Pedido -->
@@ -89,41 +97,59 @@
                             <!-- Layout flex: info | imagen -->
                             <div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:stretch;">
                                 <!-- Col derecha: imagen del diseño aprobado, movida arriba para mejor visual en móviles o al costado en desktop -->
-                                <div style="flex: 0 0 160px; background: linear-gradient(145deg, #F8FAFC, #F1F5F9); border: 1px solid #E2E8F0; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; padding: 1.5rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
-                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado" style="max-width: 100%; max-height: 180px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
+                                <div
+                                    style="flex: 0 0 160px; background: linear-gradient(145deg, #F8FAFC, #F1F5F9); border: 1px solid #E2E8F0; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; padding: 1.5rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado"
+                                        style="max-width: 100%; max-height: 180px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
                                 </div>
 
                                 <!-- Col izquierda: info -->
-                                <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div
+                                    style="flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: space-between;">
                                     <div id="configSummaryContainer">
                                         <p class="text-muted" style="font-size: 0.875rem;">
                                             Sin configurar. <a href="diseno.html">Configurar ahora →</a>
                                         </p>
                                     </div>
-                                    
+
                                     <hr style="border: 0; border-top: 1px dashed #CBD5E1; margin: 1.25rem 0;">
-                                    
-                                    <div class="info-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 0;">
+
+                                    <div class="info-grid"
+                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 0;">
                                         <div class="info-item">
-                                            <label style="color:#475569; font-weight:600;">Precio a Cobrar por Conjunto</label>
-                                            <div style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
-                                                <span style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
-                                                <input type="number" id="unitPriceInput" value="50.00" step="0.50" min="0" style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveUnitPrice" title="Guardar precio por conjunto" style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                            <label style="color:#475569; font-weight:600;">Precio a Cobrar por
+                                                Conjunto</label>
+                                            <div
+                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                <span
+                                                    style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
+                                                <input type="number" id="unitPriceInput" value="50.00" step="0.50"
+                                                    min="0"
+                                                    style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
+                                                <button class="btn btn-primary btn-sm" id="btnSaveUnitPrice"
+                                                    title="Guardar precio por conjunto"
+                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
                                             </div>
                                         </div>
                                         <div class="info-item">
                                             <label style="color:#475569; font-weight:600;">Fecha de Entrega</label>
-                                            <div style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
-                                                <input type="date" id="deliveryDateInput" value="2026-10-15" style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; font-size:0.875rem; font-weight:500; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveDeliveryDate" title="Guardar fecha de entrega" style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                            <div
+                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                <input type="date" id="deliveryDateInput" value="2026-10-15"
+                                                    style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; font-size:0.875rem; font-weight:500; cursor: text;">
+                                                <button class="btn btn-primary btn-sm" id="btnSaveDeliveryDate"
+                                                    title="Guardar fecha de entrega"
+                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
                                             </div>
                                         </div>
                                         <div class="info-item">
                                             <label style="color:#475569; font-weight:600;">Meta Participantes</label>
-                                            <div style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
-                                                <input type="number" id="expectedPlayersInput" value="25" style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveExpected" style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Fijar</button>
+                                            <div
+                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                <input type="number" id="expectedPlayersInput" value="25"
+                                                    style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
+                                                <button class="btn btn-primary btn-sm" id="btnSaveExpected"
+                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Fijar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +162,8 @@
                     <section class="card participants-card">
                         <div class="card-header">
                             <h2><i class="fa-solid fa-users"></i> Lista de Participantes</h2>
-                            <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i class="fa-solid fa-plus"></i> Agregar Manualmente</button>
+                            <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i
+                                    class="fa-solid fa-plus"></i> Agregar Manualmente</button>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -160,61 +187,52 @@
                     </section>
                 </div>
 
-                <!-- Columna Derecha: Resumen en Tiempo Real (Magia) -->
+                <!-- Columna Derecha: Resumen en Vivo -->
                 <div class="side-column">
-                    <section class="card magic-summary-card">
-                        <div class="card-header glass-header">
-                            <h2><i class="fa-solid fa-bolt"></i> Resumen en Tiempo Real</h2>
-                            <span class="subtitle">Calculado automáticamente</span>
+                    <aside class="right-sidebar">
+
+                        <!-- Alerta de Meta -->
+                        <div class="rs-alert">
+                            <span><i class="fa-solid fa-triangle-exclamation"></i> <span id="metaText">Faltan jugadores
+                                    para la meta.</span></span>
+                            <div class="rs-progress-bar">
+                                <div class="fill" id="metaProgress" style="width:0%;"></div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            
-                            <!-- Alertas de Inconsistencias -->
-                            <div id="alertsContainer" class="alerts-container">
-                                <!-- JS llenará esto si hay errores -->
-                            </div>
 
-                            <!-- Totales Generales -->
-                            <div class="summary-section">
-                                <h3>Total de Prendas a Producir</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box">
-                                        <span class="stat-label">Conjuntos Completos</span>
-                                        <span class="stat-value" id="totalConjuntos">0</span>
-                                    </div>
-                                    <div class="stat-box">
-                                        <span class="stat-label">Solo Camisetas</span>
-                                        <span class="stat-value" id="totalCamisetas">0</span>
-                                    </div>
-                                </div>
-                                <div class="total-badge">Total Producción: <span id="totalPrendas">0</span> unidades</div>
-                            </div>
-
-                            <!-- Curva de Tallas -->
-                            <div class="summary-section">
-                                <h3>Curva de Tallas (Consolidado)</h3>
-                                <div class="sizes-grid" id="sizesGrid">
-                                    <!-- JS llenará esto -->
+                        <!-- Producción Total -->
+                        <div>
+                            <div class="rs-block-title">Producción Total</div>
+                            <div class="rs-prod-grid" style="grid-template-columns: 1fr;">
+                                <div class="rs-prod-box">
+                                    <span>Completos</span>
+                                    <h4 id="totalConjuntos">0</h4>
                                 </div>
                             </div>
-                            
-                            <!-- Resumen Financiero -->
-                            <div class="summary-section">
-                                <h3>Estado de Cobranza</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box" style="border-color: #10B981;">
-                                        <span class="stat-label">Pagados / Abonados</span>
-                                        <span class="stat-value" id="totalPaid" style="color:#065F46">0</span>
-                                    </div>
-                                    <div class="stat-box" style="border-color: #EF4444;">
-                                        <span class="stat-label">Pendientes</span>
-                                        <span class="stat-value" id="totalPending" style="color:#991B1B">0</span>
-                                    </div>
+                        </div>
+
+                        <!-- Curva de Tallas Minimalista -->
+                        <div>
+                            <div class="rs-block-title">Curva de Tallas</div>
+                            <div class="rs-sizes-grid" id="sizesGrid"></div>
+                        </div>
+
+                        <!-- Estado de Cobranza -->
+                        <div>
+                            <div class="rs-block-title">Cobranza</div>
+                            <div class="rs-cobro-row">
+                                <div class="rs-cobro-card pagado">
+                                    <span>Pagados / Abonados</span>
+                                    <h4 id="totalPaid">0</h4>
+                                </div>
+                                <div class="rs-cobro-card pendiente">
+                                    <span>Pendientes</span>
+                                    <h4 id="totalPending">0</h4>
                                 </div>
                             </div>
 
                         </div>
-                    </section>
+                        </section>
                 </div>
             </div>
         </main>
@@ -267,6 +285,13 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group">
+                            <label for="productType">Producto <span class="required">*</span></label>
+                            <select id="productType" required disabled
+                                style="background-color: #f1f5f9; cursor: not-allowed;">
+                                <option value="conjunto" selected>Conjunto Completo</option>
+                            </select>
+                        </div>
                         <div class="form-group" id="shortSizeGroup">
                             <label for="shortSize">Talla Short (Si difiere)</label>
                             <select id="shortSize">
@@ -288,9 +313,11 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group checkbox-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                    <div class="form-group checkbox-group"
+                        style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
                         <input type="checkbox" id="allowDuplicateNum">
-                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción Admin)</label>
+                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción
+                            Admin)</label>
                     </div>
                 </form>
             </div>
@@ -302,9 +329,15 @@
     </div>
 
     <!-- Scripts -->
+    <script>
+        // Guardar sesión: si no hay usuario autenticado, ir al login
+        if (!localStorage.getItem('sipes_user')) {
+            window.location.replace('login.html');
+        }
+    </script>
     <script src="app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Load order config summary
             if (typeof loadOrderConfig === 'function') {
                 loadOrderConfig();
@@ -312,4 +345,5 @@
         });
     </script>
 </body>
+
 </html>
