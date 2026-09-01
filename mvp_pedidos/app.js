@@ -4,9 +4,12 @@
 let participants = [];
 let editingId = null;
 let expectedPlayers = 25;
+let unitPrice = 50.00;
+let deliveryDate = '2026-10-15';
 
 // --- Order Configuration (from diseno.html) ---
 let orderConfig = {
+    producto: 'conjunto',
     tela: 'winfresh',
     corte: 'estandar_varon',
     cuello: 'redondo',
@@ -53,11 +56,38 @@ function loadParticipants() {
     if (expData) {
         expectedPlayers = parseInt(expData);
     }
+
+    const priceData = localStorage.getItem('sipes_unit_price');
+    if (priceData) {
+        unitPrice = parseFloat(priceData);
+    }
+
+    const dateData = localStorage.getItem('sipes_delivery_date');
+    if (dateData) {
+        deliveryDate = dateData;
+    }
 }
 
 function saveParticipantsToStore() {
     localStorage.setItem('sipes_participants', JSON.stringify(participants));
     localStorage.setItem('sipes_expected', expectedPlayers.toString());
+    localStorage.setItem('sipes_unit_price', unitPrice.toString());
+    localStorage.setItem('sipes_delivery_date', deliveryDate);
+}
+
+function formatDateDisplay(isoDate) {
+    if (!isoDate) return '-';
+    try {
+        const parts = isoDate.split('-');
+        if (parts.length === 3) {
+            const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
+            const day = parseInt(parts[2], 10);
+            const monthIdx = parseInt(parts[1], 10) - 1;
+            const year = parts[0];
+            return `${day} ${months[monthIdx] || ''} ${year}`;
+        }
+    } catch(e) {}
+    return isoDate;
 }
 
 // --- Order Config Functions ---
@@ -67,6 +97,7 @@ function loadOrderConfig() {
         try {
             const parsed = JSON.parse(saved);
             orderConfig = Object.assign(orderConfig, parsed);
+            if (parsed.producto) orderConfig.producto = parsed.producto;
             if (parsed.opciones) orderConfig.opciones = Object.assign(orderConfig.opciones, parsed.opciones);
             if (parsed.mockups) {
                 const mockups = parsed.mockups;
@@ -82,6 +113,7 @@ function renderOrderSummary() {
     const container = document.getElementById('configSummaryContainer');
     if (!container) return;
 
+    const productoLabels = { conjunto: 'Conjunto Completo', camiseta: 'Solo Camiseta' };
     const telaLabels = { winfresh: 'Win Fresh', microfibra: 'Microfibra', algodon: 'Algodón Pima' };
     const corteLabels = { estandar_varon: 'Estándar Varón', estandar_mujer: 'Estándar Mujer', infantil: 'Infantil', unisex: 'Unisex' };
     const mangaLabels = { corta: 'Manga Corta', larga: 'Manga Larga', tres_cuartos: 'Manga 3/4' };
@@ -97,12 +129,11 @@ function renderOrderSummary() {
 
     let html = '';
     html += '<div class="config-summary-grid">';
+    html += '<div class="config-item"><span class="config-label">Producto</span><span class="config-value">' + (productoLabels[orderConfig.producto] || 'Conjunto Completo') + '</span></div>';
     html += '<div class="config-item"><span class="config-label">Tela</span><span class="config-value">' + (telaLabels[orderConfig.tela] || orderConfig.tela) + '</span></div>';
     html += '<div class="config-item"><span class="config-label">Corte</span><span class="config-value">' + (corteLabels[orderConfig.corte] || orderConfig.corte) + '</span></div>';
     html += '<div class="config-item"><span class="config-label">Manga</span><span class="config-value">' + (mangaLabels[orderConfig.manga] || orderConfig.manga) + '</span></div>';
     html += '<div class="config-item"><span class="config-label">Cuello</span><span class="config-value">' + (cuelloLabels[orderConfig.cuello] || orderConfig.cuello) + '</span></div>';
-    html += '<div class="config-item"><span class="config-label">Color 1</span><span class="config-value"><span class="color-dot" style="background:' + orderConfig.colorPrincipal + ';"></span> ' + orderConfig.colorPrincipal + '</span></div>';
-    html += '<div class="config-item"><span class="config-label">Color 2</span><span class="config-value"><span class="color-dot" style="background:' + orderConfig.colorSecundario + ';"></span> ' + orderConfig.colorSecundario + '</span></div>';
     if (orderConfig.confArquero) {
         html += '<div class="config-item config-item-full"><span class="config-label">Arquero</span><span class="config-value">' + orderConfig.confArquero + '</span></div>';
     }
@@ -117,15 +148,6 @@ function renderOrderSummary() {
         });
         html += '</div></div>';
     }
-
-    // Show mockup count (principal + arquero)
-    var principalMockups = orderConfig.mockups.principal || { delantera: null, espalda: null };
-    var arqueroMockups = orderConfig.mockups.arquero || { delantera: null, espalda: null };
-    var prinCount = Object.keys(principalMockups).filter(function(k) { return principalMockups[k] !== null; }).length;
-    var arqCount = Object.keys(arqueroMockups).filter(function(k) { return arqueroMockups[k] !== null; }).length;
-    var mockupText = (prinCount + ' del diseño principal');
-    if (arqCount > 0) mockupText += ' · ' + arqCount + ' del arquero';
-    html += '<div class="config-item config-item-full" style="margin-top:0.75rem;"><span class="config-label">Mockups</span><span class="config-value">' + mockupText + '</span></div>';
 
     container.innerHTML = html;
 }
@@ -163,6 +185,14 @@ function init() {
     loadParticipants();
     loadOrderConfig();
     if(expectedPlayersInput) expectedPlayersInput.value = expectedPlayers;
+    const unitPriceInput = document.getElementById('unitPriceInput');
+    if(unitPriceInput) unitPriceInput.value = unitPrice.toFixed(2);
+    const coordUnitPriceText = document.getElementById('coordUnitPriceText');
+    if(coordUnitPriceText) coordUnitPriceText.textContent = `S/ ${unitPrice.toFixed(2)}`;
+    const deliveryDateInput = document.getElementById('deliveryDateInput');
+    if(deliveryDateInput) deliveryDateInput.value = deliveryDate;
+    const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
+    if(coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
     renderTable();
     updateSummary();
     setupEventListeners();
@@ -171,7 +201,7 @@ function init() {
 // Renderizar Tabla
 function renderTable() {
     if (participants.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="empty-state">No hay participantes registrados. Agrega uno para empezar.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No hay participantes registrados. Agrega uno para empezar.</td></tr>`;
         return;
     }
 
@@ -182,7 +212,7 @@ function renderTable() {
         else paymentBadge = '<span class="status-badge" style="background:#FEE2E2; color:#991B1B;">Pendiente</span>';
         
         let tallasText = `<span style="font-weight:700">${p.size || '-'}</span>`;
-        if(p.productType === 'conjunto' && p.shortSize && p.shortSize !== 'same' && p.shortSize !== p.size) {
+        if((p.productType || orderConfig.producto || 'conjunto') === 'conjunto' && p.shortSize && p.shortSize !== 'same' && p.shortSize !== p.size) {
             tallasText = `<div><span style="font-weight:700">${p.size}</span><span style="font-size:0.75rem; color:#6B7280; display:block;">Short: ${p.shortSize}</span></div>`;
         }
 
@@ -201,11 +231,6 @@ function renderTable() {
             <td><strong>${p.shirtName}</strong></td>
             <td>${p.shirtNumber}</td>
             <td>${tallasText}</td>
-            <td>
-                <span class="pill ${p.productType === 'conjunto' ? 'pill-conjunto' : 'pill-camiseta'}">
-                    ${p.productType === 'conjunto' ? 'Conjunto Completo' : 'Solo Camiseta'}
-                </span>
-            </td>
             <td>${paymentBadge}</td>
             <td class="action-cell">
                 <button class="btn btn-edit-ghost" onclick="editParticipant(${p.id})"><i class="fa-solid fa-pen"></i></button>
@@ -340,6 +365,36 @@ function setupEventListeners() {
         });
     }
 
+    const btnSaveUnitPrice = document.getElementById('btnSaveUnitPrice');
+    const unitPriceInput = document.getElementById('unitPriceInput');
+    if (btnSaveUnitPrice && unitPriceInput) {
+        btnSaveUnitPrice.addEventListener('click', () => {
+            const val = parseFloat(unitPriceInput.value);
+            if (!isNaN(val) && val >= 0) {
+                unitPrice = val;
+                saveParticipantsToStore();
+                updateSummary();
+                const coordUnitPriceText = document.getElementById('coordUnitPriceText');
+                if (coordUnitPriceText) coordUnitPriceText.textContent = `S/ ${unitPrice.toFixed(2)}`;
+                alert(`Precio unitario acordado guardado: S/ ${val.toFixed(2)}`);
+            }
+        });
+    }
+
+    const btnSaveDeliveryDate = document.getElementById('btnSaveDeliveryDate');
+    const deliveryDateInput = document.getElementById('deliveryDateInput');
+    if (btnSaveDeliveryDate && deliveryDateInput) {
+        btnSaveDeliveryDate.addEventListener('click', () => {
+            if (deliveryDateInput.value) {
+                deliveryDate = deliveryDateInput.value;
+                saveParticipantsToStore();
+                const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
+                if (coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
+                alert(`Fecha de entrega actualizada a: ${formatDateDisplay(deliveryDate)}`);
+            }
+        });
+    }
+
     // Copiar Link del Coordinador (Para el Admin)
     const btnCopyCoordLink = document.getElementById('btnCopyCoordLink');
     if (btnCopyCoordLink) {
@@ -403,6 +458,10 @@ function closeList() {
 
 function openModal() {
     modalOverlay.classList.add('active');
+    const shortGroup = document.getElementById('shortSizeGroup');
+    if (shortGroup) {
+        shortGroup.style.display = (orderConfig.producto || 'conjunto') === 'conjunto' ? 'block' : 'none';
+    }
     document.getElementById('playerName').focus();
 }
 
@@ -420,11 +479,11 @@ function saveParticipant() {
     const sName = document.getElementById('shirtName').value.toUpperCase().trim();
     const sNumber = parseInt(document.getElementById('shirtNumber').value);
     const size = document.getElementById('size').value;
-    const pType = document.getElementById('productType').value;
-    const gCut = document.getElementById('genderCut').value;
+    const pType = document.getElementById('productType') ? document.getElementById('productType').value : (orderConfig.producto || 'conjunto');
+    const gCut = document.getElementById('genderCut') ? document.getElementById('genderCut').value : 'Hombre';
     const shortSize = document.getElementById('shortSize') ? document.getElementById('shortSize').value : '';
     const isGoalie = document.getElementById('isGoalkeeper') ? document.getElementById('isGoalkeeper').checked : false;
-    const exceptions = document.getElementById('exceptions').value.trim();
+    const exceptions = document.getElementById('exceptions') ? document.getElementById('exceptions').value.trim() : '';
     const allowDuplicate = document.getElementById('allowDuplicateNum').checked;
     const pStatus = document.getElementById('paymentStatus') ? document.getElementById('paymentStatus').value : 'Pendiente';
 
@@ -491,16 +550,23 @@ window.editParticipant = function(id) {
     document.getElementById('shirtName').value = p.shirtName;
     document.getElementById('shirtNumber').value = p.shirtNumber;
     document.getElementById('size').value = p.size;
-    if(p.genderCut) document.getElementById('genderCut').value = p.genderCut;
+    if(p.genderCut && document.getElementById('genderCut')) document.getElementById('genderCut').value = p.genderCut;
     
-    document.getElementById('productType').value = p.productType;
-    document.getElementById('productType').dispatchEvent(new Event('change'));
+    if(document.getElementById('productType')) {
+        document.getElementById('productType').value = p.productType || orderConfig.producto || 'conjunto';
+        document.getElementById('productType').dispatchEvent(new Event('change'));
+    }
+
+    const shortGroup = document.getElementById('shortSizeGroup');
+    if (shortGroup) {
+        shortGroup.style.display = (orderConfig.producto || 'conjunto') === 'conjunto' ? 'block' : 'none';
+    }
 
     if(document.getElementById('shortSize')) document.getElementById('shortSize').value = p.shortSize || '';
     if(document.getElementById('isGoalkeeper')) document.getElementById('isGoalkeeper').checked = p.isGoalkeeper || false;
     
     if(document.getElementById('paymentStatus')) document.getElementById('paymentStatus').value = p.paymentStatus || 'Pendiente';
-    document.getElementById('exceptions').value = p.exceptions;
+    if(document.getElementById('exceptions')) document.getElementById('exceptions').value = p.exceptions || '';
     document.getElementById('allowDuplicateNum').checked = false;
 
     modalTitle.textContent = "Editar Participante";

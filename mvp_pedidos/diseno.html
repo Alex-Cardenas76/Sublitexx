@@ -278,6 +278,13 @@
                             </div>
                             <div class="card-body" style="display: flex; flex-direction: column; gap: 0.85rem;">
                                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
+                                    <label style="margin: 0; font-size: 0.85rem; font-weight: 600; color: #334155; min-width: 130px; flex-shrink: 0;">Tipo de Producto</label>
+                                    <select id="tipoProducto" style="flex: 1; padding: 0.45rem 0.75rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; font-size: 0.85rem; background: white;">
+                                        <option value="conjunto">Conjunto Completo (Camiseta + Short)</option>
+                                        <option value="camiseta">Solo Camiseta</option>
+                                    </select>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem;">
                                     <label style="margin: 0; font-size: 0.85rem; font-weight: 600; color: #334155; min-width: 130px; flex-shrink: 0;">Tipo de Tela</label>
                                     <select id="tipoTela" style="flex: 1; padding: 0.45rem 0.75rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; font-size: 0.85rem; background: white;">
                                         <option value="winfresh">Win Fresh (Deportiva)</option>
@@ -466,6 +473,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // --- orderConfig structure ---
             let orderConfig = {
+                producto: 'conjunto',
                 tela: 'winfresh',
                 corte: 'estandar_varon',
                 cuello: 'redondo',
@@ -495,6 +503,7 @@
 
             // --- DOM references ---
             const STORAGE_KEY = 'sipes_order_config';
+            const tipoProducto = document.getElementById('tipoProducto');
             const tipoTela = document.getElementById('tipoTela');
             const tipoCorte = document.getElementById('tipoCorte');
             const tipoManga = document.getElementById('tipoManga');
@@ -531,6 +540,7 @@
             }
 
             // Populate form fields
+            if (tipoProducto) tipoProducto.value = orderConfig.producto || 'conjunto';
             if (tipoTela) tipoTela.value = orderConfig.tela;
             if (tipoCorte) tipoCorte.value = orderConfig.corte;
             if (tipoManga) tipoManga.value = orderConfig.manga;
@@ -561,6 +571,7 @@
 
             // --- Save to localStorage ---
             function saveConfig() {
+                if (tipoProducto) orderConfig.producto = tipoProducto.value;
                 if (tipoTela) orderConfig.tela = tipoTela.value;
                 if (tipoCorte) orderConfig.corte = tipoCorte.value;
                 if (tipoManga) orderConfig.manga = tipoManga.value;
@@ -577,7 +588,7 @@
             }
 
             // --- Listen for changes on all form elements ---
-            const formElements = [tipoTela, tipoCorte, tipoManga, tipoCuello, colorPrincipal, colorSecundario, notasDiseno, optBanderola, optBandaCapitan, optEscudo, optMedias].filter(Boolean);
+            const formElements = [tipoProducto, tipoTela, tipoCorte, tipoManga, tipoCuello, colorPrincipal, colorSecundario, notasDiseno, optBanderola, optBandaCapitan, optEscudo, optMedias].filter(Boolean);
             formElements.forEach(function(el) {
                 el.addEventListener('input', saveConfig);
                 el.addEventListener('change', saveConfig);
