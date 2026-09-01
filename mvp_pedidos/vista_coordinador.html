@@ -224,9 +224,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="productType">Producto <span class="required">*</span></label>
-                            <select id="productType" required onchange="document.getElementById('shortSizeGroup').style.display = this.value === 'conjunto' ? 'block' : 'none'">
-                                <option value="conjunto">Conjunto Completo</option>
-                                <option value="camiseta">Solo Camiseta</option>
+                            <select id="productType" required disabled style="background-color: #f1f5f9; cursor: not-allowed;">
+                                <option value="conjunto" selected>Conjunto Completo</option>
                             </select>
                         </div>
                         <div class="form-group" id="shortSizeGroup">

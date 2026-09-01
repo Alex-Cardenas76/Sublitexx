@@ -44,10 +44,13 @@ function loadParticipants() {
         participants = [
             { id: 1, playerName: "Juan Pérez", shirtName: "JUAN P.", shirtNumber: 10, size: "M", genderCut: "Hombre", productType: "conjunto", paymentStatus: "Pagado", exceptions: "" },
             { id: 2, playerName: "Carlos López", shirtName: "CARLOS", shirtNumber: 7, size: "L", genderCut: "Mujer", productType: "conjunto", paymentStatus: "Abonado", exceptions: "Mangas cortas" },
-            { id: 3, playerName: "Andrés Silva", shirtName: "A. SILVA", shirtNumber: 9, size: "M", genderCut: "Hombre", productType: "camiseta", paymentStatus: "Pendiente", exceptions: "" },
+            { id: 3, playerName: "Andrés Silva", shirtName: "A. SILVA", shirtNumber: 9, size: "M", genderCut: "Hombre", productType: "conjunto", paymentStatus: "Pendiente", exceptions: "" },
         ];
         saveParticipantsToStore();
     }
+
+    // FORZAR QUE TODOS SEAN CONJUNTO (A pedido del usuario)
+    participants.forEach(p => p.productType = 'conjunto');
     
     const expData = localStorage.getItem('sipes_expected');
     if (expData) {
