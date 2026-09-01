@@ -601,8 +601,11 @@ html,body{
       <span id="cta5txt">Continuar al Pago</span>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
     </button>
+    <button class="btn-cta" onclick="guardarPendiente()" style="background:transparent;border:1.5px solid var(--g);color:var(--g);margin-top:8px">
+      Guardar (Pago Pendiente)
+    </button>
     <button class="btn-cta" onclick="goTo(3)" style="background:transparent;border:1.5px solid var(--bd);color:var(--tx);margin-top:8px">
-      ← Modificar datos
+      Modificar datos
     </button>
   </div>
 </div>
@@ -1041,37 +1044,54 @@ function onVoucherSelected(input) {
   }
 }
 
-/* ─── GUARDAR en localStorage ─── */
-function guardarYConfirmar() {
+/* ─── /* ==== GUARDAR en localStorage ==== */
+function guardarParticipante(paymentStatus, toastMsg) {
   const cutMap = { var: 'Hombre', muj: 'Mujer', nin: 'Niño' };
   const participants = getParticipants();
 
-  const record = {
-    id:           S.participantId || Date.now(),
-    playerName:   S.nomReal,
-    shirtName:    S.nombre,
-    shirtNumber:  S.numero,
-    size:         S.talla,
-    shortSize:    S.tallaShort !== 'same' ? S.tallaShort : '',
-    collarType:   (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo',
-    productType:  S.prod === 'conj' ? 'conjunto' : 'camiseta',
-    genderCut:    cutMap[S.cut] || 'Hombre',
-    isGoalkeeper: S.rol === 'arq',
-    mangaLarga:   S.mangaLarga,
-    escudo:       S.escudo,
-    exceptions:   S.excepcion ? S.excepcionTxt : '',
-    paymentStatus: voucherFileName ? 'Pagado' : 'Pendiente',
-    voucherName:  voucherFileName || ''
-  };
-
+  let record;
   if (S.participantId) {
+    record = {
+      id:           S.participantId,
+      playerName:   S.nomReal,
+      shirtName:    S.nombre,
+      shirtNumber:  S.numero,
+      size:         S.talla,
+      shortSize:    S.tallaShort !== 'same' ? S.tallaShort : '',
+      collarType:   (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo',
+      productType:  S.prod === 'conj' ? 'conjunto' : 'camiseta',
+      genderCut:    cutMap[S.cut] || 'Hombre',
+      isGoalkeeper: S.rol === 'arq',
+      mangaLarga:   S.mangaLarga,
+      escudo:       S.escudo,
+      exceptions:   S.excepcion ? S.excepcionTxt : '',
+      paymentStatus: paymentStatus,
+      voucherName:  voucherFileName || ''
+    };
     const idx = participants.findIndex(p => p.id == S.participantId);
     if (idx > -1) participants[idx] = { ...participants[idx], ...record };
     else participants.push(record);
   } else {
+    record = {
+      id:           Date.now(),
+      playerName:   S.nomReal,
+      shirtName:    S.nombre,
+      shirtNumber:  S.numero,
+      size:         S.talla,
+      shortSize:    S.tallaShort !== 'same' ? S.tallaShort : '',
+      collarType:   (S.cuello === 'v') ? 'Cuello en V' : 'Cuello Redondo',
+      productType:  S.prod === 'conj' ? 'conjunto' : 'camiseta',
+      genderCut:    cutMap[S.cut] || 'Hombre',
+      isGoalkeeper: S.rol === 'arq',
+      mangaLarga:   S.mangaLarga,
+      escudo:       S.escudo,
+      exceptions:   S.excepcion ? S.excepcionTxt : '',
+      paymentStatus: paymentStatus,
+      voucherName:  voucherFileName || ''
+    };
     participants.push(record);
+    S.participantId = record.id;
   }
-
   saveParticipants(participants);
 
   // Mostrar confirmación
@@ -1084,8 +1104,20 @@ function guardarYConfirmar() {
   document.getElementById('conf-corte').textContent  = CUT_LABEL[S.cut];
 
   goTo(6);
-  showToast('¡Registro y pago confirmados!');
+  showToast(toastMsg);
 }
+
+/* Guardar sin pagar -> queda PENDIENTE en la tabla del coordinador */
+function guardarPendiente() {
+  guardarParticipante('Pendiente', 'Pedido guardado (pago pendiente)');
+}
+
+/* Pagar y confirmar -> queda PAGADO en la tabla del coordinador */
+function guardarYConfirmar() {
+  guardarParticipante('Pagado', '¡¡Registro y pago confirmados!');
+}
+
+
 
 /* ─── UTILS ─── */
 let _tt;

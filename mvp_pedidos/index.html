@@ -86,18 +86,28 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <div id="configSummaryContainer">
-                                <p class="text-muted" style="font-size: 0.875rem;">
-                                    Sin configurar. <a href="diseno.html">Configurar ahora →</a>
-                                </p>
-                            </div>
-                            <div class="info-grid" style="margin-top: 1rem;">
-                                <div class="info-item">
-                                    <label>Meta de Participantes</label>
-                                    <div style="display:flex; gap:0.5rem; align-items:center;">
-                                        <input type="number" id="expectedPlayersInput" value="25" style="width:70px; padding:0.25rem; font-size:0.875rem;">
-                                        <button class="btn btn-sm btn-outline" id="btnSaveExpected">Fijar Meta</button>
+                            <!-- Layout 2 columnas: info | imagen -->
+                            <div style="display:grid; grid-template-columns:1fr 140px; gap:1.25rem; align-items:start;">
+                                <!-- Col izquierda: info -->
+                                <div style="display:flex; flex-direction:column; gap:0.75rem;">
+                                    <div id="configSummaryContainer">
+                                        <p class="text-muted" style="font-size: 0.875rem;">
+                                            Sin configurar. <a href="diseno.html">Configurar ahora →</a>
+                                        </p>
                                     </div>
+                                    <div class="info-grid" style="margin-top: 1rem; margin-bottom: 0;">
+                                        <div class="info-item">
+                                            <label>Meta de Participantes</label>
+                                            <div style="display:flex; gap:0.5rem; align-items:center;">
+                                                <input type="number" id="expectedPlayersInput" value="25" style="width:70px; padding:0.25rem; font-size:0.875rem;">
+                                                <button class="btn btn-sm btn-outline" id="btnSaveExpected">Fijar Meta</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Col derecha: imagen del diseño aprobado -->
+                                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:0.5rem; padding:0.75rem; display:flex; align-items:center; justify-content:center;">
+                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado" style="max-width:100%; height:auto; max-height:130px; object-fit:contain;">
                                 </div>
                             </div>
                         </div>
