@@ -259,63 +259,53 @@ function updateSummary() {
         numbersUsed[p.shirtNumber].push(p.shirtName);
     });
 
-    // Actualizar DOM Totales
-    totalConjuntosEl.textContent = totalConjuntos;
-    totalCamisetasEl.textContent = totalCamisetas;
-    totalPrendasEl.textContent = totalConjuntos + totalCamisetas;
+    if (totalConjuntosEl) totalConjuntosEl.textContent = totalConjuntos;
+    if (totalCamisetasEl) totalCamisetasEl.textContent = totalCamisetas;
+    if (totalPrendasEl) totalPrendasEl.textContent = totalConjuntos + totalCamisetas;
     
     const paidEl = document.getElementById('totalPaid');
     const pendingEl = document.getElementById('totalPending');
     if (paidEl) paidEl.textContent = totalPaid;
     if (pendingEl) pendingEl.textContent = totalPending;
 
-    // Renderizar Curva de Tallas
+    // Renderizar Curva de Tallas (nuevo formato: chips del sidebar derecho)
     sizesGridEl.innerHTML = Object.keys(sizeCounts).sort().map(sizeKey => {
         const count = sizeCounts[sizeKey];
         return `
-            <div class="size-box">
-                <span class="sz">${sizeKey}</span>
-                <span class="ct">${count} und</span>
+            <div class="rs-size-chip">
+                <div class="size-tag">${sizeKey}</div>
+                <div class="size-qty">${count} und</div>
             </div>
         `;
     }).join('');
 
-    // Generar Alertas
-    Object.keys(numbersUsed).forEach(num => {
-        if (numbersUsed[num].length > 1) {
-            alerts.push({
-                type: 'danger',
-                icon: 'fa-triangle-exclamation',
-                msg: `El número <strong>${num}</strong> está repetido (${numbersUsed[num].join(', ')}). Esto causará errores en producción.`
-            });
+    // Alerta de Meta (barra de progreso del sidebar derecho)
+    const metaTextEl = document.getElementById('metaText');
+    const metaProgressEl = document.getElementById('metaProgress');
+    if (metaTextEl && metaProgressEl) {
+        const pct = expectedPlayers > 0 ? Math.round((participants.length / expectedPlayers) * 100) : 0;
+        metaProgressEl.style.width = Math.min(pct, 100) + '%';
+        if (participants.length >= expectedPlayers) {
+            metaTextEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> Meta de <strong>' + expectedPlayers + ' jugadores</strong> alcanzada.';
+            const alertBox = metaTextEl.closest('.rs-alert');
+            if (alertBox) { alertBox.style.background = '#f0fdf4'; alertBox.style.borderColor = '#bbf7d0'; alertBox.style.color = '#166534'; }
+        } else {
+            const diff = expectedPlayers - participants.length;
+            metaTextEl.innerHTML = 'Faltan <strong>' + diff + ' jugadores</strong> para la meta de ' + expectedPlayers + '.';
+            const alertBox = metaTextEl.closest('.rs-alert');
+            if (alertBox) { alertBox.style.background = '#fffbeb'; alertBox.style.borderColor = '#fde68a'; alertBox.style.color = '#92400e'; }
         }
-    });
-
-    // Alerta de conciliación (quiénes faltan)
-    if (participants.length < expectedPlayers) {
-        const diff = expectedPlayers - participants.length;
-        alerts.push({
-            type: 'warning',
-            icon: 'fa-user-clock',
-            msg: `Faltan <strong>${diff}</strong> jugador(es) por registrarse para alcanzar la meta de ${expectedPlayers}.`
-        });
     }
 
-    if (alerts.length === 0) {
-        alerts.push({
-            type: 'success',
-            icon: 'fa-check-circle',
-            msg: `Lista sin errores y completa. Lista para producción.`
-        });
+    // Renderizar Alertas (si el contenedor existe)
+    if (alertsContainerEl) {
+        alertsContainerEl.innerHTML = alerts.map(a => `
+            <div class="alert alert-${a.type === 'danger' ? 'danger' : 'warning'}" style="${a.type==='success' ? 'background:#D1FAE5; color:#065F46; border:1px solid #10B981;' : ''}">
+                <i class="fa-solid ${a.icon} mt-1"></i>
+                <div>${a.msg}</div>
+            </div>
+        `).join('');
     }
-
-    // Renderizar Alertas
-    alertsContainerEl.innerHTML = alerts.map(a => `
-        <div class="alert alert-${a.type === 'danger' ? 'danger' : 'warning'}" style="${a.type==='success' ? 'background:#D1FAE5; color:#065F46; border:1px solid #10B981;' : ''}">
-            <i class="fa-solid ${a.icon} mt-1"></i>
-            <div>${a.msg}</div>
-        </div>
-    `).join('');
 }
 
 // Event Listeners

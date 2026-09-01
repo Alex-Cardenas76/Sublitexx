@@ -112,64 +112,49 @@
                     </section>
                 </div>
 
-                <!-- Columna Derecha: Resumen en Tiempo Real (Magia) -->
+                <!-- Columna Derecha: Resumen en Vivo -->
                 <div class="side-column">
-                    <section class="card magic-summary-card">
-                        <div class="card-header glass-header">
-                            <h2><i class="fa-solid fa-bolt"></i> Resumen en Tiempo Real</h2>
-                            <span class="subtitle">Calculado automáticamente</span>
+                    <aside class="right-sidebar">
+
+                        <!-- Alerta de Meta -->
+                        <div class="rs-alert">
+                            <span><i class="fa-solid fa-triangle-exclamation"></i> <span id="metaText">Faltan jugadores para la meta.</span></span>
+                            <div class="rs-progress-bar"><div class="fill" id="metaProgress" style="width:0%;"></div></div>
                         </div>
-                        <div class="card-body">
-                            
-                            <!-- Alertas de Inconsistencias -->
-                            <div id="alertsContainer" class="alerts-container">
-                                <!-- JS llenará esto si hay errores -->
-                            </div>
 
-                            <!-- Totales Generales -->
-                            <div class="summary-section">
-                                <h3>Total de Prendas a Producir</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box">
-                                        <span class="stat-label">Conjuntos Completos</span>
-                                        <span class="stat-value" id="totalConjuntos">0</span>
-                                    </div>
-                                    <div class="stat-box">
-                                        <span class="stat-label">Solo Camisetas</span>
-                                        <span class="stat-value" id="totalCamisetas">0</span>
-                                    </div>
-                                </div>
-                                <div class="total-badge">Total Producción: <span id="totalPrendas">0</span> unidades</div>
-                            </div>
-
-                            <!-- Curva de Tallas -->
-                            <div class="summary-section">
-                                <h3>Curva de Tallas (Consolidado)</h3>
-                                <div class="sizes-grid" id="sizesGrid">
-                                    <!-- JS llenará esto -->
+                        <!-- Producción Total -->
+                        <div>
+                            <div class="rs-block-title">Producción Total</div>
+                            <div class="rs-prod-grid" style="grid-template-columns: 1fr;">
+                                <div class="rs-prod-box">
+                                    <span>Completos</span>
+                                    <h4 id="totalConjuntos">0</h4>
                                 </div>
                             </div>
-                            
-                            <!-- Resumen Financiero -->
-                            <div class="summary-section">
-                                <h3>Estado de Cobranza</h3>
-                                <div class="stats-grid">
-                                    <div class="stat-box" style="border-color: #10B981;">
-                                        <span class="stat-label">Pagados / Abonados</span>
-                                        <span class="stat-value" id="totalPaid" style="color:#065F46">0</span>
-                                    </div>
-                                    <div class="stat-box" style="border-color: #EF4444;">
-                                        <span class="stat-label">Pendientes</span>
-                                        <span class="stat-value" id="totalPending" style="color:#991B1B">0</span>
-                                    </div>
+                        </div>
+
+                        <!-- Curva de Tallas Minimalista -->
+                        <div>
+                            <div class="rs-block-title">Curva de Tallas</div>
+                            <div class="rs-sizes-grid" id="sizesGrid"></div>
+                        </div>
+
+                        <!-- Estado de Cobranza -->
+                        <div>
+                            <div class="rs-block-title">Cobranza</div>
+                            <div class="rs-cobro-row">
+                                <div class="rs-cobro-card pagado">
+                                    <span>Pagados / Abonados</span>
+                                    <h4 id="totalPaid">0</h4>
+                                </div>
+                                <div class="rs-cobro-card pendiente">
+                                    <span>Pendientes</span>
+                                    <h4 id="totalPending">0</h4>
                                 </div>
                             </div>
+                        </div>
 
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-full btn-success" id="btnExport"><i class="fa-solid fa-file-export"></i> Exportar para Diseño (CSV)</button>
-                        </div>
-                    </section>
+                    </aside>
                 </div>
             </div>
         </main>
