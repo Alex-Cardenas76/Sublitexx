@@ -331,6 +331,66 @@ function updateSummary() {
             </div>
         `).join('');
     }
+
+    renderPriceSummary();
+}
+
+// Resumen de Precios (mismas tarifas que la Tabla de Precios en precios.html)
+const CONFIG_PRECIOS = {
+    'conjunto-jugador': { nombre: 'Conjunto Jugador', precio: 45 },
+    'conjunto-arquero': { nombre: 'Conjunto Arquero', precio: 50 },
+    'camiseta':         { nombre: 'Solo Camiseta',     precio: 25 }
+};
+const MONEDA = 'S/';
+
+function renderPriceSummary() {
+    const container = document.getElementById('priceSummaryContainer');
+    if (!container) return;
+
+    // Contar por categoría
+    const resumen = { 'conjunto-jugador': 0, 'conjunto-arquero': 0, 'camiseta': 0 };
+    participants.forEach(p => {
+        const esConjunto = p.productType === 'conjunto' || p.productType === 'conjuntos';
+        if (esConjunto) {
+            if (p.isGoalkeeper) resumen['conjunto-arquero']++;
+            else resumen['conjunto-jugador']++;
+        } else {
+            resumen['camiseta']++;
+        }
+    });
+
+    let granTotal = 0;
+    let totalPrendas = 0;
+    Object.keys(CONFIG_PRECIOS).forEach(k => {
+        const cnt = resumen[k];
+        granTotal += cnt * CONFIG_PRECIOS[k].precio;
+        totalPrendas += cnt;
+    });
+
+    const filas = Object.keys(CONFIG_PRECIOS).map(k => {
+        const cfg = CONFIG_PRECIOS[k];
+        const cnt = resumen[k];
+        return `
+            <div class="rs-price-row">
+                <span class="rs-price-key">${cfg.nombre}</span>
+                <span>${cnt} × ${MONEDA}${cfg.precio}</span>
+                <span class="rs-price-val">${MONEDA}${cnt * cfg.precio}</span>
+            </div>
+        `;
+    }).join('');
+
+    container.innerHTML = `
+        ${totalPrendas === 0
+            ? '<div class="rs-price-empty"><p class="text-muted" style="font-size:0.8rem; margin:0;">Sin participantes registrados.</p></div>'
+            : `
+            <div class="rs-price-box">
+                ${filas}
+                <div class="rs-price-total">
+                    <span>Total ${totalPrendas} prenda${totalPrendas !== 1 ? 's' : ''}</span>
+                    <span class="rs-price-gran">${MONEDA}${granTotal}</span>
+                </div>
+            </div>`}
+    `;
 }
 
 // Event Listeners

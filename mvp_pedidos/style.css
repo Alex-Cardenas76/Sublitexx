@@ -976,3 +976,48 @@ input:focus, select:focus {
 
 /* Reutiliza clases de chip/tag de tallas dentro del sidebar */
 .rs-size-chip { min-width: 0; }
+
+/* ===== Resumen de Precios (Sidebar Derecho) ===== */
+.rs-price-box {
+    background: #f8fafc;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.rs-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted, #64748b);
+}
+.rs-price-key { font-weight: 700; color: var(--text-main, #1e293b); }
+.rs-price-row > span:nth-child(2) { margin-left: auto; color: var(--text-muted, #64748b); }
+.rs-price-val { font-weight: 700; color: var(--text-main, #1e293b); font-variant-numeric: tabular-nums; }
+.rs-price-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    padding-top: 8px;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-main, #1e293b);
+}
+.rs-price-gran {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary, #4f46e5);
+    font-variant-numeric: tabular-nums;
+}
+.rs-price-empty {
+    background: #f8fafc;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+}
