@@ -31,15 +31,15 @@
             transition: all 0.2s;
         }
         .tab-btn:hover {
-            background: #EEF2FF;
-            color: #4F46E5;
-            border-color: #C7D2FE;
+            background: #E6FBFF;
+            color: #06B6D4;
+            border-color: #A5F3FC;
         }
         .tab-btn.active {
-            background: #4F46E5;
+            background: #06B6D4;
             color: white;
-            border-color: #4F46E5;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+            border-color: #06B6D4;
+            box-shadow: 0 2px 4px rgba(6, 182, 212, 0.2);
         }
         /* ===== Sticky layout: sidebar + topbar fijos, solo scrollea el contenido ===== */
         .app-container {
@@ -139,8 +139,8 @@
             position: relative;
         }
         .mockup-slot:hover {
-            border-color: #4F46E5;
-            background: #EEF2FF;
+            border-color: #06B6D4;
+            background: #E6FBFF;
         }
         .mockup-slot.has-image {
             padding: 0;
@@ -207,8 +207,8 @@
         textarea#notasDiseno:focus {
             outline: none;
             background-color: #FFFFFF;
-            border-color: #4F46E5;
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+            border-color: #06B6D4;
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
         }
         textarea#notasDiseno::placeholder {
             color: #94A3B8;
@@ -259,7 +259,7 @@
                         <span style="display:block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.85;">Estado del Diseño</span>
                         <span style="font-size: 0.875rem; font-weight: 700;" id="estadoTexto">En Revisión (Pendiente de Aprobación)</span>
                     </div>
-                    <button class="btn btn-primary" id="btnAprobar" style="font-size: 0.85rem; font-weight: 600; padding: 0.45rem 0.9rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2); cursor: pointer; border-radius: 0.375rem; margin-left: 0.5rem;">
+                    <button class="btn btn-primary" id="btnAprobar" style="font-size: 0.85rem; font-weight: 600; padding: 0.45rem 0.9rem; display: inline-flex; align-items: center; gap: 0.4rem; box-shadow: 0 2px 4px rgba(6, 182, 212, 0.2); cursor: pointer; border-radius: 0.375rem; margin-left: 0.5rem;">
                         <i class="fa-solid fa-circle-check" style="font-size: 0.95rem;"></i> Aprobar Diseño
                     </button>
                 </div>
@@ -332,22 +332,22 @@
                                 </p>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; margin-bottom: 1.25rem;">
                                     <label style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 500; color: #334155; cursor: pointer; background: #F8FAFC; padding: 0.55rem 0.75rem; border-radius: 0.375rem; border: 1px solid #E2E8F0; transition: border-color 0.15s;">
-                                        <input type="checkbox" id="optBanderola" style="width: 17px; height: 17px; accent-color: #4F46E5; cursor: pointer;"> Banderola
+                                        <input type="checkbox" id="optBanderola" style="width: 17px; height: 17px; accent-color: #06B6D4; cursor: pointer;"> Banderola
                                     </label>
                                     <label style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 500; color: #334155; cursor: pointer; background: #F8FAFC; padding: 0.55rem 0.75rem; border-radius: 0.375rem; border: 1px solid #E2E8F0; transition: border-color 0.15s;">
-                                        <input type="checkbox" id="optBandaCapitan" style="width: 17px; height: 17px; accent-color: #4F46E5; cursor: pointer;"> Banda de Capitán
+                                        <input type="checkbox" id="optBandaCapitan" style="width: 17px; height: 17px; accent-color: #06B6D4; cursor: pointer;"> Banda de Capitán
                                     </label>
                                     <label style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 500; color: #334155; cursor: pointer; background: #F8FAFC; padding: 0.55rem 0.75rem; border-radius: 0.375rem; border: 1px solid #E2E8F0; transition: border-color 0.15s;">
-                                        <input type="checkbox" id="optEscudo" style="width: 17px; height: 17px; accent-color: #4F46E5; cursor: pointer;"> Escudo / Insignia
+                                        <input type="checkbox" id="optEscudo" style="width: 17px; height: 17px; accent-color: #06B6D4; cursor: pointer;"> Escudo / Insignia
                                     </label>
                                     <label style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-weight: 500; color: #334155; cursor: pointer; background: #F8FAFC; padding: 0.55rem 0.75rem; border-radius: 0.375rem; border: 1px solid #E2E8F0; transition: border-color 0.15s;">
-                                        <input type="checkbox" id="optMedias" style="width: 17px; height: 17px; accent-color: #4F46E5; cursor: pointer;"> Medias
+                                        <input type="checkbox" id="optMedias" style="width: 17px; height: 17px; accent-color: #06B6D4; cursor: pointer;"> Medias
                                     </label>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.45rem;">
                                         <label for="notasDiseno" style="font-size: 0.85rem; font-weight: 700; color: #1E293B; margin: 0; display: flex; align-items: center; gap: 0.4rem;">
-                                            <i class="fa-solid fa-pen-to-square" style="color: #4F46E5;"></i> Observaciones y Notas Técnicas
+                                            <i class="fa-solid fa-pen-to-square" style="color: #06B6D4;"></i> Observaciones y Notas Técnicas
                                         </label>
                                         <span class="text-muted" style="font-size: 0.75rem;">Para taller de producción</span>
                                     </div>
@@ -368,7 +368,7 @@
                                 <!-- Subsección: Diseño Principal -->
                                 <div style="margin-bottom: 1.25rem;">
                                     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
-                                        <span style="font-weight: 700; font-size: 0.875rem; color: #1E293B;"><i class="fa-solid fa-shirt" style="color: #4F46E5; margin-right: 0.35rem;"></i> Diseño Principal</span>
+                                        <span style="font-weight: 700; font-size: 0.875rem; color: #1E293B;"><i class="fa-solid fa-shirt" style="color: #06B6D4; margin-right: 0.35rem;"></i> Diseño Principal</span>
                                         <span class="text-muted" style="font-size: 0.75rem;">Para jugadores (Campo)</span>
                                     </div>
                                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -432,11 +432,11 @@
                                     <label for="colorPrincipal" style="cursor: pointer; display: block; margin: 0;">
                                         <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 0.6rem; padding: 0.85rem; display: flex; align-items: center; gap: 0.85rem; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                                             <div style="position: relative; width: 44px; height: 44px; border-radius: 0.45rem; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.15); border: 2px solid white; flex-shrink: 0;">
-                                                <input type="color" id="colorPrincipal" value="#1E3A8A" style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; cursor: pointer; border: none; padding: 0;">
+                                                <input type="color" id="colorPrincipal" value="#0E7490" style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; cursor: pointer; border: none; padding: 0;">
                                             </div>
                                             <div style="flex: 1; min-width: 0;">
                                                 <span style="display: block; font-size: 0.7rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.04em;">Dominante</span>
-                                                <span id="colorPrincipalHex" style="font-size: 0.95rem; font-weight: 800; color: #1E293B; font-family: monospace;">#1E3A8A</span>
+                                                <span id="colorPrincipalHex" style="font-size: 0.95rem; font-weight: 800; color: #1E293B; font-family: monospace;">#0E7490</span>
                                             </div>
                                         </div>
                                     </label>
@@ -462,7 +462,7 @@
             </div>
 
             <!-- Botón Flotante: Guardar Cambios -->
-            <button class="btn btn-primary" id="btnGuardarDiseno" style="position: fixed; bottom: 2rem; right: 2.5rem; z-index: 50; font-size: 0.95rem; font-weight: 600; padding: 0.85rem 1.6rem; border-radius: 9999px; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4); display: flex; align-items: center; gap: 0.6rem; cursor: pointer; border: none; transition: transform 0.15s ease, box-shadow 0.15s ease;">
+            <button class="btn btn-primary" id="btnGuardarDiseno" style="position: fixed; bottom: 2rem; right: 2.5rem; z-index: 50; font-size: 0.95rem; font-weight: 600; padding: 0.85rem 1.6rem; border-radius: 9999px; box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); display: flex; align-items: center; gap: 0.6rem; cursor: pointer; border: none; transition: transform 0.15s ease, box-shadow 0.15s ease;">
                 <i class="fa-solid fa-floppy-disk" style="font-size: 1.1rem;"></i>
                 <span>Guardar Cambios</span>
             </button>
@@ -478,7 +478,7 @@
                 corte: 'estandar_varon',
                 cuello: 'redondo',
                 manga: 'corta',
-                colorPrincipal: '#1E3A8A',
+                colorPrincipal: '#0E7490',
                 colorSecundario: '#FBBF24',
                 confArquero: '',
                 notasTecnicas: '',

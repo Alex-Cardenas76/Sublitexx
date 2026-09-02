@@ -1,13 +1,13 @@
 /* style.css - Diseño Premium y Moderno para SIPES */
 :root {
-    --primary: #4F46E5; /* Indigo 600 */
-    --primary-hover: #4338CA;
+    --primary: #06B6D4; /* Cian / Turquesa brillante (Cyan 500) */
+    --primary-hover: #0891B2; /* Cian oscuro (Cyan 600) */
     --secondary: #10B981; /* Emerald 500 */
     --danger: #EF4444; /* Red 500 */
     --warning: #F59E0B; /* Amber 500 */
     
-    --bg-main: #FAF5EA; /* Crema claro */
-    --bg-card: #FFFFFF;
+    --bg-main: #F8F9FA; /* Gris muy claro / Blanco humo */
+    --bg-card: #FFFFFF; /* Blanco puro */
     
     --text-main: #111827;
     --text-muted: #6B7280;
@@ -50,19 +50,20 @@ a {
     min-height: 100vh;
 }
 
-/* Sidebar (tema verde sobre crema) */
+/* Sidebar (blanco puro con acentos cian/turquesa) */
 .sidebar {
     width: 260px;
-    background-color: #E8F1EA; /* verde salvia claro */
-    color: #14532D;
+    background-color: #FFFFFF; /* blanco puro */
+    color: #1F2937;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    border-right: 1px solid var(--border-color);
 }
 
 .sidebar-header {
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(20, 83, 45, 0.12);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .logo {
@@ -71,45 +72,49 @@ a {
     gap: 0.75rem;
     font-size: 1.25rem;
     font-weight: 700;
-    color: #14532D;
+    color: #1F2937;
 }
 
 .logo i {
-    color: #16A34A;
+    color: var(--primary);
     font-size: 1.5rem;
 }
 
 .sidebar-nav {
     flex: 1;
-    padding: 1rem 0;
+    padding: 1rem 0.75rem;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
 }
 
 .nav-item {
-    padding: 0.75rem 1.5rem;
-    color: #166534;
+    padding: 0.75rem 1rem;
+    color: #374151; /* Gris oscuro */
     display: flex;
     align-items: center;
     gap: 0.75rem;
     transition: all 0.2s;
-    border-left: 3px solid transparent;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    font-weight: 500;
 }
 
-.nav-item:hover, .nav-item.active {
-    background-color: #D7E8DC;
-    color: #14532D;
+.nav-item:hover {
+    background-color: #F3F4F6; /* Gris muy suave */
+    color: #333333;
 }
 
 .nav-item.active {
-    border-left-color: #16A34A;
-    font-weight: 500;
+    background-color: var(--primary); /* Cian / Turquesa brillante */
+    color: #FFFFFF; /* Texto blanco */
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
 }
 
 .sidebar-footer {
     padding: 1rem 1.5rem;
-    border-top: 1px solid rgba(20, 83, 45, 0.12);
+    border-top: 1px solid var(--border-color);
 }
 
 .user-info {
@@ -122,7 +127,7 @@ a {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #16A34A;
+    background-color: var(--primary);
     color: white;
     display: flex;
     align-items: center;
@@ -134,7 +139,7 @@ a {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #16A34A;
+    background-color: var(--primary);
     color: white;
     display: flex;
     align-items: center;
@@ -150,12 +155,12 @@ a {
 .user-info .name, .user-name {
     font-size: 0.875rem;
     font-weight: 600;
-    color: #14532D;
+    color: #111827;
 }
 
 .user-info .role, .user-role {
     font-size: 0.75rem;
-    color: #3F6A5A;
+    color: #6B7280;
 }
 
 /* Main Content */
@@ -347,7 +352,7 @@ a {
     font-weight: 600;
 }
 
-.pill-conjunto { background-color: #DBEAFE; color: #1E40AF; }
+.pill-conjunto { background-color: #CFFAFE; color: #0E7490; }
 .pill-camiseta { background-color: #FCE7F3; color: #9D174D; }
 
 /* Magic Summary Card (The important part!) */
@@ -360,7 +365,7 @@ a {
 }
 
 .glass-header {
-    background: linear-gradient(135deg, #4F46E5, #3B82F6);
+    background: linear-gradient(135deg, #06B6D4, #0891B2);
     color: white;
     border-bottom: none;
 }
@@ -559,7 +564,7 @@ a {
     padding: 0.25rem 0.5rem;
 }
 .btn-edit-ghost:hover {
-    background: #E0E7FF;
+    background: #CFFAFE;
 }
 
 /* Modal */
@@ -669,7 +674,7 @@ input[type="text"], input[type="number"], select {
 input:focus, select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
 }
 
 /* Animations */
@@ -756,8 +761,8 @@ input:focus, select:focus {
 .option-chip {
     display: inline-block;
     padding: 0.25rem 0.625rem;
-    background: #EEF2FF;
-    color: #4F46E5;
+    background: #E6FBFF;
+    color: #0891B2;
     font-size: 0.75rem;
     font-weight: 600;
     border-radius: 9999px;
@@ -794,8 +799,8 @@ input:focus, select:focus {
 }
 
 .mockup-slot:hover {
-    border-color: #4F46E5;
-    background: #EEF2FF;
+    border-color: #06B6D4;
+    background: #E6FBFF;
 }
 
 .mockup-slot.has-image {
