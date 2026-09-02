@@ -116,18 +116,31 @@
 
                                     <div class="info-grid"
                                         style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 0;">
-                                        <div class="info-item">
-                                            <label style="color:#475569; font-weight:600;">Precio a Cobrar por
-                                                Conjunto</label>
+                                        <div class="info-item" id="priceConjuntoWrapper">
+                                            <label style="color:#475569; font-weight:600;">Precio por Conjunto</label>
                                             <div
                                                 style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
                                                 <span
                                                     style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
-                                                <input type="number" id="unitPriceInput" value="50.00" step="0.50"
+                                                <input type="number" id="unitPriceConjuntoInput" value="50.00" step="0.50"
                                                     min="0"
                                                     style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveUnitPrice"
+                                                <button class="btn btn-primary btn-sm" id="btnSavePriceConjunto"
                                                     title="Guardar precio por conjunto"
+                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                            </div>
+                                        </div>
+                                        <div class="info-item" id="priceCamisetaWrapper" style="display: none;">
+                                            <label style="color:#475569; font-weight:600;">Precio por Camiseta</label>
+                                            <div
+                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                <span
+                                                    style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
+                                                <input type="number" id="unitPriceCamisetaInput" value="35.00" step="0.50"
+                                                    min="0"
+                                                    style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
+                                                <button class="btn btn-primary btn-sm" id="btnSavePriceCamiseta"
+                                                    title="Guardar precio por camiseta"
                                                     style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
                                             </div>
                                         </div>
@@ -174,6 +187,7 @@
                                             <th>Nombre en Camiseta</th>
                                             <th>Número</th>
                                             <th>Talla(s)</th>
+                                            <th id="thProducto" style="display: none;">Producto</th>
                                             <th>Pago</th>
                                             <th>Acciones</th>
                                         </tr>
@@ -203,10 +217,14 @@
                         <!-- Producción Total -->
                         <div>
                             <div class="rs-block-title">Producción Total</div>
-                            <div class="rs-prod-grid" style="grid-template-columns: 1fr;">
-                                <div class="rs-prod-box">
-                                    <span>Completos</span>
+                            <div class="rs-prod-grid" id="rsProdGrid" style="grid-template-columns: 1fr;">
+                                <div class="rs-prod-box" id="rsBoxConjuntos">
+                                    <span>Conjuntos</span>
                                     <h4 id="totalConjuntos">0</h4>
+                                </div>
+                                <div class="rs-prod-box" id="rsBoxCamisetas" style="display: none;">
+                                    <span>Solo Camisetas</span>
+                                    <h4 id="totalCamisetas">0</h4>
                                 </div>
                             </div>
                         </div>
@@ -232,9 +250,9 @@
                             </div>
                         </div>
 
-                        <!-- Resumen de Precios -->
+                        <!-- Resumen Financiero y de Precios -->
                         <div>
-                            <div class="rs-block-title">Resumen de Precios</div>
+                            <div class="rs-block-title">Cálculo de Precios y Finanzas</div>
                             <div id="priceSummaryContainer"></div>
                         </div>
 
@@ -244,12 +262,12 @@
         </main>
     </div>
 
-    <!-- Modal: Agregar/Editar Participante -->
-    <div id="participantModal" class="modal-overlay hidden">
-        <div class="modal">
+    <!-- Modal para Agregar/Editar Participante -->
+    <div class="modal-overlay" id="participantModal">
+        <div class="modal-card">
             <div class="modal-header">
                 <h3 id="modalTitle">Agregar Participante</h3>
-                <button class="close-modal" id="closeModal"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-btn" id="closeModal">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="participantForm">
@@ -257,6 +275,15 @@
                     <div class="form-group">
                         <label for="playerName">Nombre Real (Opcional)</label>
                         <input type="text" id="playerName" placeholder="Ej. Juan Pérez">
+                    </div>
+                    <div class="form-row" id="productTypeRow" style="display: none;">
+                        <div class="form-group" style="width:100%;">
+                            <label for="productType">Tipo de Prenda <span class="required">*</span></label>
+                            <select id="productType">
+                                <option value="conjunto">Conjunto Completo (Camiseta + Short)</option>
+                                <option value="camiseta">Solo Camiseta</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
@@ -270,7 +297,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="size">Talla <span class="required">*</span></label>
+                            <label for="size">Talla Camiseta <span class="required">*</span></label>
                             <select id="size" required>
                                 <option value="">Seleccione...</option>
                                 <option value="10">10 (Niño)</option>
@@ -282,16 +309,8 @@
                             </select>
                         </div>
                         <div class="form-group" style="display: none;">
-                            <!-- Mantenemos el input oculto por si el JS lo necesita para no romperse -->
                             <input type="hidden" id="genderCut" value="Hombre">
                         </div>
-                        <div class="form-group checkbox-group" style="margin-top: 1.5rem;">
-                            <input type="checkbox" id="isGoalkeeper">
-                            <label for="isGoalkeeper" style="font-weight: 600; color: #991B1B;">🧤 Arquero</label>
-                        </div>
-                    </div>
-                    <div class="form-row">
-
                         <div class="form-group" id="shortSizeGroup">
                             <label for="shortSize">Talla Short (Si difiere)</label>
                             <select id="shortSize">
@@ -304,7 +323,24 @@
                                 <option value="XL">XL</option>
                             </select>
                         </div>
-                        <div class="form-group admin-only">
+                    </div>
+
+                    <!-- Selector Visual de Rol: Jugador de Campo vs Arquero -->
+                    <div class="form-group">
+                        <label style="font-weight: 600; font-size: 0.85rem; color: #334155; margin-bottom: 0.35rem;">Rol en el Equipo <span class="required">*</span></label>
+                        <div class="role-toggle-group">
+                            <div class="role-btn active-player" id="btnRolePlayer">
+                                <span>⚽ Jugador de Campo</span>
+                            </div>
+                            <div class="role-btn" id="btnRoleGoalie">
+                                <span>🧤 Arquero / Portero</span>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="isGoalkeeper" style="display: none;">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group admin-only" style="width: 100%;">
                             <label for="paymentStatus">Estado de Pago (Solo Coord.)</label>
                             <select id="paymentStatus">
                                 <option value="Pendiente">Pendiente</option>

@@ -4,7 +4,8 @@
 let participants = [];
 let editingId = null;
 let expectedPlayers = 25;
-let unitPrice = 50.00;
+let unitPriceConjunto = 50.00;
+let unitPriceCamiseta = 35.00;
 let deliveryDate = '2026-10-15';
 
 // --- Order Configuration (from diseno.html) ---
@@ -51,18 +52,20 @@ function loadParticipants() {
         ];
         saveParticipantsToStore();
     }
-
-    // FORZAR QUE TODOS SEAN CONJUNTO (A pedido del usuario)
-    participants.forEach(p => p.productType = 'conjunto');
     
     const expData = localStorage.getItem('sipes_expected');
     if (expData) {
         expectedPlayers = parseInt(expData);
     }
 
-    const priceData = localStorage.getItem('sipes_unit_price');
-    if (priceData) {
-        unitPrice = parseFloat(priceData);
+    const priceConjuntoData = localStorage.getItem('sipes_unit_price_conjunto') || localStorage.getItem('sipes_unit_price');
+    if (priceConjuntoData) {
+        unitPriceConjunto = parseFloat(priceConjuntoData);
+    }
+
+    const priceCamisetaData = localStorage.getItem('sipes_unit_price_camiseta');
+    if (priceCamisetaData) {
+        unitPriceCamiseta = parseFloat(priceCamisetaData);
     }
 
     const dateData = localStorage.getItem('sipes_delivery_date');
@@ -74,7 +77,8 @@ function loadParticipants() {
 function saveParticipantsToStore() {
     localStorage.setItem('sipes_participants', JSON.stringify(participants));
     localStorage.setItem('sipes_expected', expectedPlayers.toString());
-    localStorage.setItem('sipes_unit_price', unitPrice.toString());
+    localStorage.setItem('sipes_unit_price_conjunto', unitPriceConjunto.toString());
+    localStorage.setItem('sipes_unit_price_camiseta', unitPriceCamiseta.toString());
     localStorage.setItem('sipes_delivery_date', deliveryDate);
 }
 
@@ -110,13 +114,92 @@ function loadOrderConfig() {
         } catch(e) { /* ignore corrupted data */ }
     }
     renderOrderSummary();
+    updateProductViewVisibility();
+}
+
+function updateProductViewVisibility() {
+    const prod = orderConfig.producto || 'conjunto';
+
+    // 1. Receptionist Price Inputs (index.html)
+    const priceConjuntoWrapper = document.getElementById('priceConjuntoWrapper');
+    const priceCamisetaWrapper = document.getElementById('priceCamisetaWrapper');
+    const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
+    const unitPriceCamisetaInput = document.getElementById('unitPriceCamisetaInput');
+
+    if (unitPriceConjuntoInput) unitPriceConjuntoInput.value = unitPriceConjunto.toFixed(2);
+    if (unitPriceCamisetaInput) unitPriceCamisetaInput.value = unitPriceCamiseta.toFixed(2);
+
+    if (priceConjuntoWrapper) {
+        priceConjuntoWrapper.style.display = (prod === 'conjunto' || prod === 'mixto') ? 'block' : 'none';
+    }
+    if (priceCamisetaWrapper) {
+        priceCamisetaWrapper.style.display = (prod === 'camiseta' || prod === 'mixto') ? 'block' : 'none';
+    }
+
+    // 2. Coordinator Price Displays (vista_coordinador.html)
+    const coordPriceConjuntoWrapper = document.getElementById('coordPriceConjuntoWrapper');
+    const coordPriceCamisetaWrapper = document.getElementById('coordPriceCamisetaWrapper');
+    const coordUnitPriceConjuntoText = document.getElementById('coordUnitPriceConjuntoText');
+    const coordUnitPriceCamisetaText = document.getElementById('coordUnitPriceCamisetaText');
+
+    if (coordUnitPriceConjuntoText) coordUnitPriceConjuntoText.textContent = `S/ ${unitPriceConjunto.toFixed(2)}`;
+    if (coordUnitPriceCamisetaText) coordUnitPriceCamisetaText.textContent = `S/ ${unitPriceCamiseta.toFixed(2)}`;
+
+    if (coordPriceConjuntoWrapper) {
+        coordPriceConjuntoWrapper.style.display = (prod === 'conjunto' || prod === 'mixto') ? 'block' : 'none';
+    }
+    if (coordPriceCamisetaWrapper) {
+        coordPriceCamisetaWrapper.style.display = (prod === 'camiseta' || prod === 'mixto') ? 'block' : 'none';
+    }
+
+    // 3. Table Column Header "Producto"
+    const thProducto = document.getElementById('thProducto');
+    if (thProducto) {
+        thProducto.style.display = (prod === 'mixto') ? '' : 'none';
+    }
+
+    // 4. Right Sidebar Producción Total
+    const rsBoxConjuntos = document.getElementById('rsBoxConjuntos');
+    const rsBoxCamisetas = document.getElementById('rsBoxCamisetas');
+    const rsProdGrid = document.getElementById('rsProdGrid');
+
+    if (rsBoxConjuntos && rsBoxCamisetas && rsProdGrid) {
+        if (prod === 'mixto') {
+            rsBoxConjuntos.style.display = 'block';
+            rsBoxCamisetas.style.display = 'block';
+            rsProdGrid.style.gridTemplateColumns = '1fr 1fr';
+        } else if (prod === 'conjunto') {
+            rsBoxConjuntos.style.display = 'block';
+            rsBoxCamisetas.style.display = 'none';
+            rsProdGrid.style.gridTemplateColumns = '1fr';
+        } else if (prod === 'camiseta') {
+            rsBoxConjuntos.style.display = 'none';
+            rsBoxCamisetas.style.display = 'block';
+            rsProdGrid.style.gridTemplateColumns = '1fr';
+        }
+    }
+
+    // 5. Modal Product Row & Short Size
+    const productTypeRow = document.getElementById('productTypeRow');
+    const shortSizeGroup = document.getElementById('shortSizeGroup');
+    if (productTypeRow) {
+        productTypeRow.style.display = (prod === 'mixto') ? 'flex' : 'none';
+    }
+    if (shortSizeGroup) {
+        if (prod === 'conjunto') shortSizeGroup.style.display = 'block';
+        if (prod === 'camiseta') shortSizeGroup.style.display = 'none';
+    }
 }
 
 function renderOrderSummary() {
     const container = document.getElementById('configSummaryContainer');
     if (!container) return;
 
-    const productoLabels = { conjunto: 'Conjunto Completo', camiseta: 'Solo Camiseta' };
+    const productoLabels = {
+        conjunto: 'Conjunto Completo',
+        camiseta: 'Solo Camiseta',
+        mixto: 'Mixto (Conjunto y Camiseta)'
+    };
     const telaLabels = { winfresh: 'Win Fresh', microfibra: 'Microfibra', algodon: 'Algodón Pima' };
     const corteLabels = { estandar_varon: 'Estándar Varón', estandar_mujer: 'Estándar Mujer', infantil: 'Infantil', unisex: 'Unisex' };
     const mangaLabels = { corta: 'Manga Corta', larga: 'Manga Larga', tres_cuartos: 'Manga 3/4' };
@@ -188,14 +271,11 @@ function init() {
     loadParticipants();
     loadOrderConfig();
     if(expectedPlayersInput) expectedPlayersInput.value = expectedPlayers;
-    const unitPriceInput = document.getElementById('unitPriceInput');
-    if(unitPriceInput) unitPriceInput.value = unitPrice.toFixed(2);
-    const coordUnitPriceText = document.getElementById('coordUnitPriceText');
-    if(coordUnitPriceText) coordUnitPriceText.textContent = `S/ ${unitPrice.toFixed(2)}`;
     const deliveryDateInput = document.getElementById('deliveryDateInput');
     if(deliveryDateInput) deliveryDateInput.value = deliveryDate;
     const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
     if(coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
+    updateProductViewVisibility();
     renderTable();
     updateSummary();
     setupEventListeners();
@@ -203,8 +283,9 @@ function init() {
 
 // Renderizar Tabla
 function renderTable() {
+    const isMixto = (orderConfig.producto === 'mixto');
     if (participants.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No hay participantes registrados. Agrega uno para empezar.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${isMixto ? 7 : 6}" class="empty-state">No hay participantes registrados. Agrega uno para empezar.</td></tr>`;
         return;
     }
 
@@ -214,8 +295,10 @@ function renderTable() {
         else if(p.paymentStatus === 'Abonado') paymentBadge = '<span class="status-badge" style="background:#DBEAFE; color:#1E40AF;">Abonado</span>';
         else paymentBadge = '<span class="status-badge" style="background:#FEE2E2; color:#991B1B;">Pendiente</span>';
         
+        const currentPType = p.productType || (orderConfig.producto === 'mixto' ? 'conjunto' : orderConfig.producto) || 'conjunto';
+
         let tallasText = `<span style="font-weight:700">${p.size || '-'}</span>`;
-        if((p.productType || orderConfig.producto || 'conjunto') === 'conjunto' && p.shortSize && p.shortSize !== 'same' && p.shortSize !== p.size) {
+        if(currentPType === 'conjunto' && p.shortSize && p.shortSize !== 'same' && p.shortSize !== p.size) {
             tallasText = `<div><span style="font-weight:700">${p.size}</span><span style="font-size:0.75rem; color:#6B7280; display:block;">Short: ${p.shortSize}</span></div>`;
         }
 
@@ -227,6 +310,9 @@ function renderTable() {
             jugadorText += '<span class="exception-badge" title="' + p.exceptions.replace(/"/g, '&quot;') + '"><i class="fa-solid fa-sliders"></i></span>';
         }
 
+        const prodCol = isMixto
+            ? `<td><span class="pill ${currentPType === 'conjunto' ? 'pill-conjunto' : 'pill-camiseta'}">${currentPType === 'conjunto' ? 'Conjunto' : 'Solo Camiseta'}</span></td>`
+            : '';
 
         return `
         <tr>
@@ -234,6 +320,7 @@ function renderTable() {
             <td><strong>${p.shirtName}</strong></td>
             <td>${p.shirtNumber}</td>
             <td>${tallasText}</td>
+            ${prodCol}
             <td>${paymentBadge}</td>
             <td class="action-cell">
                 <button class="btn btn-edit-ghost" onclick="editParticipant(${p.id})"><i class="fa-solid fa-pen"></i></button>
@@ -335,62 +422,95 @@ function updateSummary() {
     renderPriceSummary();
 }
 
-// Resumen de Precios (mismas tarifas que la Tabla de Precios en precios.html)
-const CONFIG_PRECIOS = {
-    'conjunto-jugador': { nombre: 'Conjunto Jugador', precio: 45 },
-    'conjunto-arquero': { nombre: 'Conjunto Arquero', precio: 50 },
-    'camiseta':         { nombre: 'Solo Camiseta',     precio: 25 }
-};
-const MONEDA = 'S/';
-
+// Resumen de Precios con Cálculos Dinámicos
 function renderPriceSummary() {
     const container = document.getElementById('priceSummaryContainer');
     if (!container) return;
 
-    // Contar por categoría
-    const resumen = { 'conjunto-jugador': 0, 'conjunto-arquero': 0, 'camiseta': 0 };
+    const prod = orderConfig.producto || 'conjunto';
+
+    let countConjuntos = 0;
+    let countCamisetas = 0;
+    let totCobrado = 0;
+
     participants.forEach(p => {
-        const esConjunto = p.productType === 'conjunto' || p.productType === 'conjuntos';
-        if (esConjunto) {
-            if (p.isGoalkeeper) resumen['conjunto-arquero']++;
-            else resumen['conjunto-jugador']++;
-        } else {
-            resumen['camiseta']++;
-        }
+        const pType = p.productType || (prod === 'mixto' ? 'conjunto' : prod) || 'conjunto';
+        const pPrice = (pType === 'conjunto') ? unitPriceConjunto : unitPriceCamiseta;
+        if (pType === 'conjunto') countConjuntos++;
+        else countCamisetas++;
+
+        if (p.paymentStatus === 'Pagado') totCobrado += pPrice;
+        else if (p.paymentStatus === 'Abonado') totCobrado += (pPrice * 0.5);
     });
 
-    let granTotal = 0;
-    let totalPrendas = 0;
-    Object.keys(CONFIG_PRECIOS).forEach(k => {
-        const cnt = resumen[k];
-        granTotal += cnt * CONFIG_PRECIOS[k].precio;
-        totalPrendas += cnt;
-    });
+    const subtotalConjuntos = countConjuntos * unitPriceConjunto;
+    const subtotalCamisetas = countCamisetas * unitPriceCamiseta;
+    const granTotal = subtotalConjuntos + subtotalCamisetas;
+    const totSaldo = Math.max(0, granTotal - totCobrado);
+    const totalPrendas = countConjuntos + countCamisetas;
 
-    const filas = Object.keys(CONFIG_PRECIOS).map(k => {
-        const cfg = CONFIG_PRECIOS[k];
-        const cnt = resumen[k];
-        return `
+    if (totalPrendas === 0) {
+        container.innerHTML = `<div class="rs-price-empty"><p class="text-muted" style="font-size:0.8rem; margin:0;">Sin participantes registrados.</p></div>`;
+        return;
+    }
+
+    let rowsHtml = '';
+    if (prod === 'conjunto' || (prod === 'mixto' && countConjuntos > 0) || (prod === 'mixto' && countCamisetas === 0)) {
+        rowsHtml += `
             <div class="rs-price-row">
-                <span class="rs-price-key">${cfg.nombre}</span>
-                <span>${cnt} × ${MONEDA}${cfg.precio}</span>
-                <span class="rs-price-val">${MONEDA}${cnt * cfg.precio}</span>
+                <span class="rs-price-key">👕🩳 Conjuntos</span>
+                <span>${countConjuntos} × S/ ${unitPriceConjunto.toFixed(2)}</span>
+                <span class="rs-price-val">S/ ${subtotalConjuntos.toFixed(2)}</span>
             </div>
         `;
-    }).join('');
+    }
+
+    if (prod === 'camiseta' || (prod === 'mixto' && countCamisetas > 0) || (prod === 'mixto' && countConjuntos === 0)) {
+        rowsHtml += `
+            <div class="rs-price-row">
+                <span class="rs-price-key">👕 Solo Camisetas</span>
+                <span>${countCamisetas} × S/ ${unitPriceCamiseta.toFixed(2)}</span>
+                <span class="rs-price-val">S/ ${subtotalCamisetas.toFixed(2)}</span>
+            </div>
+        `;
+    }
 
     container.innerHTML = `
-        ${totalPrendas === 0
-            ? '<div class="rs-price-empty"><p class="text-muted" style="font-size:0.8rem; margin:0;">Sin participantes registrados.</p></div>'
-            : `
-            <div class="rs-price-box">
-                ${filas}
-                <div class="rs-price-total">
-                    <span>Total ${totalPrendas} prenda${totalPrendas !== 1 ? 's' : ''}</span>
-                    <span class="rs-price-gran">${MONEDA}${granTotal}</span>
+        <div class="rs-price-box">
+            ${rowsHtml}
+            <div class="rs-price-total">
+                <span>Total Estimado (${totalPrendas} prenda${totalPrendas !== 1 ? 's' : ''})</span>
+                <span class="rs-price-gran">S/ ${granTotal.toFixed(2)}</span>
+            </div>
+            <div style="border-top: 1px dashed #CBD5E1; margin-top: 6px; padding-top: 6px; display: flex; flex-direction: column; gap: 4px; font-size: 0.75rem;">
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #64748B;">Cobrado (Abonos/Pagos):</span>
+                    <span style="font-weight: 700; color: #16A34A;">S/ ${totCobrado.toFixed(2)}</span>
                 </div>
-            </div>`}
+                <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #64748B;">Saldo por Cobrar:</span>
+                    <span style="font-weight: 700; color: #DC2626;">S/ ${totSaldo.toFixed(2)}</span>
+                </div>
+            </div>
+        </div>
     `;
+}
+
+function setRoleUI(isGoalie) {
+    const isGoalkeeperInput = document.getElementById('isGoalkeeper');
+    const btnRolePlayer = document.getElementById('btnRolePlayer');
+    const btnRoleGoalie = document.getElementById('btnRoleGoalie');
+
+    if (isGoalkeeperInput) isGoalkeeperInput.checked = isGoalie;
+    if (btnRolePlayer && btnRoleGoalie) {
+        if (isGoalie) {
+            btnRoleGoalie.className = 'role-btn active-goalie';
+            btnRolePlayer.className = 'role-btn';
+        } else {
+            btnRolePlayer.className = 'role-btn active-player';
+            btnRoleGoalie.className = 'role-btn';
+        }
+    }
 }
 
 // Event Listeners
@@ -418,18 +538,41 @@ function setupEventListeners() {
         });
     }
 
-    const btnSaveUnitPrice = document.getElementById('btnSaveUnitPrice');
-    const unitPriceInput = document.getElementById('unitPriceInput');
-    if (btnSaveUnitPrice && unitPriceInput) {
-        btnSaveUnitPrice.addEventListener('click', () => {
-            const val = parseFloat(unitPriceInput.value);
+    const btnRolePlayer = document.getElementById('btnRolePlayer');
+    const btnRoleGoalie = document.getElementById('btnRoleGoalie');
+    if (btnRolePlayer) {
+        btnRolePlayer.addEventListener('click', () => setRoleUI(false));
+    }
+    if (btnRoleGoalie) {
+        btnRoleGoalie.addEventListener('click', () => setRoleUI(true));
+    }
+
+    const btnSavePriceConjunto = document.getElementById('btnSavePriceConjunto');
+    const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
+    if (btnSavePriceConjunto && unitPriceConjuntoInput) {
+        btnSavePriceConjunto.addEventListener('click', () => {
+            const val = parseFloat(unitPriceConjuntoInput.value);
             if (!isNaN(val) && val >= 0) {
-                unitPrice = val;
+                unitPriceConjunto = val;
                 saveParticipantsToStore();
                 updateSummary();
-                const coordUnitPriceText = document.getElementById('coordUnitPriceText');
-                if (coordUnitPriceText) coordUnitPriceText.textContent = `S/ ${unitPrice.toFixed(2)}`;
-                alert(`Precio unitario acordado guardado: S/ ${val.toFixed(2)}`);
+                updateProductViewVisibility();
+                alert(`Precio por conjunto guardado: S/ ${val.toFixed(2)}`);
+            }
+        });
+    }
+
+    const btnSavePriceCamiseta = document.getElementById('btnSavePriceCamiseta');
+    const unitPriceCamisetaInput = document.getElementById('unitPriceCamisetaInput');
+    if (btnSavePriceCamiseta && unitPriceCamisetaInput) {
+        btnSavePriceCamiseta.addEventListener('click', () => {
+            const val = parseFloat(unitPriceCamisetaInput.value);
+            if (!isNaN(val) && val >= 0) {
+                unitPriceCamiseta = val;
+                saveParticipantsToStore();
+                updateSummary();
+                updateProductViewVisibility();
+                alert(`Precio por camiseta guardado: S/ ${val.toFixed(2)}`);
             }
         });
     }
@@ -448,6 +591,16 @@ function setupEventListeners() {
         });
     }
 
+    const prodSelect = document.getElementById('productType');
+    if (prodSelect) {
+        prodSelect.addEventListener('change', (e) => {
+            const shortGroup = document.getElementById('shortSizeGroup');
+            if (shortGroup) {
+                shortGroup.style.display = (e.target.value === 'conjunto') ? 'block' : 'none';
+            }
+        });
+    }
+
     // Copiar Link del Coordinador (Para el Admin)
     const btnCopyCoordLink = document.getElementById('btnCopyCoordLink');
     if (btnCopyCoordLink) {
@@ -462,7 +615,7 @@ function setupEventListeners() {
     const btnShareJugadores = document.getElementById('btnShareJugadores');
     if (btnShareJugadores) {
         btnShareJugadores.addEventListener('click', () => {
-            const playerUrl = new URL('participante.html?pedido=SUB-00842&tipo=conjunto', window.location.href).href;
+            const playerUrl = new URL('participante.html?pedido=SUB-00842&tipo=' + (orderConfig.producto || 'conjunto'), window.location.href).href;
             navigator.clipboard.writeText(playerUrl).catch(() => {});
             window.open(playerUrl, '_blank');
         });
@@ -476,11 +629,12 @@ function exportCSV() {
     }
     const headers = ["ID", "Jugador", "Nombre Camiseta", "Numero", "Talla Arriba", "Talla Abajo", "Arquero", "Producto", "Pago"];
     const rows = participants.map(p => {
+        const pType = p.productType || (orderConfig.producto === 'mixto' ? 'conjunto' : orderConfig.producto) || 'conjunto';
         const tallaArriba = p.size;
-        const tallaAbajo = (p.productType === 'conjunto' && p.shortSize) ? p.shortSize : p.size;
+        const tallaAbajo = (pType === 'conjunto' && p.shortSize) ? p.shortSize : p.size;
         const isArquero = p.isGoalkeeper ? 'SI' : 'NO';
         
-        return [p.id, p.playerName, p.shirtName, p.shirtNumber, tallaArriba, tallaAbajo, isArquero, p.productType, p.paymentStatus].map(col => {
+        return [p.id, p.playerName, p.shirtName, p.shirtNumber, tallaArriba, tallaAbajo, isArquero, pType, p.paymentStatus].map(col => {
             const val = col === null || col === undefined ? "" : String(col);
             return `"${val.replace(/"/g, '""')}"`;
         }).join(",");
@@ -511,16 +665,29 @@ function closeList() {
 
 function openModal() {
     modalOverlay.classList.add('active');
+    const prodRow = document.getElementById('productTypeRow');
     const shortGroup = document.getElementById('shortSizeGroup');
-    if (shortGroup) {
-        shortGroup.style.display = (orderConfig.producto || 'conjunto') === 'conjunto' ? 'block' : 'none';
+    const prodSelect = document.getElementById('productType');
+
+    if (orderConfig.producto === 'mixto') {
+        if (prodRow) prodRow.style.display = 'flex';
+        if (prodSelect) prodSelect.value = 'conjunto';
+        if (shortGroup) shortGroup.style.display = 'block';
+    } else if (orderConfig.producto === 'conjunto') {
+        if (prodRow) prodRow.style.display = 'none';
+        if (shortGroup) shortGroup.style.display = 'block';
+    } else if (orderConfig.producto === 'camiseta') {
+        if (prodRow) prodRow.style.display = 'none';
+        if (shortGroup) shortGroup.style.display = 'none';
     }
+    setRoleUI(false);
     document.getElementById('playerName').focus();
 }
 
 function closeModal() {
     modalOverlay.classList.remove('active');
     form.reset();
+    setRoleUI(false);
     document.getElementById('allowDuplicateNum').checked = false;
     editingId = null;
     modalTitle.textContent = "Agregar Participante";
@@ -532,9 +699,15 @@ function saveParticipant() {
     const sName = document.getElementById('shirtName').value.toUpperCase().trim();
     const sNumber = parseInt(document.getElementById('shirtNumber').value);
     const size = document.getElementById('size').value;
-    const pType = document.getElementById('productType') ? document.getElementById('productType').value : (orderConfig.producto || 'conjunto');
+    
+    let pType = orderConfig.producto || 'conjunto';
+    if (orderConfig.producto === 'mixto') {
+        const pTypeInput = document.getElementById('productType');
+        if (pTypeInput) pType = pTypeInput.value;
+    }
+
     const gCut = document.getElementById('genderCut') ? document.getElementById('genderCut').value : 'Hombre';
-    const shortSize = document.getElementById('shortSize') ? document.getElementById('shortSize').value : '';
+    const shortSize = (pType === 'conjunto' && document.getElementById('shortSize')) ? document.getElementById('shortSize').value : '';
     const isGoalie = document.getElementById('isGoalkeeper') ? document.getElementById('isGoalkeeper').checked : false;
     const exceptions = document.getElementById('exceptions') ? document.getElementById('exceptions').value.trim() : '';
     const allowDuplicate = document.getElementById('allowDuplicateNum').checked;
@@ -605,25 +778,33 @@ window.editParticipant = function(id) {
     document.getElementById('size').value = p.size;
     if(p.genderCut && document.getElementById('genderCut')) document.getElementById('genderCut').value = p.genderCut;
     
-    if(document.getElementById('productType')) {
-        document.getElementById('productType').value = p.productType || orderConfig.producto || 'conjunto';
-        document.getElementById('productType').dispatchEvent(new Event('change'));
-    }
+    const currentPType = p.productType || (orderConfig.producto === 'mixto' ? 'conjunto' : orderConfig.producto) || 'conjunto';
 
+    const prodRow = document.getElementById('productTypeRow');
+    const prodSelect = document.getElementById('productType');
     const shortGroup = document.getElementById('shortSizeGroup');
-    if (shortGroup) {
-        shortGroup.style.display = (orderConfig.producto || 'conjunto') === 'conjunto' ? 'block' : 'none';
+
+    if (orderConfig.producto === 'mixto') {
+        if (prodRow) prodRow.style.display = 'flex';
+        if (prodSelect) prodSelect.value = currentPType;
+        if (shortGroup) shortGroup.style.display = (currentPType === 'conjunto') ? 'block' : 'none';
+    } else if (orderConfig.producto === 'conjunto') {
+        if (prodRow) prodRow.style.display = 'none';
+        if (shortGroup) shortGroup.style.display = 'block';
+    } else if (orderConfig.producto === 'camiseta') {
+        if (prodRow) prodRow.style.display = 'none';
+        if (shortGroup) shortGroup.style.display = 'none';
     }
 
     if(document.getElementById('shortSize')) document.getElementById('shortSize').value = p.shortSize || '';
-    if(document.getElementById('isGoalkeeper')) document.getElementById('isGoalkeeper').checked = p.isGoalkeeper || false;
+    setRoleUI(p.isGoalkeeper || false);
     
     if(document.getElementById('paymentStatus')) document.getElementById('paymentStatus').value = p.paymentStatus || 'Pendiente';
     if(document.getElementById('exceptions')) document.getElementById('exceptions').value = p.exceptions || '';
     document.getElementById('allowDuplicateNum').checked = false;
 
     modalTitle.textContent = "Editar Participante";
-    openModal();
+    modalOverlay.classList.add('active');
 };
 
 window.deleteParticipant = function(id) {
