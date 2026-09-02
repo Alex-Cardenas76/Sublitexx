@@ -19,24 +19,31 @@
     <div class="app-container">
         <!-- Main Content -->
         <main class="main-content" style="width: 100%;">
-            <!-- Topbar -->
-            <header class="topbar">
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div class="logo" style="font-size: 1.5rem; font-weight: bold; color: #0e7490; margin-right: 1rem;">
+            <!-- Topbar Coordinador -->
+            <header class="topbar" style="padding: 1.1rem 2rem; border-bottom: 1px solid #E2E8F0; background: #FFFFFF; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center; gap: 1.25rem;">
+                    <div class="logo" style="font-size: 1.45rem; font-weight: 800; color: #0E7490; display: flex; align-items: center; gap: 0.4rem; padding-right: 1.25rem; border-right: 2px solid #E2E8F0;">
                         <i class="fa-solid fa-shirt"></i> Sublitex
                     </div>
                     <div>
-                        <h1 style="font-size: 1.25rem;"><i class="fa-solid fa-clipboard-list"></i> Mi Pedido de Equipo
+                        <h1 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 0.45rem; letter-spacing: -0.02em;">
+                            ⚽ Los Galácticos FC
                         </h1>
-                        <p class="text-muted">Pedido SUB-00842 - Acceso para el Coordinador</p>
+                        <p class="text-muted" style="margin: 0.2rem 0 0 0; font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>Bienvenido, <strong>Carlos Mendoza</strong> (Coordinador)</span>
+                            <span style="color: #CBD5E1;">•</span>
+                            <span style="color: #0E7490; font-weight: 700; background: #ECFEFF; padding: 0.1rem 0.45rem; border-radius: 0.3rem; border: 1px solid #A5F3FC;">#SUB-00842</span>
+                        </p>
                     </div>
                 </div>
-                <div class="actions">
+                <div class="actions" style="display: flex; align-items: center; gap: 0.75rem;">
                     <span class="status-badge status-abierto">Registro Abierto</span>
-                    <button class="btn btn-outline" id="btnShareJugadores"><i class="fa-solid fa-share-nodes"></i>
-                        Copiar Enlace para Jugadores</button>
-                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar Lista de
-                        mi equipo</button>
+                    <button class="btn btn-outline" id="btnShareJugadores">
+                        <i class="fa-solid fa-share-nodes"></i> Compartir Link a Jugadores
+                    </button>
+                    <button class="btn btn-primary" id="btnCloseList">
+                        <i class="fa-solid fa-lock"></i> Cerrar Lista
+                    </button>
                 </div>
             </header>
 
@@ -89,12 +96,11 @@
                                                 15 Oct 2026</p>
                                         </div>
                                         <div class="info-item">
-                                            <label>Meta Participantes</label>
-                                            <div style="display:flex; gap:0.5rem; align-items:center;">
-                                                <input type="number" id="expectedPlayersInput" value="25"
-                                                    style="width:60px; padding:0.25rem; font-size:0.875rem;">
-                                                <button class="btn btn-sm btn-outline"
-                                                    id="btnSaveExpected">Fijar</button>
+                                            <label style="color:#475569; font-weight:600;">Meta del Equipo</label>
+                                            <div style="display:flex; gap:0.4rem; align-items:center; margin-top:0.25rem;">
+                                                <input type="number" id="expectedPlayersInput" value="25" min="1"
+                                                    style="width:70px; border:1px solid #CBD5E1; border-radius:0.375rem; padding:0.35rem 0.5rem; text-align:center; font-weight:700; font-size:0.875rem;">
+                                                <button class="btn btn-primary btn-sm" id="btnSaveExpected" style="margin:0; padding:0.35rem 0.65rem;">Fijar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -113,9 +119,7 @@
                     <section class="card participants-card">
                         <div class="card-header">
                             <h2><i class="fa-solid fa-list-ol"></i> Lista de Jugadores Registrados</h2>
-                            <div class="actions" style="display:flex; gap:0.5rem;">
-                                <a href="participante.html" target="_blank" class="btn btn-secondary btn-sm"><i
-                                        class="fa-solid fa-mobile-screen"></i> Ver Formulario de Jugador</a>
+                            <div class="actions">
                                 <button class="btn btn-secondary btn-sm" id="btnAddParticipant"><i
                                         class="fa-solid fa-plus"></i> Agregar Manualmente</button>
                             </div>
@@ -282,8 +286,8 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group admin-only" style="width: 100%;">
-                            <label for="paymentStatus">Estado de Pago (Solo Coord.)</label>
+                        <div class="form-group" style="width: 100%;">
+                            <label for="paymentStatus">Estado de Pago</label>
                             <select id="paymentStatus">
                                 <option value="Pendiente">Pendiente</option>
                                 <option value="Abonado">Abonado (50%)</option>
@@ -297,8 +301,7 @@
                     <div class="form-group checkbox-group"
                         style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
                         <input type="checkbox" id="allowDuplicateNum">
-                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado (Excepción
-                            Admin)</label>
+                        <label for="allowDuplicateNum" style="margin-bottom: 0;">Autorizar número duplicado</label>
                     </div>
                 </form>
             </div>
