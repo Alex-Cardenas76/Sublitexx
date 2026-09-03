@@ -46,6 +46,16 @@
 
 /* --- Tablets Verticales y Celulares (<= 768px) --- */
 @media (max-width: 768px) {
+    /* Ocultar barra lateral en móvil */
+    .sidebar, .sidebar-overlay, .hamburger-btn {
+        display: none !important;
+    }
+
+    .main-content {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
     .topbar {
         padding: 1rem !important;
         flex-direction: column !important;
@@ -167,6 +177,15 @@
         display: block !important;
         max-height: 145px !important;
         object-fit: contain !important;
+    }
+
+    .config-card .card-header .btn {
+        display: none !important;
+    }
+
+    #btnSaveOrderConfig, #btnSaveConfig {
+        width: 100% !important;
+        justify-content: center !important;
     }
 
     /* Grilla de info de precios y entrega en 2 columnas */

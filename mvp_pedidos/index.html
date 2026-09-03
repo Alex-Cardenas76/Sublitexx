@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Styles -->
     <link rel="stylesheet" href="style.css">
+    <!-- Vista Coordinador Modular Styles & Responsive -->
+    <link rel="stylesheet" href="coordinador.css">
     <style>
         .exception-badge {
             display: inline-flex;
@@ -31,8 +33,11 @@
 
 <body>
     <div class="app-container">
+        <!-- Overlay móvil para cerrar el sidebar -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <i class="fa-solid fa-shirt"></i>
@@ -59,37 +64,32 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Topbar con Identificación Clara del Pedido -->
+            <!-- Topbar Coordinador / Recepción -->
             <header class="topbar" style="padding: 1.1rem 2rem; border-bottom: 1px solid #E2E8F0; background: #FFFFFF; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
-                <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                    <div class="breadcrumb" style="font-size: 0.8rem; margin-bottom: 0.15rem;">
-                        <a href="dashboard.html" style="text-decoration: none; color: #64748B; font-weight: 600;">
-                            <i class="fa-solid fa-arrow-left" style="margin-right:0.35rem;"></i> Todos los Pedidos
-                        </a>
-                        <i class="fa-solid fa-chevron-right" style="font-size: 0.55rem; color: #94A3B8;"></i>
-                        <span class="current" style="font-weight: 700; color: #0E7490; background: #ECFEFF; padding: 0.15rem 0.5rem; border-radius: 0.375rem; border: 1px solid #A5F3FC;">#SUB-00842</span>
+                <div class="topbar-info" style="display: flex; align-items: center; gap: 1.25rem;">
+                    <div class="topbar-brand-row" style="display: flex; align-items: center; gap: 0.75rem; padding-right: 1.25rem; border-right: 2px solid #E2E8F0;">
+                        <div class="logo" style="font-size: 1.45rem; font-weight: 800; color: #0E7490; display: flex; align-items: center; gap: 0.4rem;">
+                            <i class="fa-solid fa-shirt"></i> Sublitex
+                        </div>
+                        <span class="order-badge" style="color: #0E7490; font-weight: 700; font-size: 0.85rem; background: #ECFEFF; padding: 0.2rem 0.55rem; border-radius: 0.35rem; border: 1px solid #A5F3FC; white-space: nowrap;">#SUB-00842</span>
                     </div>
-                    <!-- Identificación Visible del Equipo y Cliente -->
-                    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 0.85rem;">
-                        <h1 style="font-size: 1.4rem; font-weight: 800; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 0.45rem; letter-spacing: -0.02em;">
+                    <div>
+                        <h1 style="font-size: 1.35rem; font-weight: 800; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 0.45rem; letter-spacing: -0.02em;">
                             ⚽ Los Galácticos FC
                         </h1>
-                        <div style="display: flex; align-items: center; gap: 0.6rem; background: #F8FAFC; border: 1px solid #E2E8F0; padding: 0.3rem 0.8rem; border-radius: 9999px; font-size: 0.85rem; color: #334155;">
-                            <span><i class="fa-solid fa-user-tie" style="color: #64748B;"></i> Coordinador: <strong style="color: #0F172A;">Carlos Mendoza</strong></span>
-                            <span style="color: #CBD5E1;">|</span>
-                            <a href="https://wa.me/51987654321" target="_blank" title="Abrir chat de WhatsApp" style="color: #059669; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 0.3rem;">
-                                <i class="fa-brands fa-whatsapp" style="font-size: 1rem;"></i> 987 654 321
-                            </a>
-                        </div>
+                        <p class="text-muted" style="margin: 0.2rem 0 0 0; font-size: 0.85rem;">
+                            Bienvenido, <strong>Carlos Mendoza</strong> (Coordinador)
+                        </p>
                     </div>
                 </div>
                 <div class="actions" style="display: flex; align-items: center; gap: 0.75rem;">
                     <span class="status-badge status-abierto">Registro Abierto</span>
                     <button class="btn btn-outline" id="btnCopyCoordLink">
-                        <i class="fa-solid fa-share-nodes"></i> Compartir Link a Coordinador
+                        <i class="fa-solid fa-share-nodes"></i> Compartir Link a Jugadores
                     </button>
-                    <button class="btn btn-primary" id="btnCloseList"><i class="fa-solid fa-lock"></i> Cerrar
-                        Lista</button>
+                    <button class="btn btn-primary" id="btnCloseList">
+                        <i class="fa-solid fa-lock"></i> Cerrar Lista
+                    </button>
                 </div>
             </header>
 
@@ -107,30 +107,22 @@
                             </a>
                         </div>
                         <div class="card-body">
-                            <!-- Layout flex: info | imagen -->
-                            <div style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:stretch;">
-                                <!-- Col derecha: imagen del diseño aprobado, movida arriba para mejor visual en móviles o al costado en desktop -->
-                                <div
-                                    style="flex: 0 0 160px; background: linear-gradient(145deg, #F8FAFC, #F1F5F9); border: 1px solid #E2E8F0; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; padding: 1.5rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
-                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado"
-                                        style="max-width: 100%; max-height: 180px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
-                                </div>
-
+                            <!-- Layout 2 columnas: info | imagen -->
+                            <div style="display:grid; grid-template-columns:1fr 160px; gap:1.25rem; align-items:start;">
                                 <!-- Col izquierda: info -->
-                                <div
-                                    style="flex: 1; min-width: 300px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div style="display:flex; flex-direction:column; gap:0.75rem; min-width:0;">
                                     <div id="configSummaryContainer">
                                         <p class="text-muted" style="font-size: 0.875rem;">
                                             Sin configurar. <a href="diseno.html">Configurar ahora →</a>
                                         </p>
                                     </div>
 
-                                    <hr style="border: 0; border-top: 1px dashed #CBD5E1; margin: 1.25rem 0;">
+                                    <hr style="border: 0; border-top: 1px dashed #CBD5E1; margin: 1rem 0;">
 
                                     <div class="info-grid"
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 0;">
+                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.85rem; margin-bottom: 0;">
                                         <div class="info-item" id="priceConjuntoWrapper">
-                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Precio por Conjunto</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">PRECIO POR CONJUNTO</label>
                                             <div
                                                 style="display: flex; align-items: center; margin-top: 0.25rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; background: #FFFFFF; overflow: hidden;">
                                                 <span
@@ -141,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="info-item" id="priceCamisetaWrapper" style="display: none;">
-                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Precio por Camiseta</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">PRECIO POR CAMISETA</label>
                                             <div
                                                 style="display: flex; align-items: center; margin-top: 0.25rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; background: #FFFFFF; overflow: hidden;">
                                                 <span
@@ -152,14 +144,14 @@
                                             </div>
                                         </div>
                                         <div class="info-item">
-                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Fecha de Entrega</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">FECHA DE ENTREGA</label>
                                             <div style="margin-top: 0.25rem;">
                                                 <input type="date" id="deliveryDateInput" value="2026-10-15"
                                                     style="width:100%; border-radius:0.375rem; border:1px solid #CBD5E1; padding:0.4rem 0.5rem; font-size:0.875rem; font-weight:600; color:#0F172A; outline:none;">
                                             </div>
                                         </div>
                                         <div class="info-item">
-                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Meta Jugadores</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">META JUGADORES</label>
                                             <div style="margin-top: 0.25rem;">
                                                 <input type="number" id="expectedPlayersInput" value="25" min="1"
                                                     style="width:100%; border-radius:0.375rem; border:1px solid #CBD5E1; padding:0.4rem 0.5rem; text-align:center; font-weight:700; font-size:0.95rem; color:#0F172A; outline:none;">
@@ -169,10 +161,17 @@
 
                                     <!-- Botón Unificado de Guardado -->
                                     <div style="margin-top: 1rem; display: flex; justify-content: flex-end;">
-                                        <button class="btn btn-primary" id="btnSaveOrderConfig" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; font-size: 0.85rem; cursor: pointer;">
+                                        <button class="btn btn-primary" id="btnSaveOrderConfig" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1.25rem; font-size: 0.85rem; cursor: pointer; border-radius: 0.375rem;">
                                             <i class="fa-solid fa-floppy-disk"></i> Guardar Configuración
                                         </button>
                                     </div>
+                                </div>
+
+                                <!-- Col derecha: imagen del diseño aprobado -->
+                                <div
+                                    style="background: linear-gradient(145deg, #F8FAFC, #F1F5F9); border: 1px solid #E2E8F0; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; padding: 1rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+                                    <img src="../imagenes/conjunto_sublitex.png" alt="Diseño Aprobado"
+                                        style="max-width: 100%; max-height: 160px; object-fit: contain; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));">
                                 </div>
                             </div>
                         </div>
@@ -384,6 +383,32 @@
             // Load order config summary
             if (typeof loadOrderConfig === 'function') {
                 loadOrderConfig();
+            }
+
+            // Menú móvil: abrir/cerrar sidebar
+            var btnMenu = document.getElementById('btnMenuToggle');
+            var sidebar = document.getElementById('sidebar');
+            var overlay = document.getElementById('sidebarOverlay');
+
+            function closeMenu() {
+                if (sidebar) sidebar.classList.remove('open');
+                if (overlay) overlay.classList.remove('active');
+            }
+
+            if (btnMenu && sidebar && overlay) {
+                btnMenu.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                });
+                overlay.addEventListener('click', closeMenu);
+            }
+
+            // Cerrar menú al hacer clic en un enlace del sidebar (móvil)
+            if (sidebar) {
+                sidebar.querySelectorAll('.nav-item').forEach(function (link) {
+                    link.addEventListener('click', closeMenu);
+                });
             }
         });
     </script>
