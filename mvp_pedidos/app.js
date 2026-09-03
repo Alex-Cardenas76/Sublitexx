@@ -547,6 +547,41 @@ function setupEventListeners() {
         btnRoleGoalie.addEventListener('click', () => setRoleUI(true));
     }
 
+    // Guardado unificado de configuración del pedido
+    const btnSaveOrderConfig = document.getElementById('btnSaveOrderConfig');
+    if (btnSaveOrderConfig) {
+        btnSaveOrderConfig.addEventListener('click', () => {
+            const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
+            const unitPriceCamisetaInput = document.getElementById('unitPriceCamisetaInput');
+            const deliveryDateInput = document.getElementById('deliveryDateInput');
+            const expectedPlayersInput = document.getElementById('expectedPlayersInput');
+
+            if (unitPriceConjuntoInput) {
+                const val = parseFloat(unitPriceConjuntoInput.value);
+                if (!isNaN(val) && val >= 0) unitPriceConjunto = val;
+            }
+            if (unitPriceCamisetaInput) {
+                const val = parseFloat(unitPriceCamisetaInput.value);
+                if (!isNaN(val) && val >= 0) unitPriceCamiseta = val;
+            }
+            if (deliveryDateInput && deliveryDateInput.value) {
+                deliveryDate = deliveryDateInput.value;
+            }
+            if (expectedPlayersInput) {
+                const val = parseInt(expectedPlayersInput.value);
+                if (val > 0) expectedPlayers = val;
+            }
+
+            saveParticipantsToStore();
+            updateSummary();
+            updateProductViewVisibility();
+            const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
+            if (coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
+
+            alert("✓ Configuración del pedido guardada con éxito.");
+        });
+    }
+
     const btnSavePriceConjunto = document.getElementById('btnSavePriceConjunto');
     const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
     if (btnSavePriceConjunto && unitPriceConjuntoInput) {

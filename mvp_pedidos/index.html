@@ -40,18 +40,18 @@
                 </div>
             </div>
             <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido
-                    Actual</a>
+                <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
+                <a href="precios.html" class="nav-item"><i class="fa-solid fa-calculator"></i> Tabla de Precios</a>
                 <a href="produccion.html" class="nav-item"><i class="fa-solid fa-industry"></i> Producción y Costos</a>
                 <a href="diseno.html" class="nav-item"><i class="fa-solid fa-palette"></i> Diseño Gráfico</a>
                 <a href="configuracion.html" class="nav-item"><i class="fa-solid fa-cog"></i> Configuración</a>
             </nav>
             <div class="sidebar-footer">
                 <div class="user-info">
-                    <div class="avatar">CO</div>
+                    <div class="avatar" style="background: linear-gradient(135deg, #06B6D4, #0891B2);">RV</div>
                     <div class="details">
-                        <span class="name">Coordinador Operativo</span>
-                        <span class="role">Vista Administrativa</span>
+                        <span class="name">Recepción / Ventas</span>
+                        <span class="role">Sublitex Central</span>
                     </div>
                 </div>
             </div>
@@ -128,56 +128,50 @@
                                     <hr style="border: 0; border-top: 1px dashed #CBD5E1; margin: 1.25rem 0;">
 
                                     <div class="info-grid"
-                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 0;">
+                                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 0;">
                                         <div class="info-item" id="priceConjuntoWrapper">
-                                            <label style="color:#475569; font-weight:600;">Precio por Conjunto</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Precio por Conjunto</label>
                                             <div
-                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                style="display: flex; align-items: center; margin-top: 0.25rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; background: #FFFFFF; overflow: hidden;">
                                                 <span
-                                                    style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
+                                                    style="background:#F8FAFC; border-right:1px solid #CBD5E1; padding:0.4rem 0.65rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
                                                 <input type="number" id="unitPriceConjuntoInput" value="50.00" step="0.50"
                                                     min="0"
-                                                    style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSavePriceConjunto"
-                                                    title="Guardar precio por conjunto"
-                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                                    style="width:100%; border:none; outline:none; padding:0.4rem 0.5rem; text-align:center; font-weight:700; font-size:0.95rem; color:#0F172A;">
                                             </div>
                                         </div>
                                         <div class="info-item" id="priceCamisetaWrapper" style="display: none;">
-                                            <label style="color:#475569; font-weight:600;">Precio por Camiseta</label>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Precio por Camiseta</label>
                                             <div
-                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                                style="display: flex; align-items: center; margin-top: 0.25rem; border: 1px solid #CBD5E1; border-radius: 0.375rem; background: #FFFFFF; overflow: hidden;">
                                                 <span
-                                                    style="display:flex; align-items:center; background:#F8FAFC; border:1px solid #CBD5E1; border-right:none; padding:0 0.75rem; border-radius: 0.375rem 0 0 0.375rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
+                                                    style="background:#F8FAFC; border-right:1px solid #CBD5E1; padding:0.4rem 0.65rem; color:#64748B; font-weight:700; font-size:0.875rem;">S/</span>
                                                 <input type="number" id="unitPriceCamisetaInput" value="35.00" step="0.50"
                                                     min="0"
-                                                    style="width:100%; border-radius: 0; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSavePriceCamiseta"
-                                                    title="Guardar precio por camiseta"
-                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                                    style="width:100%; border:none; outline:none; padding:0.4rem 0.5rem; text-align:center; font-weight:700; font-size:0.95rem; color:#0F172A;">
                                             </div>
                                         </div>
                                         <div class="info-item">
-                                            <label style="color:#475569; font-weight:600;">Fecha de Entrega</label>
-                                            <div
-                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Fecha de Entrega</label>
+                                            <div style="margin-top: 0.25rem;">
                                                 <input type="date" id="deliveryDateInput" value="2026-10-15"
-                                                    style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; font-size:0.875rem; font-weight:500; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveDeliveryDate"
-                                                    title="Guardar fecha de entrega"
-                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Guardar</button>
+                                                    style="width:100%; border-radius:0.375rem; border:1px solid #CBD5E1; padding:0.4rem 0.5rem; font-size:0.875rem; font-weight:600; color:#0F172A; outline:none;">
                                             </div>
                                         </div>
                                         <div class="info-item">
-                                            <label style="color:#475569; font-weight:600;">Meta Participantes</label>
-                                            <div
-                                                style="display: flex; align-items: stretch; margin-top: 0.25rem; box-shadow: var(--shadow-sm); border-radius: 0.375rem;">
-                                                <input type="number" id="expectedPlayersInput" value="25"
-                                                    style="width:100%; border-radius: 0.375rem 0 0 0.375rem; border: 1px solid #CBD5E1; padding: 0.4rem 0.5rem; text-align:center; font-weight: 600; font-size:0.875rem; cursor: text;">
-                                                <button class="btn btn-primary btn-sm" id="btnSaveExpected"
-                                                    style="border-radius: 0 0.375rem 0.375rem 0; margin:0; cursor:pointer;">Fijar</button>
+                                            <label style="color:#475569; font-weight:600; font-size:0.8rem;">Meta Jugadores</label>
+                                            <div style="margin-top: 0.25rem;">
+                                                <input type="number" id="expectedPlayersInput" value="25" min="1"
+                                                    style="width:100%; border-radius:0.375rem; border:1px solid #CBD5E1; padding:0.4rem 0.5rem; text-align:center; font-weight:700; font-size:0.95rem; color:#0F172A; outline:none;">
                                             </div>
                                         </div>
+                                    </div>
+
+                                    <!-- Botón Unificado de Guardado -->
+                                    <div style="margin-top: 1rem; display: flex; justify-content: flex-end;">
+                                        <button class="btn btn-primary" id="btnSaveOrderConfig" style="display: flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; font-size: 0.85rem; cursor: pointer;">
+                                            <i class="fa-solid fa-floppy-disk"></i> Guardar Configuración
+                                        </button>
                                     </div>
                                 </div>
                             </div>
