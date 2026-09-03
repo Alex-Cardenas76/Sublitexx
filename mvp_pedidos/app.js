@@ -306,9 +306,6 @@ function renderTable() {
         if(p.isGoalkeeper) {
             jugadorText += '<br><span style="color:#DC2626; font-weight:700; font-size:0.68rem; letter-spacing:0.04em;">ARQUERO</span>';
         }
-        if(p.exceptions && p.exceptions.trim() !== '') {
-            jugadorText += '<span class="exception-badge" title="' + p.exceptions.replace(/"/g, '&quot;') + '"><i class="fa-solid fa-sliders"></i></span>';
-        }
 
         const prodCol = isMixto
             ? `<td><span class="pill ${currentPType === 'conjunto' ? 'pill-conjunto' : 'pill-camiseta'}">${currentPType === 'conjunto' ? 'Conjunto' : 'Solo Camiseta'}</span></td>`
