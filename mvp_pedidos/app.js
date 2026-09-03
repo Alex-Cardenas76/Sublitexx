@@ -547,81 +547,38 @@ function setupEventListeners() {
         btnRoleGoalie.addEventListener('click', () => setRoleUI(true));
     }
 
-    // Guardado y edición toggle de configuración del pedido
-    let isEditingOrderConfig = false;
+    // Guardado unificado de configuración del pedido
     const btnSaveOrderConfig = document.getElementById('btnSaveOrderConfig');
     if (btnSaveOrderConfig) {
-        const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
-        const unitPriceCamisetaInput = document.getElementById('unitPriceCamisetaInput');
-        const deliveryDateInput = document.getElementById('deliveryDateInput');
-        const expectedPlayersInput = document.getElementById('expectedPlayersInput');
-        const lockableContainers = document.querySelectorAll('.input-lockable-container');
-
-        const setConfigInputsLockState = (locked) => {
-            const inputs = [unitPriceConjuntoInput, unitPriceCamisetaInput, deliveryDateInput, expectedPlayersInput].filter(Boolean);
-            inputs.forEach(input => {
-                input.disabled = locked;
-                input.style.cursor = locked ? 'not-allowed' : 'text';
-                if (input.id === 'deliveryDateInput' || input.id === 'expectedPlayersInput') {
-                    input.style.backgroundColor = locked ? '#F8FAFC' : '#FFFFFF';
-                    input.style.borderColor = locked ? '#CBD5E1' : '#3B82F6';
-                }
-            });
-            lockableContainers.forEach(container => {
-                container.style.backgroundColor = locked ? '#F8FAFC' : '#FFFFFF';
-                container.style.borderColor = locked ? '#CBD5E1' : '#3B82F6';
-            });
-        };
-
         btnSaveOrderConfig.addEventListener('click', () => {
-            if (!isEditingOrderConfig) {
-                // Entrar a Modo Edición (Desbloquear)
-                isEditingOrderConfig = true;
-                setConfigInputsLockState(false);
-                btnSaveOrderConfig.classList.remove('btn-outline');
-                btnSaveOrderConfig.classList.add('btn-primary');
-                btnSaveOrderConfig.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> <span>Guardar Configuración</span>';
+            const unitPriceConjuntoInput = document.getElementById('unitPriceConjuntoInput');
+            const unitPriceCamisetaInput = document.getElementById('unitPriceCamisetaInput');
+            const deliveryDateInput = document.getElementById('deliveryDateInput');
+            const expectedPlayersInput = document.getElementById('expectedPlayersInput');
 
-                // Foco en el primer input visible
-                if (unitPriceConjuntoInput && unitPriceConjuntoInput.offsetParent !== null) {
-                    unitPriceConjuntoInput.focus();
-                    unitPriceConjuntoInput.select();
-                } else if (unitPriceCamisetaInput && unitPriceCamisetaInput.offsetParent !== null) {
-                    unitPriceCamisetaInput.focus();
-                    unitPriceCamisetaInput.select();
-                } else if (deliveryDateInput) {
-                    deliveryDateInput.focus();
-                }
-            } else {
-                // Guardar y Bloquear
-                if (unitPriceConjuntoInput) {
-                    const val = parseFloat(unitPriceConjuntoInput.value);
-                    if (!isNaN(val) && val >= 0) unitPriceConjunto = val;
-                }
-                if (unitPriceCamisetaInput) {
-                    const val = parseFloat(unitPriceCamisetaInput.value);
-                    if (!isNaN(val) && val >= 0) unitPriceCamiseta = val;
-                }
-                if (deliveryDateInput && deliveryDateInput.value) {
-                    deliveryDate = deliveryDateInput.value;
-                }
-                if (expectedPlayersInput) {
-                    const val = parseInt(expectedPlayersInput.value);
-                    if (val > 0) expectedPlayers = val;
-                }
-
-                saveParticipantsToStore();
-                updateSummary();
-                updateProductViewVisibility();
-                const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
-                if (coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
-
-                isEditingOrderConfig = false;
-                setConfigInputsLockState(true);
-                btnSaveOrderConfig.classList.remove('btn-primary');
-                btnSaveOrderConfig.classList.add('btn-outline');
-                btnSaveOrderConfig.innerHTML = '<i class="fa-solid fa-pen"></i> <span>Editar Configuración</span>';
+            if (unitPriceConjuntoInput) {
+                const val = parseFloat(unitPriceConjuntoInput.value);
+                if (!isNaN(val) && val >= 0) unitPriceConjunto = val;
             }
+            if (unitPriceCamisetaInput) {
+                const val = parseFloat(unitPriceCamisetaInput.value);
+                if (!isNaN(val) && val >= 0) unitPriceCamiseta = val;
+            }
+            if (deliveryDateInput && deliveryDateInput.value) {
+                deliveryDate = deliveryDateInput.value;
+            }
+            if (expectedPlayersInput) {
+                const val = parseInt(expectedPlayersInput.value);
+                if (val > 0) expectedPlayers = val;
+            }
+
+            saveParticipantsToStore();
+            updateSummary();
+            updateProductViewVisibility();
+            const coordDeliveryDateText = document.getElementById('coordDeliveryDateText');
+            if (coordDeliveryDateText) coordDeliveryDateText.textContent = formatDateDisplay(deliveryDate);
+
+            alert("✓ Configuración del pedido guardada con éxito.");
         });
     }
 
