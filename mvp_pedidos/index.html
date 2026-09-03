@@ -38,11 +38,14 @@
 
         <!-- Sidebar Navigation -->
         <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header" style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="logo">
                     <i class="fa-solid fa-shirt"></i>
                     <span>Sublitex</span>
                 </div>
+                <button id="btnCloseSidebar" class="close-sidebar-btn" aria-label="Cerrar menú" style="display: none; background: transparent; border: none; font-size: 1.25rem; color: #64748B; cursor: pointer;">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             <nav class="sidebar-nav">
                 <a href="index.html" class="nav-item active"><i class="fa-solid fa-clipboard-list"></i> Pedido Actual</a>
@@ -68,8 +71,13 @@
             <header class="topbar" style="padding: 1.1rem 2rem; border-bottom: 1px solid #E2E8F0; background: #FFFFFF; display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
                 <div class="topbar-info" style="display: flex; align-items: center; gap: 1.25rem;">
                     <div class="topbar-brand-row" style="display: flex; align-items: center; gap: 0.75rem; padding-right: 1.25rem; border-right: 2px solid #E2E8F0;">
-                        <div class="logo" style="font-size: 1.45rem; font-weight: 800; color: #0E7490; display: flex; align-items: center; gap: 0.4rem;">
-                            <i class="fa-solid fa-shirt"></i> Sublitex
+                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                            <button class="hamburger-btn" id="btnMenuToggle" aria-label="Abrir menú" style="display: none;">
+                                <i class="fa-solid fa-bars"></i>
+                            </button>
+                            <div class="logo" style="font-size: 1.45rem; font-weight: 800; color: #0E7490; display: flex; align-items: center; gap: 0.4rem;">
+                                <i class="fa-solid fa-shirt"></i> Sublitex
+                            </div>
                         </div>
                         <span class="order-badge" style="color: #0E7490; font-weight: 700; font-size: 0.85rem; background: #ECFEFF; padding: 0.2rem 0.55rem; border-radius: 0.35rem; border: 1px solid #A5F3FC; white-space: nowrap;">#SUB-00842</span>
                     </div>
@@ -393,6 +401,11 @@
             function closeMenu() {
                 if (sidebar) sidebar.classList.remove('open');
                 if (overlay) overlay.classList.remove('active');
+            }
+
+            var btnClose = document.getElementById('btnCloseSidebar');
+            if (btnClose) {
+                btnClose.addEventListener('click', closeMenu);
             }
 
             if (btnMenu && sidebar && overlay) {
