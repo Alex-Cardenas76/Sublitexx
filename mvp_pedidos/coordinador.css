@@ -1,0 +1,196 @@
+/* ==========================================================================
+   SIPES - Vista Coordinador (Estilos Específicos y Responsive Móvil)
+   ========================================================================== */
+
+/* Layout general de la vista coordinador */
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* Envoltura para scroll táctil de la tabla de jugadores */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Evitar que el badge de pedido se quiebre en 2 líneas */
+.topbar span, .topbar .status-badge {
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   BREAKPOINTS RESPONSIVE
+   ========================================================================== */
+
+/* --- Tablets y Pantallas Medianas (<= 1024px) --- */
+@media (max-width: 1024px) {
+    .dashboard-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+        padding: 1.5rem !important;
+    }
+
+    .main-column {
+        order: 1 !important;
+        width: 100% !important;
+    }
+
+    .side-column {
+        order: 2 !important;
+        width: 100% !important;
+    }
+}
+
+/* --- Tablets Verticales y Celulares (<= 768px) --- */
+@media (max-width: 768px) {
+    .topbar {
+        padding: 1rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.85rem !important;
+    }
+
+    .topbar-info {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.65rem !important;
+        width: 100% !important;
+    }
+
+    .topbar-brand-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        border-right: none !important;
+        padding-right: 0 !important;
+        padding-bottom: 0.65rem !important;
+        border-bottom: 1px solid #E2E8F0 !important;
+    }
+
+    .topbar .logo {
+        font-size: 1.3rem !important;
+        margin: 0 !important;
+    }
+
+    .topbar-info > div:last-child {
+        width: 100% !important;
+    }
+
+    .topbar h1 {
+        font-size: 1.25rem !important;
+        margin: 0 !important;
+    }
+
+    .topbar .actions {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .topbar .actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.65rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    .status-badge {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 0.4rem 0.5rem !important;
+    }
+
+    /* Buscador y filtros de la lista */
+    .card-header {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+        padding: 1rem !important;
+    }
+
+    .card-header .actions {
+        width: 100% !important;
+    }
+
+    .card-header .actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+/* --- Celulares (<= 640px) --- */
+@media (max-width: 640px) {
+    .dashboard-grid {
+        padding: 0.75rem !important;
+        gap: 1rem !important;
+    }
+
+    .card {
+        border-radius: 0.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .card-body {
+        padding: 0.85rem !important;
+    }
+
+    /* Tarjeta de Configuración: Imagen centrada arriba en móvil */
+    .config-card .card-body > div {
+        display: flex !important;
+        flex-direction: column-reverse !important;
+        gap: 1.25rem !important;
+        align-items: center !important;
+    }
+
+    .config-card .card-body > div > div:first-child {
+        width: 100% !important;
+    }
+
+    .config-card .card-body > div > div:last-child {
+        margin: 0 auto !important;
+        width: 100% !important;
+        max-width: 220px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0.85rem !important;
+    }
+
+    .config-card img {
+        margin: 0 auto !important;
+        display: block !important;
+        max-height: 145px !important;
+        object-fit: contain !important;
+    }
+
+    /* Grilla de info de precios y entrega en 2 columnas */
+    .info-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.65rem !important;
+    }
+
+    /* Modal de Jugador */
+    .modal-content {
+        width: 95% !important;
+        margin: 1rem auto !important;
+        padding: 1.25rem !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+
+    .modal-footer {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .modal-footer .btn {
+        width: 100% !important;
+    }
+}
