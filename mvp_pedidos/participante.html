@@ -869,8 +869,9 @@ function renderOccPills() {
 
 /* ─── Imagen del producto ─── */
 function updateProductImage() {
-  document.querySelectorAll('.imgPolo').forEach(el => el.style.display = S.prod === 'cam' ? 'block' : 'none');
-  document.querySelectorAll('.imgConjunto').forEach(el => el.style.display = S.prod === 'conj' ? 'block' : 'none');
+  const showConjunto = (S.prod === 'conj') || (S.prod === 'cam' && S.rol === 'arq');
+  document.querySelectorAll('.imgPolo').forEach(el => el.style.display = (!showConjunto) ? 'block' : 'none');
+  document.querySelectorAll('.imgConjunto').forEach(el => el.style.display = showConjunto ? 'block' : 'none');
 }
 
 /* ─── Selector de producto ─── */
@@ -1031,6 +1032,7 @@ function selRol(r) {
   document.querySelectorAll('#rol-jug, #rol-arq').forEach(el => el.classList.remove('sel'));
   document.getElementById('rol-' + r)?.classList.add('sel');
   S.rol = r;
+  updateProductImage();
 }
 function updateCta3() {
   const ok = S.nombre && S.numero && S.talla;
