@@ -73,24 +73,26 @@ html,body{
 .gk-wrap{
   display:none;
   flex-direction:column;
-  gap:10px;
+  gap:8px;
   width:100%;
   max-width:420px;
   padding:6px 0;
 }
 .gk-wrap.show{display:flex}
-.gk-photo{
-  width:100%;
+.gk-wrap .gk-photo{
+  display:none;
+  width:auto;
+  max-width:100%;
   height:auto;
-  border-radius:14px;
-  display:block;
+  max-height:120px;
   object-fit:contain;
+  margin:0 auto;
+  border-radius:10px;
   background:#fff;
-  box-shadow:0 6px 18px rgba(14,116,144,0.18);
+  box-shadow:0 4px 12px rgba(14,116,144,0.15);
   border:1px solid var(--bd);
 }
-.gk-front{max-height:220px}
-.gk-back{max-height:220px}
+.gk-wrap.show .gk-photo{display:block}
 
 /* ── FORMULARIO CAMPOS ── */
 .field-lbl{
