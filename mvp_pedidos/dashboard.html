@@ -381,6 +381,237 @@
             .content-right { flex-direction: row; }
             .activity-card { flex: 1; }
         }
+
+        /* ====== Sección de Configuración ====== */
+        #section-config { display: none; padding: 24px 32px; }
+        #section-config.active { display: block; }
+        #section-dashboard { display: block; }
+        #section-dashboard.hidden { display: none; }
+
+        .cfg-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .cfg-tab-btn {
+            padding: 0.55rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: #64748b;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .cfg-tab-btn:hover { color: #06b6d4; background: #ecfeff; }
+        .cfg-tab-btn.active { background: #06b6d4; color: #fff; }
+        .cfg-tab-panel { display: none; animation: cfgFadeIn 0.25s ease; }
+        .cfg-tab-panel.active { display: block; }
+        @keyframes cfgFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .cfg-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 1.25rem;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .cfg-card-header {
+            padding: 1.1rem 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .cfg-card-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            color: #1e293b;
+        }
+        .cfg-card-header h2 i { color: #06b6d4; }
+        .cfg-card-body { padding: 1.4rem; }
+
+        .cfg-form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+        .cfg-pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        .cfg-account-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+        .cfg-card label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: #374151;
+        }
+        .cfg-card input[type="text"],
+        .cfg-card input[type="number"],
+        .cfg-card input[type="email"],
+        .cfg-card input[type="password"],
+        .cfg-card select {
+            width: 100%;
+            padding: 0.575rem 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            background: #f8fafc;
+            color: #1e293b;
+            transition: all 0.2s;
+        }
+        .cfg-card input:focus, .cfg-card select:focus {
+            outline: none;
+            border-color: #06b6d4;
+            box-shadow: 0 0 0 3px rgba(6,182,212,0.1);
+        }
+
+        .cfg-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.575rem 1.1rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+            background: #06b6d4;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .cfg-btn-primary:hover { background: #0891b2; }
+        .cfg-btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.575rem 1.1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #374151;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .cfg-btn-ghost:hover { background: #f1f5f9; }
+        .cfg-form-actions { display: flex; justify-content: flex-end; gap: 0.65rem; margin-top: 1rem; }
+
+        /* Profile avatar */
+        .cfg-profile-avatar {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: #06b6d4;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; font-weight: 700; color: #fff;
+        }
+        .cfg-role-badge {
+            display: inline-flex; align-items: center; gap: 0.35rem;
+            padding: 0.25rem 0.75rem; border-radius: 9999px;
+            font-size: 0.72rem; font-weight: 600;
+            background: #ecfeff; color: #06b6d4;
+            border: 1px solid #a5f3fc;
+        }
+        .cfg-profile-header { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .cfg-section-label {
+            font-size: 0.78rem; text-transform: uppercase;
+            letter-spacing: 0.05em; font-weight: 600;
+            color: #64748b; margin: 1.1rem 0 0.85rem;
+        }
+
+        /* Toggle switch */
+        .cfg-switch { position: relative; display: inline-block; width: 42px; height: 22px; }
+        .cfg-switch input { opacity: 0; width: 0; height: 0; }
+        .cfg-switch .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #cbd5e1; border-radius: 9999px; transition: 0.3s;
+        }
+        .cfg-switch .slider:before {
+            content: ""; position: absolute;
+            height: 16px; width: 16px; left: 3px; bottom: 3px;
+            background: #fff; border-radius: 50%; transition: 0.3s;
+        }
+        .cfg-switch input:checked + .slider { background: #06b6d4; }
+        .cfg-switch input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Setting rows */
+        .cfg-setting-row {
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 1rem;
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .cfg-setting-row:last-child { border-bottom: none; }
+        .cfg-s-title { font-weight: 600; font-size: 0.9rem; color: #1e293b; }
+        .cfg-s-desc { font-size: 0.78rem; color: #64748b; }
+
+        /* Status pill */
+        .cfg-pill {
+            padding: 0.2rem 0.7rem; border-radius: 9999px;
+            font-size: 0.72rem; font-weight: 600;
+        }
+        .cfg-pill.activa { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .cfg-pill.inactiva { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+
+        /* Account cards */
+        .cfg-account-card {
+            border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 1.1rem; display: flex;
+            flex-direction: column; gap: 0.4rem;
+            background: #fff; transition: all 0.2s;
+        }
+        .cfg-account-card:hover { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.08); border-color: #cbd5e1; }
+        .cfg-account-icon {
+            width: 40px; height: 40px; border-radius: 8px;
+            background: #ecfeff; color: #06b6d4;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* Audit rows */
+        .cfg-audit-row {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            padding: 0.85rem 1.2rem;
+            border-bottom: 1px solid #f1f5f9; gap: 1rem;
+        }
+        .cfg-audit-row:last-child { border-bottom: none; }
+        .cfg-audit-icon { color: #06b6d4; font-size: 1rem; width: 22px; text-align: center; }
+
+        /* Users table inside cfg */
+        .cfg-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .cfg-table th {
+            font-size: 0.72rem; color: #64748b;
+            text-transform: uppercase; padding: 10px;
+            border-bottom: 1px solid #e2e8f0; background: #f8fafc;
+        }
+        .cfg-table td {
+            padding: 11px 10px; font-size: 0.85rem;
+            border-bottom: 1px solid #f1f5f9; vertical-align: middle;
+        }
+        .cfg-table tr:hover td { background: #f8fafc; }
+
+        @media (max-width: 768px) {
+            .cfg-form-grid, .cfg-pricing-grid, .cfg-account-grid { grid-template-columns: 1fr; }
+            #section-config { padding: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -393,11 +624,11 @@
                 <h2>SIPES</h2>
             </div>
             <ul class="nav-links">
-                <li class="active"><a href="#"><i class="fa-solid fa-house"></i> Todos los Pedidos</a></li>
+                <li class="active" id="nav-pedidos"><a href="#" data-section="dashboard"><i class="fa-solid fa-house"></i> Todos los Pedidos</a></li>
                 <li><a href="#"><i class="fa-solid fa-users"></i> Clientes (GHL)</a></li>
                 <li><a href="#"><i class="fa-solid fa-industry"></i> Proveedores / Talleres</a></li>
                 <li><a href="#"><i class="fa-solid fa-chart-pie"></i> Reportes Financieros</a></li>
-                <li><a href="#"><i class="fa-solid fa-gear"></i> Ajustes Generales</a></li>
+                <li id="nav-config"><a href="#" data-section="config"><i class="fa-solid fa-gear"></i> Ajustes Generales</a></li>
             </ul>
             <div class="user-profile">
                 <div class="avatar">AD</div>
@@ -423,6 +654,7 @@
             </header>
 
             <!-- Dashboard Grid (Bento Layout) -->
+            <div id="section-dashboard">
             <div class="dashboard-grid">
 
                 <!-- Columna Izquierda: KPIs y Tabla -->
@@ -594,6 +826,239 @@
                 </div>
 
             </div>
+            <!-- id needed to toggle visibility -->
+            </div><!-- close #section-dashboard -->
+
+            <!-- ====== SECCIÓN: AJUSTES GENERALES ====== -->
+            <div id="section-config">
+                <!-- Header de la sección -->
+                <div style="margin-bottom:1.5rem;">
+                    <h1 style="font-size:1.25rem; display:flex; align-items:center; gap:0.5rem; color:#1e293b;">
+                        <i class="fa-solid fa-gear" style="color:#06b6d4;"></i> Configuración del Sistema
+                    </h1>
+                    <p style="font-size:0.85rem; color:#64748b;">Perfil, parámetros del taller, usuarios, cobranza y seguridad</p>
+                </div>
+
+                <!-- Pestañas -->
+                <div class="cfg-tabs" id="cfgTabs">
+                    <button class="cfg-tab-btn active" data-cfg-tab="perfil"><i class="fa-solid fa-user"></i> Mi Perfil</button>
+                    <button class="cfg-tab-btn" data-cfg-tab="taller"><i class="fa-solid fa-sliders"></i> Parámetros del Taller</button>
+                    <button class="cfg-tab-btn" data-cfg-tab="usuarios"><i class="fa-solid fa-users"></i> Usuarios y Roles</button>
+                    <button class="cfg-tab-btn" data-cfg-tab="cobranza"><i class="fa-solid fa-credit-card"></i> Cuentas de Cobranza</button>
+                    <button class="cfg-tab-btn" data-cfg-tab="notificaciones"><i class="fa-solid fa-bell"></i> Notificaciones</button>
+                    <button class="cfg-tab-btn" data-cfg-tab="seguridad"><i class="fa-solid fa-shield-halved"></i> Seguridad</button>
+                </div>
+
+                <!-- Panel 1: Mi Perfil -->
+                <div class="cfg-tab-panel active" id="cfg-panel-perfil">
+                    <div class="cfg-card">
+                        <div class="cfg-card-header">
+                            <h2><i class="fa-solid fa-id-badge"></i> Mi Cuenta</h2>
+                            <span class="cfg-role-badge"><i class="fa-solid fa-crown"></i> Administrador General</span>
+                        </div>
+                        <div class="cfg-card-body">
+                            <div class="cfg-profile-header">
+                                <div class="cfg-profile-avatar">VN</div>
+                                <div>
+                                    <h2 style="font-size:1.35rem; margin:0; color:#1e293b;">Valeria Núñez</h2>
+                                    <p style="font-size:0.85rem; color:#64748b;">valeria@sublitex.pe · Acceso total al sistema</p>
+                                    <span class="cfg-pill activa" style="margin-top:0.2rem; display:inline-block;">● En línea</span>
+                                </div>
+                            </div>
+                            <p class="cfg-section-label">Datos Personales</p>
+                            <div class="cfg-form-grid">
+                                <div><label>Nombre Completo</label><input type="text" value="Valeria Núñez"></div>
+                                <div><label>Correo Electrónico</label><input type="email" value="valeria@sublitex.pe"></div>
+                                <div><label>Teléfono</label><input type="text" value="+51 999 888 777"></div>
+                                <div><label>Cargo / Rol</label><input type="text" value="Administrador General" readonly></div>
+                            </div>
+                            <p class="cfg-section-label">Autenticación</p>
+                            <div class="cfg-setting-row">
+                                <div>
+                                    <div class="cfg-s-title"><i class="fa-solid fa-shield-halved" style="color:#06b6d4; margin-right:0.4rem;"></i>Autenticación en Dos Pasos (2FA)</div>
+                                    <div class="cfg-s-desc">Exige un código de verificación adicional al iniciar sesión.</div>
+                                </div>
+                                <label class="cfg-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="cfg-form-actions">
+                                <button class="cfg-btn-ghost">Cancelar</button>
+                                <button class="cfg-btn-primary" onclick="alert('Perfil actualizado correctamente.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 2: Parámetros del Taller -->
+                <div class="cfg-tab-panel" id="cfg-panel-taller">
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-tags"></i> Precios Base por Defecto</h2></div>
+                        <div class="cfg-card-body">
+                            <div class="cfg-pricing-grid">
+                                <div><label>Conjunto Completo (S/)</label><input type="number" value="45" step="0.50"></div>
+                                <div><label>Camiseta Suelta (S/)</label><input type="number" value="30" step="0.50"></div>
+                                <div><label>Adicionales (S/)</label><input type="number" value="8" step="0.50"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-layer-group"></i> Telas Disponibles</h2></div>
+                        <div class="cfg-card-body">
+                            <div class="cfg-pricing-grid">
+                                <div><label>Tela Principal</label>
+                                    <select>
+                                        <option>Win Fresh (Deportiva)</option>
+                                        <option>Microfibra</option>
+                                        <option>Algodón Pima</option>
+                                    </select>
+                                </div>
+                                <div><label>Costo Tela / Metro (S/)</label><input type="number" value="12.50" step="0.10"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-shop"></i> Datos del Taller</h2></div>
+                        <div class="cfg-card-body">
+                            <div class="cfg-form-grid">
+                                <div><label>Nombre Comercial del Taller</label><input type="text" value="Taller Sublitex"></div>
+                                <div><label>WhatsApp Oficial de Soporte</label><input type="text" value="+51 999 888 777"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cfg-form-actions">
+                        <button class="cfg-btn-ghost">Cancelar</button>
+                        <button class="cfg-btn-primary" onclick="alert('Parámetros del taller guardados.')"><i class="fa-solid fa-save"></i> Guardar Cambios</button>
+                    </div>
+                </div>
+
+                <!-- Panel 3: Usuarios y Roles -->
+                <div class="cfg-tab-panel" id="cfg-panel-usuarios">
+                    <div class="cfg-card">
+                        <div class="cfg-card-header">
+                            <h2><i class="fa-solid fa-users"></i> Personal del Taller</h2>
+                            <button class="cfg-btn-primary" onclick="alert('Formulario para nuevo usuario en construcción.')"><i class="fa-solid fa-plus"></i> Agregar Usuario</button>
+                        </div>
+                        <div style="overflow-x:auto;">
+                            <table class="cfg-table">
+                                <thead><tr><th>Usuario</th><th>Rol</th><th>Alcance</th><th>Estado</th><th>Acciones</th></tr></thead>
+                                <tbody>
+                                    <tr><td>Valeria Núñez</td><td>Administrador</td><td>Total</td><td><span class="cfg-pill activa">Activo</span></td><td><button class="btn-action"><i class="fa-solid fa-pen"></i></button></td></tr>
+                                    <tr><td>César Manrique</td><td>Coordinador Operativo</td><td>Operativo</td><td><span class="cfg-pill activa">Activo</span></td><td><button class="btn-action"><i class="fa-solid fa-pen"></i></button></td></tr>
+                                    <tr><td>Renzo Aguilar</td><td>Diseñador Gráfico</td><td>Diseño</td><td><span class="cfg-pill activa">Activo</span></td><td><button class="btn-action"><i class="fa-solid fa-pen"></i></button></td></tr>
+                                    <tr><td>María Paredes</td><td>Vendedora</td><td>Comercial</td><td><span class="cfg-pill inactiva">Inactivo</span></td><td><button class="btn-action"><i class="fa-solid fa-pen"></i></button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 4: Cuentas de Cobranza -->
+                <div class="cfg-tab-panel" id="cfg-panel-cobranza">
+                    <div style="display:flex; justify-content:flex-end; margin-bottom:1.25rem;">
+                        <button class="cfg-btn-primary" onclick="alert('Formulario para nueva cuenta en construcción.')"><i class="fa-solid fa-plus"></i> Nueva Cuenta</button>
+                    </div>
+                    <div class="cfg-account-grid">
+                        <div class="cfg-account-card">
+                            <div class="cfg-account-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;"><strong>Yape / Plin</strong><span class="cfg-pill activa">Activa</span></div>
+                            <p style="font-size:0.85rem; color:#64748b;">Valeria Núñez</p>
+                            <p style="font-size:0.85rem; font-family:monospace; color:#64748b;">999 888 777</p>
+                            <button class="cfg-btn-ghost" style="padding:0.35rem 0.7rem; font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                        </div>
+                        <div class="cfg-account-card">
+                            <div class="cfg-account-icon"><i class="fa-solid fa-building-columns"></i></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;"><strong>BCP</strong><span class="cfg-pill activa">Activa</span></div>
+                            <p style="font-size:0.85rem; color:#64748b;">Valeria Núñez</p>
+                            <p style="font-size:0.85rem; font-family:monospace; color:#64748b;">200-1234567-0-01</p>
+                            <button class="cfg-btn-ghost" style="padding:0.35rem 0.7rem; font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                        </div>
+                        <div class="cfg-account-card">
+                            <div class="cfg-account-icon"><i class="fa-solid fa-university"></i></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center;"><strong>BBVA</strong><span class="cfg-pill inactiva">Inactiva</span></div>
+                            <p style="font-size:0.85rem; color:#64748b;">Sublitex S.A.C.</p>
+                            <p style="font-size:0.85rem; font-family:monospace; color:#64748b;">0011-0234-56789012</p>
+                            <button class="cfg-btn-ghost" style="padding:0.35rem 0.7rem; font-size:0.8rem;"><i class="fa-solid fa-pen"></i> Editar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel 5: Notificaciones -->
+                <div class="cfg-tab-panel" id="cfg-panel-notificaciones">
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-bell"></i> Alertas Automáticas por WhatsApp</h2></div>
+                        <div class="cfg-setting-row">
+                            <div>
+                                <div class="cfg-s-title">Aviso de pago con vouchers</div>
+                                <div class="cfg-s-desc">Notificar cuando un jugador sube su voucher de pago.</div>
+                            </div>
+                            <label class="cfg-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="cfg-setting-row">
+                            <div>
+                                <div class="cfg-s-title">Confirmación de pedido</div>
+                                <div class="cfg-s-desc">Enviar confirmación al cliente cuando se cierre la lista.</div>
+                            </div>
+                            <label class="cfg-switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="cfg-setting-row">
+                            <div>
+                                <div class="cfg-s-title">Recordatorio de pagos pendientes</div>
+                                <div class="cfg-s-desc">Enviar recordatorio a participantes con saldo pendiente.</div>
+                            </div>
+                            <label class="cfg-switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+                    <div class="cfg-form-actions">
+                        <button class="cfg-btn-primary" onclick="alert('Preferencias guardadas.')"><i class="fa-solid fa-save"></i> Guardar Preferencias</button>
+                    </div>
+                </div>
+
+                <!-- Panel 6: Seguridad -->
+                <div class="cfg-tab-panel" id="cfg-panel-seguridad">
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-clock-rotate-left"></i> Últimos Inicios de Sesión</h2></div>
+                        <div class="cfg-audit-row">
+                            <div style="display:flex; align-items:center; gap:0.65rem;">
+                                <span class="cfg-audit-icon"><i class="fa-solid fa-desktop"></i></span>
+                                <div><div class="cfg-s-title">Chrome · Windows 11</div><div class="cfg-s-desc">190.45.12.78 · Lima, Perú</div></div>
+                            </div>
+                            <span style="font-size:0.8rem; color:#64748b;">Hoy, 09:43</span>
+                        </div>
+                        <div class="cfg-audit-row">
+                            <div style="display:flex; align-items:center; gap:0.65rem;">
+                                <span class="cfg-audit-icon"><i class="fa-solid fa-mobile-screen"></i></span>
+                                <div><div class="cfg-s-title">Chrome Móvil · Android</div><div class="cfg-s-desc">45.12.89.200 · Lima, Perú</div></div>
+                            </div>
+                            <span style="font-size:0.8rem; color:#64748b;">Ayer, 18:02</span>
+                        </div>
+                        <div class="cfg-audit-row">
+                            <div style="display:flex; align-items:center; gap:0.65rem;">
+                                <span class="cfg-audit-icon"><i class="fa-solid fa-desktop"></i></span>
+                                <div><div class="cfg-s-title">Firefox · Windows 11</div><div class="cfg-s-desc">201.78.34.9 · Arequipa, Perú</div></div>
+                            </div>
+                            <span style="font-size:0.8rem; color:#64748b;">12 jun, 15:20</span>
+                        </div>
+                    </div>
+                    <div class="cfg-card">
+                        <div class="cfg-card-header"><h2><i class="fa-solid fa-laptop"></i> Sesiones Activas</h2></div>
+                        <div class="cfg-setting-row">
+                            <div>
+                                <div class="cfg-s-title"><i class="fa-solid fa-display" style="color:#06b6d4; margin-right:0.4rem;"></i>Esta sesión (Chrome · Windows 11)</div>
+                                <div class="cfg-s-desc">190.45.12.78</div>
+                            </div>
+                            <span class="cfg-pill activa">Activa</span>
+                        </div>
+                        <div class="cfg-setting-row">
+                            <div>
+                                <div class="cfg-s-title"><i class="fa-solid fa-mobile-screen" style="color:#06b6d4; margin-right:0.4rem;"></i>Dispositivo móvil</div>
+                                <div class="cfg-s-desc">45.12.89.200</div>
+                            </div>
+                            <button class="cfg-btn-ghost" style="font-size:0.8rem; color:#ef4444;">Cerrar sesión</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /section-config -->
+
         </main>
     </div>
 
@@ -633,6 +1098,43 @@
                     if (filter === 'retraso') show = false;
                     row.style.display = show ? '' : 'none';
                 });
+            });
+        });
+
+        // ====== Navegación: Dashboard vs Ajustes Generales ======
+        const sectionDashboard = document.getElementById('section-dashboard');
+        const sectionConfig = document.getElementById('section-config');
+        const navPedidos = document.getElementById('nav-pedidos');
+        const navConfig = document.getElementById('nav-config');
+
+        function showSection(section) {
+            if (section === 'config') {
+                sectionDashboard.classList.add('hidden');
+                sectionConfig.classList.add('active');
+                navPedidos.classList.remove('active');
+                navConfig.classList.add('active');
+            } else {
+                sectionConfig.classList.remove('active');
+                sectionDashboard.classList.remove('hidden');
+                navConfig.classList.remove('active');
+                navPedidos.classList.add('active');
+            }
+        }
+
+        document.querySelectorAll('[data-section]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.section);
+            });
+        });
+
+        // ====== Pestañas internas de Configuración ======
+        document.querySelectorAll('#cfgTabs .cfg-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#cfgTabs .cfg-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.cfg-tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('cfg-panel-' + btn.dataset.cfgTab).classList.add('active');
             });
         });
     </script>
